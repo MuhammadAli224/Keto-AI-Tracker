@@ -76,3 +76,25 @@ Append each task result with Git branch, local commit SHA and verified push stat
   and no new findings. Device confirmation and offline sync were not exercised.
   No rules were deployed and no tests ran.
 - Next: verify the Task 02A remote checkpoint, then implement Task 03.
+- 2026-11-12T01:33:19+03:00 Verified push of `013ef1017b365bbec6e8727d96589800185c5e1d` to `origin/codex/keto-ai-tracker-implementation`.
+
+## Task 03 — Food catalog and nutrition engine
+
+- Status: DONE. Branch: `codex/keto-ai-tracker-implementation`.
+- Files: `lib/feature/nutrition/` (domain, DTOs, mapper, local data source,
+  repository, use case, Cubit and localized editors), Hive/DI/bootstrap,
+  routes, owner home, Arabic and English dictionaries and generated keys,
+  README and checkpoint docs.
+- Edible grams are the serving basis. Reference foods use verified USDA SR28
+  values. The app retains unknown nutrient fields, computes net carbohydrates
+  from label convention, uses declared energy when provided, and identifies
+  macro-derived energy and recipe estimates. Values are rounded for display.
+- Owner-authored foods/recipes are local and UID-scoped. A serving carries a
+  Firestore-compatible, as-consumed snapshot with provenance. The confirmed
+  profile gate covers the route and catalog use case. Targets stay editable in
+  Profile. No AI provider is called.
+- The three records were checked against USDA's official SR28 archive.
+  Model/mapper and localization generation, locale parity and formatting passed.
+  Analyzer reported only the two pre-existing notification infos. No device
+  catalog workflow, production data writes, rule deployments, or tests ran.
+- Next: verify the remote checkpoint, then implement Task 04.

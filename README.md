@@ -555,3 +555,20 @@ can be edited through Profile, and its BMI changes with the measurements. When
 the device has no cached profile and cannot reach the server, the setup screen
 keeps a draft in memory until the server can check whether a profile already
 exists. The development build has an isolated setup preview with no persistence.
+
+### Food catalog and calculations
+
+The confirmed owner can add or edit local foods and recipes. The bundled
+catalog contains three reference foods from USDA Standard Reference Release
+28 (NDB 01123, 09037, and 11205). Values describe 100 g of the edible portion.
+Copy a reference food to enter a different label or estimate. Manual foods and
+recipes stay on the device under the owner's account scope. [USDA SR28 source](https://www.ars.usda.gov/northeast-area/beltsville-md-bhnrc/beltsville-human-nutrition-research-center/methods-and-application-of-food-composition-laboratory/mafcl-site-pages/sr11-sr28/)
+
+The calculator scales recorded values by edible grams and retains unknown
+nutrients as unknown. Net carbohydrates subtract fiber only for data that
+includes fiber in the carbohydrate amount. If declared calories are missing
+and macros are known, the estimate uses 4 kcal per gram of protein or net
+carbohydrate and 9 kcal per gram of fat. Recipe estimates sum ingredient
+portions and divide by the measured finished weight. The UI rounds to one
+decimal place. The diary can store immutable serving snapshots with nutrient
+amounts and provenance as consumed.

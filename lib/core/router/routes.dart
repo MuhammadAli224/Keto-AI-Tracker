@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../feature/nutrition/nutrition_barrel.dart';
 import '../../feature/owner/owner_barrel.dart';
 import '../../feature/settings/presentation/basic_settings_page.dart';
 import '../../feature/splash_screen/splash_screen.dart';
@@ -39,6 +40,14 @@ GoRouter _createRouter(OwnerIdentity identity) => GoRouter(
   routes: [
     GoRoute(path: AppRoutes.root, builder: (_, __) => const SplashScreen()),
     GoRoute(path: AppRoutes.home, builder: (_, __) => const OwnerHomePage()),
+    GoRoute(
+      path: AppRoutes.foodCatalog,
+      builder: (_, __) => BlocProvider(
+        key: ValueKey(identity.account?.uid),
+        create: (_) => getIt<CatalogCubit>()..load(),
+        child: const FoodCatalogPage(),
+      ),
+    ),
     GoRoute(
       path: AppRoutes.setting,
       builder: (_, __) => const BasicSettingsPage(),
