@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="keto_widget_title">Keto AI Tracker</string>
+    <string name="keto_widget_description">A private daily summary with optional health values</string>
+    <string name="keto_widget_hidden">Values hidden. Open the app to view progress.</string>
+    <string name="keto_widget_expired">Open the app to refresh today’s summary.</string>
+    <string name="keto_widget_cached">Cached summary</string>
+    <string name="keto_widget_pending">Changes pending</string>
+    <string name="keto_widget_synced">Synced summary</string>
+    <string name="keto_widget_unknown">—</string>
+    <string name="keto_widget_calories">Confirmed %1$s kcal · pending %2$s</string>
+    <string name="keto_widget_water">Water %1$s mL</string>
+    <string name="keto_widget_fast">Planned fast end %1$s</string>
+    <string name="keto_widget_weight">Last weight %1$s kg</string>
+</resources>

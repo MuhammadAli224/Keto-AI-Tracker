@@ -227,6 +227,13 @@
     "remoteUnavailable": "Remote registration is unavailable. Local reminders work independently.",
     "remoteDescription": "Opt in to Firebase device registration. This does not share health data."
   },
+  "homeWidget": {
+    "title": "Home-screen widget",
+    "instruction": "Add Keto AI Tracker from the Android home-screen widget picker.",
+    "showValues": "Show health values",
+    "privacy": "Anyone who can see your home screen can see these values. Turn this off to hide them.",
+    "failed": "The widget could not be refreshed. Try changing this setting again."
+  },
   "commerce": {
     "subscribe": "Subscribe",
     "expireIn": "Expire In",

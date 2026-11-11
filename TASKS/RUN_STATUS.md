@@ -12,7 +12,8 @@ Branch: `codex/keto-ai-tracker-implementation`
 | 05 Water and fasting trackers | DONE | `21c2f6ea35cf160b1268d91ba5bc753e502df8a4` verified at 2026-11-12T01:57:29+03:00 |
 | 06 Weight and progress reports | DONE | `7a529b14d256f04772e29fbe2286bddf920b2ae3` verified at 2026-11-12T02:06:45+03:00 |
 | 07 Dashboard and localization | DONE | `0366e649176f9970510f6b0783b10fcdf4565dae` verified at 2026-11-12T02:11:14+03:00 |
-| 08 Local reminders and FCM setup | DONE | Checkpoint pending |
+| 08 Local reminders and FCM setup | DONE | `76a37b1d86153444433793ab507985ec67fccbea` verified at 2026-11-12T02:20:05+03:00 |
+| 09 Android home-screen widget | DONE | Checkpoint pending |
 
 Task 01 restored standard TLS validation, removed the bundled `.env`, added
 the Firebase SDKs, made app-service initialization idempotent, and configured
@@ -43,4 +44,7 @@ preserved safe deep-link destinations through the first-run gate.
 Task 08 added local schedules with a permission flow, optional Firebase
 registration and privacy-preserving notification text.
 
-Next: verify the Task 08 checkpoint, then execute Task 09.
+Task 09 added the native Android widget with opt-in health values, an
+app-local snapshot, protected links, and iOS design notes.
+
+Next: verify the Task 09 checkpoint, then execute Task 10.

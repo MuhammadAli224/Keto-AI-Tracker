@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../feature/diary/diary_barrel.dart';
+import '../../feature/home_widget/home_widget_barrel.dart';
 import '../../feature/nutrition/nutrition_barrel.dart';
 import '../../feature/owner/owner_barrel.dart';
 import '../../feature/progress/progress_barrel.dart';
@@ -117,6 +118,7 @@ GoRouter _createRouter(OwnerIdentity identity) => GoRouter(
       builder: (_, __) => BasicSettingsPage(
         showProfile: identity.account != null,
         showReminders: identity.canAnalyze,
+        showHomeWidget: identity.canAnalyze && supportsHomeWidget,
       ),
     ),
     GoRoute(
@@ -131,6 +133,15 @@ GoRouter _createRouter(OwnerIdentity identity) => GoRouter(
         );
       },
     ),
+    if (supportsHomeWidget)
+      GoRoute(
+        path: AppRoutes.homeWidget,
+        builder: (_, __) => BlocProvider(
+          key: ValueKey(identity.account?.uid),
+          create: (_) => getIt<HomeWidgetCubit>(),
+          child: const HomeWidgetPage(),
+        ),
+      ),
     if (kDebugMode)
       GoRoute(
         path: AppRoutes.profilePreview,
@@ -162,6 +173,7 @@ const _protectedLinks = {
   AppRoutes.wellness,
   AppRoutes.progress,
   AppRoutes.reminders,
+  AppRoutes.homeWidget,
 };
 
 String? _redirectOwner(OwnerIdentity identity, GoRouterState state) {

@@ -3,6 +3,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:timezone/data/latest_all.dart' as timezone;
 
 import '../../feature/diary/di/diary_di.dart';
+import '../../feature/home_widget/di/home_widget_di.dart';
 import '../../feature/nutrition/di/nutrition_di.dart';
 import '../../feature/owner/di/owner_di.dart';
 import '../../feature/progress/di/progress_di.dart';
@@ -29,6 +30,7 @@ class AppInitializer {
     initDiaryDI(getIt);
     initWellnessDI(getIt);
     initReminderDI(getIt);
+    initHomeWidgetDI(getIt);
     _configureErrorWidget();
   }
 

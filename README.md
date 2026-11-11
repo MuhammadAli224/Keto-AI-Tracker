@@ -650,3 +650,14 @@ messaging registers the installation with Firebase and keeps the resulting
 identifier in memory. Local reminders work independently. Remote delivery
 requires a separately approved sender and APNs configuration for iOS. Keep
 remote payloads generic and avoid sending health data. [Flutter FCM setup](https://firebase.google.com/docs/cloud-messaging/flutter/get-started)
+
+### Android home-screen widget
+
+Add Keto AI Tracker from the Android launcher widget picker. Health values
+start hidden. The confirmed owner can enable them from Settings → Home-screen
+widget. The widget shows the confirmed and pending calorie subtotals, water,
+a planned fasting end, and the last recorded weight when available. It uses
+the app's local summary file and does not query Firebase. Changing privacy
+settings or signing out clears the summary. Widget rows open the matching
+screen without writing an entry. Launcher refresh and expiration are best
+effort. [Android widget overview](https://developer.android.com/develop/ui/views/appwidgets/overview)

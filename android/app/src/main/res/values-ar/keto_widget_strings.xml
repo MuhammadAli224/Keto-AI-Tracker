@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="keto_widget_title">متتبع كيتو الذكي</string>
+    <string name="keto_widget_description">ملخص يومي خاص مع عرض اختياري للقياسات الصحية</string>
+    <string name="keto_widget_hidden">القيم مخفية. افتح التطبيق لعرض التقدم.</string>
+    <string name="keto_widget_expired">افتح التطبيق لتحديث ملخص اليوم.</string>
+    <string name="keto_widget_cached">ملخص مخزّن مؤقتًا</string>
+    <string name="keto_widget_pending">تغييرات قيد المزامنة</string>
+    <string name="keto_widget_synced">ملخص تمت مزامنته</string>
+    <string name="keto_widget_unknown">—</string>
+    <string name="keto_widget_calories">المؤكدة %1$s كيلوكالوري · المعلقة %2$s</string>
+    <string name="keto_widget_water">الماء %1$s مل</string>
+    <string name="keto_widget_fast">وقت انتهاء الصيام المخطط %1$s</string>
+    <string name="keto_widget_weight">آخر وزن %1$s كغ</string>
+</resources>

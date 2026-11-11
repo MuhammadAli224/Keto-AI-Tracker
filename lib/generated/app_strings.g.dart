@@ -223,6 +223,12 @@ abstract class LocaleKeys {
   static const reminders_remoteUnavailable = 'reminders.remoteUnavailable';
   static const reminders_remoteDescription = 'reminders.remoteDescription';
   static const reminders = 'reminders';
+  static const homeWidget_title = 'homeWidget.title';
+  static const homeWidget_instruction = 'homeWidget.instruction';
+  static const homeWidget_showValues = 'homeWidget.showValues';
+  static const homeWidget_privacy = 'homeWidget.privacy';
+  static const homeWidget_failed = 'homeWidget.failed';
+  static const homeWidget = 'homeWidget';
   static const commerce_subscribe = 'commerce.subscribe';
   static const commerce_expireIn = 'commerce.expireIn';
   static const commerce_category = 'commerce.category';

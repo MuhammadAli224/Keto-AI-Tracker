@@ -205,3 +205,27 @@ Append each task result with Git branch, local commit SHA and verified push stat
   with no exact-alarm or battery exemptions. Native delivery and iOS runtime
   remain unverified. No tests or deployments ran.
 - Next: verify the remote checkpoint, then implement Task 09.
+- 2026-11-12T02:20:05+03:00 Verified push of `76a37b1d86153444433793ab507985ec67fccbea` to `origin/codex/keto-ai-tracker-implementation`.
+
+## Task 09 — Android home-screen widget and iOS preparation
+
+- Status: DONE for local implementation. Branch: `codex/keto-ai-tracker-implementation`.
+- Files: Flutter widget bridge, settings and snapshot subscriptions; Android
+  provider, layout, resources and intents; navigation, localization, README,
+  iOS WidgetKit design notes and checkpoint docs.
+- Used RemoteViews and a local method channel without an extra package.
+  The no-backup Android file contains only the opted-in summary. Health
+  values are hidden by default and cleared on sign-out or when disabled.
+  Cached data expires at the next profile-local day. The widget performs no
+  network requests and only opens app routes.
+- Follows live local diary and water updates, pending/confirmed calorie
+  subtotals, active planned fasting end, and last logged weight. Unknown
+  values are shown as dashes in the native view. The iOS extension and App Group
+  remain pending implementation and signing.
+- Key generation, locale parity, formatting and static analysis passed.
+  Android `:app:assembleDebug` passed using the Task 01 temporary Gradle
+  cache. The disposable Android emulator installed the APK, registered the
+  widget receiver, resolved the wellness deep link and initialized Flutter.
+  Launcher placement, rendered widget values and real-device refresh remain
+  unverified. No tests or cloud deployments ran.
+- Next: verify the remote checkpoint, then implement Task 10.
