@@ -14,14 +14,14 @@ service cloud.firestore {
         'birthYear', 'heightCm', 'startingWeightKg', 'currentWeightKg',
         'activity', 'windowStart', 'windowEnd', 'locale', 'timezone',
         'weeklyBudgetJod', 'calories', 'proteinGrams', 'carbsGrams',
-        'fatGrams', 'waterMl', 'confirmationVersion', 'updatedAt'
+        'fatGrams', 'waterMl', 'confirmationVersion', 'updatedAt', 'confirmedAt'
       ];
       return data.keys().hasAll(fields) && data.keys().hasOnly(fields)
         && data.birthYear is int && bounded(data.birthYear, request.time.year() - 125, request.time.year())
         && bounded(data.heightCm, 50, 300)
         && bounded(data.startingWeightKg, 10, 700)
         && bounded(data.currentWeightKg, 10, 700)
-        && data.activity in ['low', 'moderate', 'high']
+        && data.activity in ['veryLow', 'low', 'moderate', 'high']
         && data.windowStart is string && data.windowStart.matches('^([01][0-9]|2[0-3]):[0-5][0-9]$')
         && data.windowEnd is string && data.windowEnd.matches('^([01][0-9]|2[0-3]):[0-5][0-9]$')
         && data.locale in ['ar', 'en']
@@ -33,13 +33,20 @@ service cloud.firestore {
         && bounded(data.carbsGrams, 0, 5000)
         && bounded(data.fatGrams, 0, 5000)
         && data.waterMl is int && bounded(data.waterMl, 1, 30000)
-        && data.confirmationVersion is int && data.confirmationVersion == 0
+        && data.confirmationVersion is int && data.confirmationVersion == 1
+        && data.confirmedAt is timestamp
         && data.updatedAt == request.time;
     }
 
     match /users/{uid} {
       allow get: if isOwner(uid);
-      allow create, update: if isOwner(uid) && validProfile(request.resource.data);
+      allow create: if isOwner(uid)
+        && validProfile(request.resource.data)
+        && request.resource.data.confirmedAt == request.time;
+      allow update: if isOwner(uid)
+        && validProfile(request.resource.data)
+        && request.resource.data.confirmedAt
+          == resource.data.get('confirmedAt', request.time);
     }
 
     match /{document=**} {

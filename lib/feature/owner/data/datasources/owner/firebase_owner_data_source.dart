@@ -31,9 +31,15 @@ class FirebaseOwnerDataSource {
   Stream<DocumentSnapshot<Map<String, dynamic>>> watchProfile(String uid) =>
       _profile(uid).snapshots(includeMetadataChanges: true);
 
-  Future<void> saveProfile(String uid, OwnerProfileDto profile) =>
-      _profile(uid).set({
-        ...profile.toJson(),
-        'updatedAt': FieldValue.serverTimestamp(),
-      }, SetOptions(merge: true));
+  Future<void> saveProfile(String uid, OwnerProfileDto profile) {
+    final json = profile.toJson()
+      ..remove('confirmedAt')
+      ..remove('updatedAt');
+    return _profile(uid).set({
+      ...json,
+      'updatedAt': FieldValue.serverTimestamp(),
+      if (profile.confirmationVersion > 0 && profile.confirmedAt == null)
+        'confirmedAt': FieldValue.serverTimestamp(),
+    }, SetOptions(merge: true));
+  }
 }

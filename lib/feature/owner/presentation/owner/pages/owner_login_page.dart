@@ -1,6 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../../../core/constant/routes.dart';
 
 import '../../../../../core/widget/app_widget/app_text.dart';
 import '../../../../../generated/app_strings.g.dart';
@@ -92,6 +96,11 @@ class _OwnerLoginPageState extends State<OwnerLoginPage> {
                       onPressed: busy || disabled ? null : submit,
                       child: AppText(context.tr(LocaleKeys.auth_login)),
                     ),
+                    if (kDebugMode)
+                      TextButton(
+                        onPressed: () => context.push(AppRoutes.profilePreview),
+                        child: AppText(context.tr(LocaleKeys.profile_preview)),
+                      ),
                   ],
                 ),
               ),

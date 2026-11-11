@@ -24,11 +24,42 @@ abstract class OwnerProfile with _$OwnerProfile {
     required int waterMl,
     required int confirmationVersion,
     DateTime? updatedAt,
+    DateTime? confirmedAt,
   }) = _OwnerProfile;
 
   static const currentConfirmationVersion = 1;
 
-  bool get isConfirmed => confirmationVersion == currentConfirmationVersion;
+  bool get isConfirmed =>
+      confirmationVersion == currentConfirmationVersion &&
+      confirmedAt != null &&
+      isComplete;
+
+  bool get isComplete {
+    final year = DateTime.now().year;
+    return birthYear >= year - 125 &&
+        birthYear <= year &&
+        _bounded(heightCm, 50, 300) &&
+        _bounded(startingWeightKg, 10, 700) &&
+        _bounded(currentWeightKg, 10, 700) &&
+        const {'veryLow', 'low', 'moderate', 'high'}.contains(activity) &&
+        _time.hasMatch(windowStart) &&
+        _time.hasMatch(windowEnd) &&
+        const {'ar', 'en'}.contains(locale) &&
+        timezone.length <= 100 &&
+        _zone.hasMatch(timezone) &&
+        _bounded(weeklyBudgetJod, 0, 100000) &&
+        _bounded(calories, 1, 20000) &&
+        _bounded(proteinGrams, 0, 5000) &&
+        _bounded(carbsGrams, 0, 5000) &&
+        _bounded(fatGrams, 0, 5000) &&
+        _bounded(waterMl, 1, 30000);
+  }
+
+  static bool _bounded(num value, num min, num max) =>
+      value.isFinite && value >= min && value <= max;
+
+  static final _time = RegExp(r'^([01][0-9]|2[0-3]):[0-5][0-9]$');
+  static final _zone = RegExp(r'^(UTC|[A-Za-z_+-]+(/[A-Za-z0-9_+-]+)+)$');
 
   double get bmi => calculateBmi(currentWeightKg, heightCm);
 

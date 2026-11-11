@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$OwnerProfile {
 
- int get birthYear; double get heightCm; double get startingWeightKg; double get currentWeightKg; String get activity; String get windowStart; String get windowEnd; String get locale; String get timezone; double get weeklyBudgetJod; int get calories; double get proteinGrams; double get carbsGrams; double get fatGrams; int get waterMl; int get confirmationVersion; DateTime? get updatedAt;
+ int get birthYear; double get heightCm; double get startingWeightKg; double get currentWeightKg; String get activity; String get windowStart; String get windowEnd; String get locale; String get timezone; double get weeklyBudgetJod; int get calories; double get proteinGrams; double get carbsGrams; double get fatGrams; int get waterMl; int get confirmationVersion; DateTime? get updatedAt; DateTime? get confirmedAt;
 /// Create a copy of OwnerProfile
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -27,20 +27,20 @@ $OwnerProfileCopyWith<OwnerProfile> get copyWith => _$OwnerProfileCopyWithImpl<O
 @override
 bool operator ==(Object other) {
   final _this = this as OwnerProfile;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is OwnerProfile&&(identical(other.birthYear, _this.birthYear) || other.birthYear == _this.birthYear)&&(identical(other.heightCm, _this.heightCm) || other.heightCm == _this.heightCm)&&(identical(other.startingWeightKg, _this.startingWeightKg) || other.startingWeightKg == _this.startingWeightKg)&&(identical(other.currentWeightKg, _this.currentWeightKg) || other.currentWeightKg == _this.currentWeightKg)&&(identical(other.activity, _this.activity) || other.activity == _this.activity)&&(identical(other.windowStart, _this.windowStart) || other.windowStart == _this.windowStart)&&(identical(other.windowEnd, _this.windowEnd) || other.windowEnd == _this.windowEnd)&&(identical(other.locale, _this.locale) || other.locale == _this.locale)&&(identical(other.timezone, _this.timezone) || other.timezone == _this.timezone)&&(identical(other.weeklyBudgetJod, _this.weeklyBudgetJod) || other.weeklyBudgetJod == _this.weeklyBudgetJod)&&(identical(other.calories, _this.calories) || other.calories == _this.calories)&&(identical(other.proteinGrams, _this.proteinGrams) || other.proteinGrams == _this.proteinGrams)&&(identical(other.carbsGrams, _this.carbsGrams) || other.carbsGrams == _this.carbsGrams)&&(identical(other.fatGrams, _this.fatGrams) || other.fatGrams == _this.fatGrams)&&(identical(other.waterMl, _this.waterMl) || other.waterMl == _this.waterMl)&&(identical(other.confirmationVersion, _this.confirmationVersion) || other.confirmationVersion == _this.confirmationVersion)&&(identical(other.updatedAt, _this.updatedAt) || other.updatedAt == _this.updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is OwnerProfile&&(identical(other.birthYear, _this.birthYear) || other.birthYear == _this.birthYear)&&(identical(other.heightCm, _this.heightCm) || other.heightCm == _this.heightCm)&&(identical(other.startingWeightKg, _this.startingWeightKg) || other.startingWeightKg == _this.startingWeightKg)&&(identical(other.currentWeightKg, _this.currentWeightKg) || other.currentWeightKg == _this.currentWeightKg)&&(identical(other.activity, _this.activity) || other.activity == _this.activity)&&(identical(other.windowStart, _this.windowStart) || other.windowStart == _this.windowStart)&&(identical(other.windowEnd, _this.windowEnd) || other.windowEnd == _this.windowEnd)&&(identical(other.locale, _this.locale) || other.locale == _this.locale)&&(identical(other.timezone, _this.timezone) || other.timezone == _this.timezone)&&(identical(other.weeklyBudgetJod, _this.weeklyBudgetJod) || other.weeklyBudgetJod == _this.weeklyBudgetJod)&&(identical(other.calories, _this.calories) || other.calories == _this.calories)&&(identical(other.proteinGrams, _this.proteinGrams) || other.proteinGrams == _this.proteinGrams)&&(identical(other.carbsGrams, _this.carbsGrams) || other.carbsGrams == _this.carbsGrams)&&(identical(other.fatGrams, _this.fatGrams) || other.fatGrams == _this.fatGrams)&&(identical(other.waterMl, _this.waterMl) || other.waterMl == _this.waterMl)&&(identical(other.confirmationVersion, _this.confirmationVersion) || other.confirmationVersion == _this.confirmationVersion)&&(identical(other.updatedAt, _this.updatedAt) || other.updatedAt == _this.updatedAt)&&(identical(other.confirmedAt, _this.confirmedAt) || other.confirmedAt == _this.confirmedAt));
 }
 
 
 @override
 int get hashCode {
   final _this = this as OwnerProfile;
-  return Object.hash(runtimeType,_this.birthYear,_this.heightCm,_this.startingWeightKg,_this.currentWeightKg,_this.activity,_this.windowStart,_this.windowEnd,_this.locale,_this.timezone,_this.weeklyBudgetJod,_this.calories,_this.proteinGrams,_this.carbsGrams,_this.fatGrams,_this.waterMl,_this.confirmationVersion,_this.updatedAt);
+  return Object.hash(runtimeType,_this.birthYear,_this.heightCm,_this.startingWeightKg,_this.currentWeightKg,_this.activity,_this.windowStart,_this.windowEnd,_this.locale,_this.timezone,_this.weeklyBudgetJod,_this.calories,_this.proteinGrams,_this.carbsGrams,_this.fatGrams,_this.waterMl,_this.confirmationVersion,_this.updatedAt,_this.confirmedAt);
 }
 
 @override
 String toString() {
   final _this = this as OwnerProfile;
-  return 'OwnerProfile(birthYear: ${_this.birthYear}, heightCm: ${_this.heightCm}, startingWeightKg: ${_this.startingWeightKg}, currentWeightKg: ${_this.currentWeightKg}, activity: ${_this.activity}, windowStart: ${_this.windowStart}, windowEnd: ${_this.windowEnd}, locale: ${_this.locale}, timezone: ${_this.timezone}, weeklyBudgetJod: ${_this.weeklyBudgetJod}, calories: ${_this.calories}, proteinGrams: ${_this.proteinGrams}, carbsGrams: ${_this.carbsGrams}, fatGrams: ${_this.fatGrams}, waterMl: ${_this.waterMl}, confirmationVersion: ${_this.confirmationVersion}, updatedAt: ${_this.updatedAt})';
+  return 'OwnerProfile(birthYear: ${_this.birthYear}, heightCm: ${_this.heightCm}, startingWeightKg: ${_this.startingWeightKg}, currentWeightKg: ${_this.currentWeightKg}, activity: ${_this.activity}, windowStart: ${_this.windowStart}, windowEnd: ${_this.windowEnd}, locale: ${_this.locale}, timezone: ${_this.timezone}, weeklyBudgetJod: ${_this.weeklyBudgetJod}, calories: ${_this.calories}, proteinGrams: ${_this.proteinGrams}, carbsGrams: ${_this.carbsGrams}, fatGrams: ${_this.fatGrams}, waterMl: ${_this.waterMl}, confirmationVersion: ${_this.confirmationVersion}, updatedAt: ${_this.updatedAt}, confirmedAt: ${_this.confirmedAt})';
 }
 
 
@@ -51,7 +51,7 @@ abstract mixin class $OwnerProfileCopyWith<$Res>  {
   factory $OwnerProfileCopyWith(OwnerProfile value, $Res Function(OwnerProfile) _then) = _$OwnerProfileCopyWithImpl;
 @useResult
 $Res call({
- int birthYear, double heightCm, double startingWeightKg, double currentWeightKg, String activity, String windowStart, String windowEnd, String locale, String timezone, double weeklyBudgetJod, int calories, double proteinGrams, double carbsGrams, double fatGrams, int waterMl, int confirmationVersion, DateTime? updatedAt
+ int birthYear, double heightCm, double startingWeightKg, double currentWeightKg, String activity, String windowStart, String windowEnd, String locale, String timezone, double weeklyBudgetJod, int calories, double proteinGrams, double carbsGrams, double fatGrams, int waterMl, int confirmationVersion, DateTime? updatedAt, DateTime? confirmedAt
 });
 
 
@@ -68,7 +68,7 @@ class _$OwnerProfileCopyWithImpl<$Res>
 
 /// Create a copy of OwnerProfile
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? birthYear = null,Object? heightCm = null,Object? startingWeightKg = null,Object? currentWeightKg = null,Object? activity = null,Object? windowStart = null,Object? windowEnd = null,Object? locale = null,Object? timezone = null,Object? weeklyBudgetJod = null,Object? calories = null,Object? proteinGrams = null,Object? carbsGrams = null,Object? fatGrams = null,Object? waterMl = null,Object? confirmationVersion = null,Object? updatedAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? birthYear = null,Object? heightCm = null,Object? startingWeightKg = null,Object? currentWeightKg = null,Object? activity = null,Object? windowStart = null,Object? windowEnd = null,Object? locale = null,Object? timezone = null,Object? weeklyBudgetJod = null,Object? calories = null,Object? proteinGrams = null,Object? carbsGrams = null,Object? fatGrams = null,Object? waterMl = null,Object? confirmationVersion = null,Object? updatedAt = freezed,Object? confirmedAt = freezed,}) {
   return _then(OwnerProfile(
 birthYear: null == birthYear ? _self.birthYear : birthYear // ignore: cast_nullable_to_non_nullable
 as int,heightCm: null == heightCm ? _self.heightCm : heightCm // ignore: cast_nullable_to_non_nullable
@@ -87,6 +87,7 @@ as double,fatGrams: null == fatGrams ? _self.fatGrams : fatGrams // ignore: cast
 as double,waterMl: null == waterMl ? _self.waterMl : waterMl // ignore: cast_nullable_to_non_nullable
 as int,confirmationVersion: null == confirmationVersion ? _self.confirmationVersion : confirmationVersion // ignore: cast_nullable_to_non_nullable
 as int,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,confirmedAt: freezed == confirmedAt ? _self.confirmedAt : confirmedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,
   ));
 }
@@ -172,10 +173,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int birthYear,  double heightCm,  double startingWeightKg,  double currentWeightKg,  String activity,  String windowStart,  String windowEnd,  String locale,  String timezone,  double weeklyBudgetJod,  int calories,  double proteinGrams,  double carbsGrams,  double fatGrams,  int waterMl,  int confirmationVersion,  DateTime? updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int birthYear,  double heightCm,  double startingWeightKg,  double currentWeightKg,  String activity,  String windowStart,  String windowEnd,  String locale,  String timezone,  double weeklyBudgetJod,  int calories,  double proteinGrams,  double carbsGrams,  double fatGrams,  int waterMl,  int confirmationVersion,  DateTime? updatedAt,  DateTime? confirmedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _OwnerProfile() when $default != null:
-return $default(_that.birthYear,_that.heightCm,_that.startingWeightKg,_that.currentWeightKg,_that.activity,_that.windowStart,_that.windowEnd,_that.locale,_that.timezone,_that.weeklyBudgetJod,_that.calories,_that.proteinGrams,_that.carbsGrams,_that.fatGrams,_that.waterMl,_that.confirmationVersion,_that.updatedAt);case _:
+return $default(_that.birthYear,_that.heightCm,_that.startingWeightKg,_that.currentWeightKg,_that.activity,_that.windowStart,_that.windowEnd,_that.locale,_that.timezone,_that.weeklyBudgetJod,_that.calories,_that.proteinGrams,_that.carbsGrams,_that.fatGrams,_that.waterMl,_that.confirmationVersion,_that.updatedAt,_that.confirmedAt);case _:
   return orElse();
 
 }
@@ -193,10 +194,10 @@ return $default(_that.birthYear,_that.heightCm,_that.startingWeightKg,_that.curr
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int birthYear,  double heightCm,  double startingWeightKg,  double currentWeightKg,  String activity,  String windowStart,  String windowEnd,  String locale,  String timezone,  double weeklyBudgetJod,  int calories,  double proteinGrams,  double carbsGrams,  double fatGrams,  int waterMl,  int confirmationVersion,  DateTime? updatedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int birthYear,  double heightCm,  double startingWeightKg,  double currentWeightKg,  String activity,  String windowStart,  String windowEnd,  String locale,  String timezone,  double weeklyBudgetJod,  int calories,  double proteinGrams,  double carbsGrams,  double fatGrams,  int waterMl,  int confirmationVersion,  DateTime? updatedAt,  DateTime? confirmedAt)  $default,) {final _that = this;
 switch (_that) {
 case _OwnerProfile():
-return $default(_that.birthYear,_that.heightCm,_that.startingWeightKg,_that.currentWeightKg,_that.activity,_that.windowStart,_that.windowEnd,_that.locale,_that.timezone,_that.weeklyBudgetJod,_that.calories,_that.proteinGrams,_that.carbsGrams,_that.fatGrams,_that.waterMl,_that.confirmationVersion,_that.updatedAt);case _:
+return $default(_that.birthYear,_that.heightCm,_that.startingWeightKg,_that.currentWeightKg,_that.activity,_that.windowStart,_that.windowEnd,_that.locale,_that.timezone,_that.weeklyBudgetJod,_that.calories,_that.proteinGrams,_that.carbsGrams,_that.fatGrams,_that.waterMl,_that.confirmationVersion,_that.updatedAt,_that.confirmedAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -213,10 +214,10 @@ return $default(_that.birthYear,_that.heightCm,_that.startingWeightKg,_that.curr
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int birthYear,  double heightCm,  double startingWeightKg,  double currentWeightKg,  String activity,  String windowStart,  String windowEnd,  String locale,  String timezone,  double weeklyBudgetJod,  int calories,  double proteinGrams,  double carbsGrams,  double fatGrams,  int waterMl,  int confirmationVersion,  DateTime? updatedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int birthYear,  double heightCm,  double startingWeightKg,  double currentWeightKg,  String activity,  String windowStart,  String windowEnd,  String locale,  String timezone,  double weeklyBudgetJod,  int calories,  double proteinGrams,  double carbsGrams,  double fatGrams,  int waterMl,  int confirmationVersion,  DateTime? updatedAt,  DateTime? confirmedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _OwnerProfile() when $default != null:
-return $default(_that.birthYear,_that.heightCm,_that.startingWeightKg,_that.currentWeightKg,_that.activity,_that.windowStart,_that.windowEnd,_that.locale,_that.timezone,_that.weeklyBudgetJod,_that.calories,_that.proteinGrams,_that.carbsGrams,_that.fatGrams,_that.waterMl,_that.confirmationVersion,_that.updatedAt);case _:
+return $default(_that.birthYear,_that.heightCm,_that.startingWeightKg,_that.currentWeightKg,_that.activity,_that.windowStart,_that.windowEnd,_that.locale,_that.timezone,_that.weeklyBudgetJod,_that.calories,_that.proteinGrams,_that.carbsGrams,_that.fatGrams,_that.waterMl,_that.confirmationVersion,_that.updatedAt,_that.confirmedAt);case _:
   return null;
 
 }
@@ -228,7 +229,7 @@ return $default(_that.birthYear,_that.heightCm,_that.startingWeightKg,_that.curr
 
 
 class _OwnerProfile extends OwnerProfile {
-  const _OwnerProfile({required this.birthYear, required this.heightCm, required this.startingWeightKg, required this.currentWeightKg, required this.activity, required this.windowStart, required this.windowEnd, required this.locale, required this.timezone, required this.weeklyBudgetJod, required this.calories, required this.proteinGrams, required this.carbsGrams, required this.fatGrams, required this.waterMl, required this.confirmationVersion, this.updatedAt}): super._();
+  const _OwnerProfile({required this.birthYear, required this.heightCm, required this.startingWeightKg, required this.currentWeightKg, required this.activity, required this.windowStart, required this.windowEnd, required this.locale, required this.timezone, required this.weeklyBudgetJod, required this.calories, required this.proteinGrams, required this.carbsGrams, required this.fatGrams, required this.waterMl, required this.confirmationVersion, this.updatedAt, this.confirmedAt}): super._();
 
 
 @override final  int birthYear;
@@ -248,6 +249,7 @@ class _OwnerProfile extends OwnerProfile {
 @override final  int waterMl;
 @override final  int confirmationVersion;
 @override final  DateTime? updatedAt;
+@override final  DateTime? confirmedAt;
 
 /// Create a copy of OwnerProfile
 /// with the given fields replaced by the non-null parameter values.
@@ -259,18 +261,18 @@ _$OwnerProfileCopyWith<_OwnerProfile> get copyWith => __$OwnerProfileCopyWithImp
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _OwnerProfile&&(identical(other.birthYear, birthYear) || other.birthYear == birthYear)&&(identical(other.heightCm, heightCm) || other.heightCm == heightCm)&&(identical(other.startingWeightKg, startingWeightKg) || other.startingWeightKg == startingWeightKg)&&(identical(other.currentWeightKg, currentWeightKg) || other.currentWeightKg == currentWeightKg)&&(identical(other.activity, activity) || other.activity == activity)&&(identical(other.windowStart, windowStart) || other.windowStart == windowStart)&&(identical(other.windowEnd, windowEnd) || other.windowEnd == windowEnd)&&(identical(other.locale, locale) || other.locale == locale)&&(identical(other.timezone, timezone) || other.timezone == timezone)&&(identical(other.weeklyBudgetJod, weeklyBudgetJod) || other.weeklyBudgetJod == weeklyBudgetJod)&&(identical(other.calories, calories) || other.calories == calories)&&(identical(other.proteinGrams, proteinGrams) || other.proteinGrams == proteinGrams)&&(identical(other.carbsGrams, carbsGrams) || other.carbsGrams == carbsGrams)&&(identical(other.fatGrams, fatGrams) || other.fatGrams == fatGrams)&&(identical(other.waterMl, waterMl) || other.waterMl == waterMl)&&(identical(other.confirmationVersion, confirmationVersion) || other.confirmationVersion == confirmationVersion)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _OwnerProfile&&(identical(other.birthYear, birthYear) || other.birthYear == birthYear)&&(identical(other.heightCm, heightCm) || other.heightCm == heightCm)&&(identical(other.startingWeightKg, startingWeightKg) || other.startingWeightKg == startingWeightKg)&&(identical(other.currentWeightKg, currentWeightKg) || other.currentWeightKg == currentWeightKg)&&(identical(other.activity, activity) || other.activity == activity)&&(identical(other.windowStart, windowStart) || other.windowStart == windowStart)&&(identical(other.windowEnd, windowEnd) || other.windowEnd == windowEnd)&&(identical(other.locale, locale) || other.locale == locale)&&(identical(other.timezone, timezone) || other.timezone == timezone)&&(identical(other.weeklyBudgetJod, weeklyBudgetJod) || other.weeklyBudgetJod == weeklyBudgetJod)&&(identical(other.calories, calories) || other.calories == calories)&&(identical(other.proteinGrams, proteinGrams) || other.proteinGrams == proteinGrams)&&(identical(other.carbsGrams, carbsGrams) || other.carbsGrams == carbsGrams)&&(identical(other.fatGrams, fatGrams) || other.fatGrams == fatGrams)&&(identical(other.waterMl, waterMl) || other.waterMl == waterMl)&&(identical(other.confirmationVersion, confirmationVersion) || other.confirmationVersion == confirmationVersion)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.confirmedAt, confirmedAt) || other.confirmedAt == confirmedAt));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,birthYear,heightCm,startingWeightKg,currentWeightKg,activity,windowStart,windowEnd,locale,timezone,weeklyBudgetJod,calories,proteinGrams,carbsGrams,fatGrams,waterMl,confirmationVersion,updatedAt);
+    return Object.hash(runtimeType,birthYear,heightCm,startingWeightKg,currentWeightKg,activity,windowStart,windowEnd,locale,timezone,weeklyBudgetJod,calories,proteinGrams,carbsGrams,fatGrams,waterMl,confirmationVersion,updatedAt,confirmedAt);
 }
 
 @override
 String toString() {
-    return 'OwnerProfile(birthYear: $birthYear, heightCm: $heightCm, startingWeightKg: $startingWeightKg, currentWeightKg: $currentWeightKg, activity: $activity, windowStart: $windowStart, windowEnd: $windowEnd, locale: $locale, timezone: $timezone, weeklyBudgetJod: $weeklyBudgetJod, calories: $calories, proteinGrams: $proteinGrams, carbsGrams: $carbsGrams, fatGrams: $fatGrams, waterMl: $waterMl, confirmationVersion: $confirmationVersion, updatedAt: $updatedAt)';
+    return 'OwnerProfile(birthYear: $birthYear, heightCm: $heightCm, startingWeightKg: $startingWeightKg, currentWeightKg: $currentWeightKg, activity: $activity, windowStart: $windowStart, windowEnd: $windowEnd, locale: $locale, timezone: $timezone, weeklyBudgetJod: $weeklyBudgetJod, calories: $calories, proteinGrams: $proteinGrams, carbsGrams: $carbsGrams, fatGrams: $fatGrams, waterMl: $waterMl, confirmationVersion: $confirmationVersion, updatedAt: $updatedAt, confirmedAt: $confirmedAt)';
 }
 
 
@@ -281,7 +283,7 @@ abstract mixin class _$OwnerProfileCopyWith<$Res> implements $OwnerProfileCopyWi
   factory _$OwnerProfileCopyWith(_OwnerProfile value, $Res Function(_OwnerProfile) _then) = __$OwnerProfileCopyWithImpl;
 @override @useResult
 $Res call({
- int birthYear, double heightCm, double startingWeightKg, double currentWeightKg, String activity, String windowStart, String windowEnd, String locale, String timezone, double weeklyBudgetJod, int calories, double proteinGrams, double carbsGrams, double fatGrams, int waterMl, int confirmationVersion, DateTime? updatedAt
+ int birthYear, double heightCm, double startingWeightKg, double currentWeightKg, String activity, String windowStart, String windowEnd, String locale, String timezone, double weeklyBudgetJod, int calories, double proteinGrams, double carbsGrams, double fatGrams, int waterMl, int confirmationVersion, DateTime? updatedAt, DateTime? confirmedAt
 });
 
 
@@ -298,7 +300,7 @@ class __$OwnerProfileCopyWithImpl<$Res>
 
 /// Create a copy of OwnerProfile
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? birthYear = null,Object? heightCm = null,Object? startingWeightKg = null,Object? currentWeightKg = null,Object? activity = null,Object? windowStart = null,Object? windowEnd = null,Object? locale = null,Object? timezone = null,Object? weeklyBudgetJod = null,Object? calories = null,Object? proteinGrams = null,Object? carbsGrams = null,Object? fatGrams = null,Object? waterMl = null,Object? confirmationVersion = null,Object? updatedAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? birthYear = null,Object? heightCm = null,Object? startingWeightKg = null,Object? currentWeightKg = null,Object? activity = null,Object? windowStart = null,Object? windowEnd = null,Object? locale = null,Object? timezone = null,Object? weeklyBudgetJod = null,Object? calories = null,Object? proteinGrams = null,Object? carbsGrams = null,Object? fatGrams = null,Object? waterMl = null,Object? confirmationVersion = null,Object? updatedAt = freezed,Object? confirmedAt = freezed,}) {
   return _then(_OwnerProfile(
 birthYear: null == birthYear ? _self.birthYear : birthYear // ignore: cast_nullable_to_non_nullable
 as int,heightCm: null == heightCm ? _self.heightCm : heightCm // ignore: cast_nullable_to_non_nullable
@@ -317,6 +319,7 @@ as double,fatGrams: null == fatGrams ? _self.fatGrams : fatGrams // ignore: cast
 as double,waterMl: null == waterMl ? _self.waterMl : waterMl // ignore: cast_nullable_to_non_nullable
 as int,confirmationVersion: null == confirmationVersion ? _self.confirmationVersion : confirmationVersion // ignore: cast_nullable_to_non_nullable
 as int,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,confirmedAt: freezed == confirmedAt ? _self.confirmedAt : confirmedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,
   ));
 }

@@ -3,6 +3,8 @@ abstract class AppRoutes {
 
   static const root = "/";
   static const profile = '/profile';
+  static const profileSetup = '/profile/setup';
+  static const profilePreview = '/profile/preview';
   static const home = "/home";
   static const setting = "/setting";
 

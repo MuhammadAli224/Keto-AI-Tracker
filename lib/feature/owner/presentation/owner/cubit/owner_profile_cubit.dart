@@ -60,6 +60,10 @@ class OwnerProfileCubit extends Cubit<OwnerProfileState>
   Future<void> save(OwnerProfile profile) async {
     final current = state;
     if (isClosed || current is! ProfileReady || current.saving) return;
+    if (current.snapshot.profile == null &&
+        current.snapshot.sync != ProfileSync.confirmed) {
+      return;
+    }
     final request = beginRequest(_save);
     emit(current.copyWith(saving: true, saveError: null));
     try {

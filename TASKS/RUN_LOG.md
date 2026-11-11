@@ -50,3 +50,29 @@ Append each task result with Git branch, local commit SHA and verified push stat
   loading. Live authenticated profile round trips and device offline sync are
   pending manual verification. No tests ran.
 - Next: verify the Task 02 remote checkpoint, then implement Task 02A.
+- 2026-11-12T01:27:05+03:00 Verified push of `2e8fd41fbd3d0462a1de7f8bf4a9cc4a383221fc` to `origin/codex/keto-ai-tracker-implementation`.
+
+## Task 02A — First-run profile gate
+
+- Status: DONE for local implementation. Branch: `codex/keto-ai-tracker-implementation`.
+- Files: owner profile model, mapper and generated sources, Firestore data
+  source and rules, profile identity guard, profile Cubit and screens, router,
+  basic settings, Arabic and English dictionaries and generated keys, README
+  and checkpoint docs.
+- Explicit review sets a version and server timestamp. The owner UID and
+  confirmed profile gate future analysis and the dashboard. Profile editing
+  preserves the original confirmation time. BMI is derived from current height
+  and weight, and is excluded from persisted data. Task 06 will connect later
+  weight logs to the current-weight value.
+- When the cache has no profile, the open form holds a draft in memory and
+  waits for a server snapshot before enabling confirmation. If a remote profile
+  appears, the user must load and review it first. Drafts do not persist across
+  app restarts. Existing confirmed profiles use Firestore's native cache.
+- No personal measurements or example goals from the task brief were bundled
+  in source or treated as confirmed values. Settings and sign-out remain
+  accessible during setup. The debug preview has no profile persistence.
+- Model/mapper and localization generation, locale parity, formatting and local
+  rule loading passed. Analyzer reported the two baseline notification infos
+  and no new findings. Device confirmation and offline sync were not exercised.
+  No rules were deployed and no tests ran.
+- Next: verify the Task 02A remote checkpoint, then implement Task 03.

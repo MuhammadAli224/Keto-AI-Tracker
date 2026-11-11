@@ -8,25 +8,28 @@ part of 'owner_profile_dto.dart';
 
 _OwnerProfileDto _$OwnerProfileDtoFromJson(Map<String, dynamic> json) =>
     _OwnerProfileDto(
-      birthYear: (json['birthYear'] as num).toInt(),
-      heightCm: (json['heightCm'] as num).toDouble(),
-      startingWeightKg: (json['startingWeightKg'] as num).toDouble(),
-      currentWeightKg: (json['currentWeightKg'] as num).toDouble(),
-      activity: json['activity'] as String,
-      windowStart: json['windowStart'] as String,
-      windowEnd: json['windowEnd'] as String,
-      locale: json['locale'] as String,
-      timezone: json['timezone'] as String,
-      weeklyBudgetJod: (json['weeklyBudgetJod'] as num).toDouble(),
-      calories: (json['calories'] as num).toInt(),
-      proteinGrams: (json['proteinGrams'] as num).toDouble(),
-      carbsGrams: (json['carbsGrams'] as num).toDouble(),
-      fatGrams: (json['fatGrams'] as num).toDouble(),
-      waterMl: (json['waterMl'] as num).toInt(),
+      birthYear: (json['birthYear'] as num?)?.toInt() ?? -1,
+      heightCm: (json['heightCm'] as num?)?.toDouble() ?? -1,
+      startingWeightKg: (json['startingWeightKg'] as num?)?.toDouble() ?? -1,
+      currentWeightKg: (json['currentWeightKg'] as num?)?.toDouble() ?? -1,
+      activity: json['activity'] as String? ?? '',
+      windowStart: json['windowStart'] as String? ?? '',
+      windowEnd: json['windowEnd'] as String? ?? '',
+      locale: json['locale'] as String? ?? '',
+      timezone: json['timezone'] as String? ?? '',
+      weeklyBudgetJod: (json['weeklyBudgetJod'] as num?)?.toDouble() ?? -1,
+      calories: (json['calories'] as num?)?.toInt() ?? -1,
+      proteinGrams: (json['proteinGrams'] as num?)?.toDouble() ?? -1,
+      carbsGrams: (json['carbsGrams'] as num?)?.toDouble() ?? -1,
+      fatGrams: (json['fatGrams'] as num?)?.toDouble() ?? -1,
+      waterMl: (json['waterMl'] as num?)?.toInt() ?? -1,
       confirmationVersion: (json['confirmationVersion'] as num?)?.toInt() ?? 0,
       updatedAt: json['updatedAt'] == null
           ? null
           : DateTime.parse(json['updatedAt'] as String),
+      confirmedAt: json['confirmedAt'] == null
+          ? null
+          : DateTime.parse(json['confirmedAt'] as String),
     );
 
 Map<String, dynamic> _$OwnerProfileDtoToJson(_OwnerProfileDto instance) =>
@@ -48,4 +51,5 @@ Map<String, dynamic> _$OwnerProfileDtoToJson(_OwnerProfileDto instance) =>
       'waterMl': instance.waterMl,
       'confirmationVersion': instance.confirmationVersion,
       'updatedAt': instance.updatedAt?.toIso8601String(),
+      'confirmedAt': instance.confirmedAt?.toIso8601String(),
     };

@@ -26,6 +26,7 @@ enum _Field {
 }
 
 const _activities = {
+  'veryLow': LocaleKeys.profile_activityVeryLow,
   'low': LocaleKeys.profile_activityLow,
   'moderate': LocaleKeys.profile_activityModerate,
   'high': LocaleKeys.profile_activityHigh,
@@ -44,13 +45,22 @@ class OwnerProfileForm extends StatefulWidget {
     required this.saving,
     required this.errorKey,
     required this.onSave,
+    this.setup = false,
+    this.preview = false,
   });
 
   final OwnerProfile? profile;
   final ProfileSync sync;
   final bool saving;
   final String? errorKey;
-  final ValueChanged<OwnerProfile> onSave;
+  final ValueChanged<OwnerProfile>? onSave;
+  final bool setup;
+  final bool preview;
+
+  bool get maySave =>
+      onSave != null &&
+      !saving &&
+      (profile != null || sync == ProfileSync.confirmed);
 
   @override
   State<OwnerProfileForm> createState() => _OwnerProfileFormState();
@@ -64,6 +74,7 @@ class _OwnerProfileFormState extends State<OwnerProfileForm> {
   String? _activity;
   String? _locale;
   bool _dirty = false;
+  bool _conflicted = false;
 
   @override
   void initState() {
@@ -77,11 +88,26 @@ class _OwnerProfileFormState extends State<OwnerProfileForm> {
     if (oldWidget.saving && !widget.saving && widget.errorKey == null) {
       _dirty = false;
     }
-    if (!_dirty && oldWidget.profile != widget.profile) _load(widget.profile);
+    if (oldWidget.profile != widget.profile) {
+      if (!_dirty) {
+        _load(widget.profile);
+      } else if (!oldWidget.saving &&
+          oldWidget.profile == null &&
+          widget.profile != null) {
+        _conflicted = true;
+      }
+    }
   }
 
   void _load(OwnerProfile? profile) {
-    if (profile == null) return;
+    if (profile == null) {
+      for (final controller in _fields.values) {
+        controller.clear();
+      }
+      _activity = null;
+      _locale = null;
+      return;
+    }
     final values = {
       _Field.birthYear: profile.birthYear,
       _Field.height: profile.heightCm,
@@ -99,6 +125,7 @@ class _OwnerProfileFormState extends State<OwnerProfileForm> {
     };
     for (final entry in values.entries) {
       _fields[entry.key]!.text = entry.value.toString();
+      if (!_valid(entry.key)) _fields[entry.key]!.clear();
     }
     _activity = _activities.containsKey(profile.activity)
         ? profile.activity
@@ -158,29 +185,76 @@ class _OwnerProfileFormState extends State<OwnerProfileForm> {
     };
   }
 
-  void _save() {
-    if (!_form.currentState!.validate()) return;
+  bool get _validDraft =>
+      _activity != null && _locale != null && _Field.values.every(_valid);
+
+  Future<void> _save() async {
+    if (!_validDraft || _conflicted || !_form.currentState!.validate()) return;
+    final draft = OwnerProfile(
+      birthYear: _integer(_Field.birthYear)!,
+      heightCm: _number(_Field.height)!,
+      startingWeightKg: _number(_Field.startingWeight)!,
+      currentWeightKg: _number(_Field.currentWeight)!,
+      activity: _activity!,
+      windowStart: _numberText(_text(_Field.windowStart)),
+      windowEnd: _numberText(_text(_Field.windowEnd)),
+      locale: _locale!,
+      timezone: _text(_Field.timezone),
+      weeklyBudgetJod: _number(_Field.budget)!,
+      calories: _integer(_Field.calories)!,
+      proteinGrams: _number(_Field.protein)!,
+      carbsGrams: _number(_Field.carbs)!,
+      fatGrams: _number(_Field.fat)!,
+      waterMl: _integer(_Field.water)!,
+      confirmationVersion: OwnerProfile.currentConfirmationVersion,
+      confirmedAt: widget.profile?.confirmedAt,
+    );
+    if (widget.setup || widget.preview) {
+      final confirmed = await _review();
+      if (!mounted || !confirmed) return;
+    }
+    if (!widget.maySave || _conflicted) return;
     _dirty = true;
-    widget.onSave(
-      OwnerProfile(
-        birthYear: _integer(_Field.birthYear)!,
-        heightCm: _number(_Field.height)!,
-        startingWeightKg: _number(_Field.startingWeight)!,
-        currentWeightKg: _number(_Field.currentWeight)!,
-        activity: _activity!,
-        windowStart: _numberText(_text(_Field.windowStart)),
-        windowEnd: _numberText(_text(_Field.windowEnd)),
-        locale: _locale!,
-        timezone: _text(_Field.timezone),
-        weeklyBudgetJod: _number(_Field.budget)!,
-        calories: _integer(_Field.calories)!,
-        proteinGrams: _number(_Field.protein)!,
-        carbsGrams: _number(_Field.carbs)!,
-        fatGrams: _number(_Field.fat)!,
-        waterMl: _integer(_Field.water)!,
-        confirmationVersion: widget.profile?.confirmationVersion ?? 0,
+    widget.onSave?.call(draft);
+  }
+
+  Future<bool> _review() async {
+    final details = {
+      for (final field in _Field.values) field.label: _text(field),
+      LocaleKeys.profile_activity: context.tr(_activities[_activity]!),
+      LocaleKeys.profile_locale: context.tr(_languages[_locale]!),
+    };
+    final accepted = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: AppText(context.tr(LocaleKeys.profile_review)),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              for (final entry in details.entries) ...[
+                AppText(context.tr(entry.key), fontWeight: FontWeight.w600),
+                AppText(entry.value),
+                const SizedBox(height: 8),
+              ],
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: AppText(context.tr(LocaleKeys.common_back)),
+          ),
+          if (!widget.preview)
+            FilledButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: AppText(context.tr(LocaleKeys.common_confirm)),
+            ),
+        ],
       ),
     );
+    return accepted == true;
   }
 
   Widget _input(BuildContext context, _Field field) {
@@ -244,10 +318,19 @@ class _OwnerProfileFormState extends State<OwnerProfileForm> {
           )
         : null;
     final syncLabel = switch (widget.sync) {
+      _ when widget.preview => LocaleKeys.profile_previewNotice,
+      ProfileSync.cached when widget.profile == null =>
+        LocaleKeys.profile_localDraft,
       ProfileSync.cached => LocaleKeys.profile_cached,
       ProfileSync.pending => LocaleKeys.profile_pending,
+      ProfileSync.confirmed when widget.profile == null =>
+        LocaleKeys.profile_missing,
       ProfileSync.confirmed => LocaleKeys.profile_synced,
     };
+    Widget heading(String key) => Padding(
+      padding: const EdgeInsets.only(top: 24, bottom: 8),
+      child: AppText(context.tr(key), fontWeight: FontWeight.bold),
+    );
     return Form(
       key: _form,
       child: ListView(
@@ -256,7 +339,35 @@ class _OwnerProfileFormState extends State<OwnerProfileForm> {
           AppText(context.tr(syncLabel)),
           if (widget.errorKey case final key?) AppText(context.tr(key)),
           if (widget.saving) const LinearProgressIndicator(),
-          for (final field in _Field.values) _input(context, field),
+          if (_conflicted) ...[
+            AppText(context.tr(LocaleKeys.profile_draftConflict)),
+            TextButton(
+              onPressed: () => setState(() {
+                _dirty = false;
+                _conflicted = false;
+                _load(widget.profile);
+              }),
+              child: AppText(context.tr(LocaleKeys.profile_loadSaved)),
+            ),
+          ],
+          heading(LocaleKeys.profile_measurements),
+          for (final field in [
+            _Field.birthYear,
+            _Field.height,
+            _Field.startingWeight,
+            _Field.currentWeight,
+          ])
+            _input(context, field),
+          if (bmi != null)
+            AppText(
+              context.tr(
+                LocaleKeys.profile_bmi,
+                args: [
+                  NumberFormat('0.0', context.locale.toString()).format(bmi),
+                ],
+              ),
+            ),
+          AppText(context.tr(LocaleKeys.profile_bmiExplanation)),
           _select(
             context,
             label: LocaleKeys.profile_activity,
@@ -271,19 +382,39 @@ class _OwnerProfileFormState extends State<OwnerProfileForm> {
             choices: _languages,
             set: (value) => _locale = value,
           ),
-          if (bmi != null)
-            AppText(
-              context.tr(
-                LocaleKeys.profile_bmi,
-                args: [
-                  NumberFormat('0.0', context.locale.toString()).format(bmi),
-                ],
-              ),
-            ),
+          _input(context, _Field.timezone),
+          heading(LocaleKeys.profile_nutrition),
+          for (final field in [
+            _Field.calories,
+            _Field.protein,
+            _Field.carbs,
+            _Field.fat,
+          ])
+            _input(context, field),
+          heading(LocaleKeys.profile_fastingWater),
+          for (final field in [
+            _Field.windowStart,
+            _Field.windowEnd,
+            _Field.water,
+          ])
+            _input(context, field),
+          heading(LocaleKeys.profile_budget),
+          _input(context, _Field.budget),
           const SizedBox(height: 20),
           FilledButton(
-            onPressed: widget.saving ? null : _save,
-            child: AppText(context.tr(LocaleKeys.common_save)),
+            onPressed:
+                (widget.maySave || widget.preview) &&
+                    !_conflicted &&
+                    _validDraft
+                ? _save
+                : null,
+            child: AppText(
+              context.tr(
+                widget.setup || widget.preview
+                    ? LocaleKeys.common_continueAction
+                    : LocaleKeys.common_save,
+              ),
+            ),
           ),
         ],
       ),

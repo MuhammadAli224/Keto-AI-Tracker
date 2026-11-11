@@ -548,3 +548,10 @@ The profile editor distinguishes cached snapshots, pending writes, and server
 snapshots. BMI is derived from the current weight and height. The Firestore
 document stores measurements, preferences, goals, a confirmation version, and
 a server edit timestamp.
+
+On first run, review and explicitly confirm the profile before opening the
+dashboard. Firestore assigns the confirmation timestamp. A confirmed profile
+can be edited through Profile, and its BMI changes with the measurements. When
+the device has no cached profile and cannot reach the server, the setup screen
+keeps a draft in memory until the server can check whether a profile already
+exists. The development build has an isolated setup preview with no persistence.

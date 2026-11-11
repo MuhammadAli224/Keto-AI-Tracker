@@ -299,6 +299,7 @@ class $OwnerProfileMapper implements _i1.AutoMapprInterface {
       waterMl: model.waterMl,
       confirmationVersion: model.confirmationVersion,
       updatedAt: model.updatedAt,
+      confirmedAt: model.confirmedAt,
     );
   }
 
@@ -330,6 +331,7 @@ class $OwnerProfileMapper implements _i1.AutoMapprInterface {
       waterMl: model.waterMl,
       confirmationVersion: model.confirmationVersion,
       updatedAt: model.updatedAt,
+      confirmedAt: model.confirmedAt,
     );
   }
 }

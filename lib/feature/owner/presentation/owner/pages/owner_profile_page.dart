@@ -1,6 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../../../core/constant/routes.dart';
 
 import '../../../../../core/widget/app_widget/app_text.dart';
 import '../../../../../generated/app_strings.g.dart';
@@ -10,15 +13,27 @@ import '../widget/owner_error_text.dart';
 import '../widget/owner_profile_form.dart';
 
 class OwnerProfilePage extends StatelessWidget {
-  const OwnerProfilePage({super.key});
+  const OwnerProfilePage({super.key, this.setup = false, this.onRetry});
+
+  final bool setup;
+  final VoidCallback? onRetry;
 
   @override
   Widget build(BuildContext context) {
     final auth = context.watch<OwnerAuthCubit>().state;
     return Scaffold(
       appBar: AppBar(
-        title: AppText(context.tr(LocaleKeys.profile_title)),
+        title: AppText(
+          context.tr(
+            setup ? LocaleKeys.profile_setup : LocaleKeys.profile_title,
+          ),
+        ),
         actions: [
+          IconButton(
+            tooltip: context.tr(LocaleKeys.common_settings),
+            onPressed: () => context.push(AppRoutes.setting),
+            icon: const Icon(Icons.settings_outlined),
+          ),
           IconButton(
             tooltip: context.tr(LocaleKeys.auth_logout),
             onPressed: auth is AuthWorking
@@ -45,15 +60,17 @@ class OwnerProfilePage extends StatelessWidget {
                       children: [
                         AppText(context.tr(ownerErrorKey(error))),
                         TextButton(
-                          onPressed: context
-                              .read<OwnerProfileCubit>()
-                              .subscribe,
+                          onPressed: () {
+                            onRetry?.call();
+                            context.read<OwnerProfileCubit>().subscribe();
+                          },
                           child: AppText(context.tr(LocaleKeys.common_retry)),
                         ),
                       ],
                     ),
                   ),
                   ProfileReady() => OwnerProfileForm(
+                    setup: setup,
                     profile: state.snapshot.profile,
                     sync: state.snapshot.sync,
                     saving: state.saving,

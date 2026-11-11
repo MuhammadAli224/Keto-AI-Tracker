@@ -59,10 +59,12 @@ class FirebaseOwnerRepository implements OwnerRepository {
           yield Right(OwnerProfileSnapshot(sync: sync));
           continue;
         }
-        final timestamp = data['updatedAt'];
-        data['updatedAt'] = timestamp is Timestamp
-            ? timestamp.toDate().toUtc().toIso8601String()
-            : null;
+        for (final key in ['updatedAt', 'confirmedAt']) {
+          final timestamp = data[key];
+          data[key] = timestamp is Timestamp
+              ? timestamp.toDate().toUtc().toIso8601String()
+              : null;
+        }
         final dto = OwnerProfileDto.fromJson(data);
         yield Right(
           OwnerProfileSnapshot(
@@ -81,6 +83,7 @@ class FirebaseOwnerRepository implements OwnerRepository {
     String uid,
     OwnerProfile profile,
   ) async {
+    if (!profile.isComplete) return Left(OwnerFailure(OwnerError.denied));
     try {
       await _source.saveProfile(
         uid,

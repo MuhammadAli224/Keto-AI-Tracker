@@ -7,3 +7,5 @@ export 'presentation/owner/cubit/owner_profile_cubit.dart';
 export 'presentation/owner/owner_identity.dart';
 export 'presentation/owner/pages/owner_login_page.dart';
 export 'presentation/owner/pages/owner_profile_page.dart';
+export 'presentation/owner/pages/owner_home_page.dart';
+export 'presentation/owner/pages/profile_preview_page.dart';
