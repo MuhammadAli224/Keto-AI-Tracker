@@ -181,3 +181,27 @@ Append each task result with Git branch, local commit SHA and verified push stat
   Analyzer reported only the two baseline notification infos. Device
   rendering and deep-link dispatch remain unverified. No tests ran.
 - Next: verify the remote checkpoint, then implement Task 08.
+- 2026-11-12T02:11:14+03:00 Verified push of `0366e649176f9970510f6b0783b10fcdf4565dae` to `origin/codex/keto-ai-tracker-implementation`.
+
+## Task 08 — Local reminders and FCM setup
+
+- Status: DONE for local implementation. Branch: `codex/keto-ai-tracker-implementation`.
+- Files: reminder settings, scheduler and UI in `lib/feature/reminders/`,
+  Firebase registration service, bootstrapping/navigation, Android and iOS
+  notification config, dependencies, localization, README and checkpoint docs.
+- Reused Awesome Notifications. Removed the unused OneSignal dependency and
+  inactive template notification controller. Added opt-in local schedules,
+  runtime permission education, device settings and generic notification text.
+- Android inexact schedules use profile time zone, ordinary app restoration,
+  and boot support where the OS allows. No exact-alarm or battery exemption
+  permissions were added.
+- Firebase installation registration is opt-in and independent of local
+  scheduling. Identifiers and health details are excluded from logs and
+  payloads. APNs, remote sender configuration and actual delivery are external.
+- Formatting, key generation and locale parity passed. `flutter analyze --no-pub`
+  passed with no issues, including removal of the two baseline notification
+  findings. Android `:app:assembleDebug` passed with the Task 01 temporary
+  Gradle cache. The merged manifest has notification and boot permissions,
+  with no exact-alarm or battery exemptions. Native delivery and iOS runtime
+  remain unverified. No tests or deployments ran.
+- Next: verify the remote checkpoint, then implement Task 09.

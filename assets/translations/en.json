@@ -206,6 +206,27 @@
     "water": "Water",
     "progress": "Progress"
   },
+  "reminders": {
+    "title": "Reminders",
+    "channelDescription": "Scheduled reminders from Keto AI Tracker",
+    "notificationBody": "You have a reminder.",
+    "permissionEducation": "Allow notifications to receive the reminders you turn on. Reminder text is generic for lock-screen privacy.",
+    "deliveryLimits": "Delivery times are approximate. Battery settings and force-stopping the app can delay or suppress reminders.",
+    "scheduleFailed": "Some reminder changes could not be applied. Reopen this screen to retry.",
+    "allow": "Allow notifications",
+    "systemSettings": "Device notification settings",
+    "water": "Water reminder",
+    "firstMeal": "First meal",
+    "lastMeal": "Last meal",
+    "fasting": "Fasting reminder",
+    "weighIn": "Weekly weigh-in",
+    "weekday": "Day of the week",
+    "remote": "Optional remote messaging",
+    "registered": "This device is registered for remote messaging.",
+    "waiting": "Waiting for Firebase registration. Local reminders work independently.",
+    "remoteUnavailable": "Remote registration is unavailable. Local reminders work independently.",
+    "remoteDescription": "Opt in to Firebase device registration. This does not share health data."
+  },
   "commerce": {
     "subscribe": "Subscribe",
     "expireIn": "Expire In",

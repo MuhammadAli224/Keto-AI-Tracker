@@ -29,10 +29,5 @@ class AppServices {
         DeviceOrientation.portraitDown,
       ]),
     ]);
-
-    // await FcmHelper.initFcm();
-    // await NotificationsController.initializeLocalNotifications();
-    // await NotificationsController.initializeIsolateReceivePort();
-    // NotificationsController.startListeningNotificationEvents();
   }
 }

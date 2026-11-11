@@ -630,3 +630,23 @@ Protected links to the diary, wellness tracker, progress, food catalog, and
 profile retain their destination through sign-in and profile setup. The router
 accepts only known local paths as continuation destinations. Basic settings
 are available during setup.
+
+### Reminders and optional remote messaging
+
+Open Settings → Reminders to choose daily water, first meal, last meal and
+fasting times, and a weekly weigh-in day and time. The app requests notification
+permission after the user taps Allow notifications. Times use the profile's
+IANA time zone. Notifications use generic lock-screen text. The app uses
+Awesome Notifications for local scheduling and keeps the settings on the device.
+
+Android 13 and newer use the notification runtime permission. Reminders use
+inexact alarms and can be delayed by battery restrictions. The app does not
+request exact-alarm or battery-optimization exemptions. Normal relaunch can
+restore schedules, while a force-stop can prevent delivery until the app is
+opened again. Validate delivery on a physical device before release. [Android alarm scheduling](https://developer.android.com/develop/background-work/services/alarms) [Android notification permission](https://developer.android.com/develop/ui/compose/notifications/notification-permission)
+
+FCM auto-registration is disabled by default. Enabling optional remote
+messaging registers the installation with Firebase and keeps the resulting
+identifier in memory. Local reminders work independently. Remote delivery
+requires a separately approved sender and APNs configuration for iOS. Keep
+remote payloads generic and avoid sending health data. [Flutter FCM setup](https://firebase.google.com/docs/cloud-messaging/flutter/get-started)

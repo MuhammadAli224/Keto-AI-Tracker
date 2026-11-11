@@ -10,9 +10,14 @@ import '../../../generated/app_strings.g.dart';
 import 'cubit/settings_cubit.dart';
 
 class BasicSettingsPage extends StatelessWidget {
-  const BasicSettingsPage({super.key, this.showProfile = false});
+  const BasicSettingsPage({
+    super.key,
+    this.showProfile = false,
+    this.showReminders = false,
+  });
 
   final bool showProfile;
+  final bool showReminders;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +32,12 @@ class BasicSettingsPage extends StatelessWidget {
                 leading: const Icon(Icons.person_outline),
                 title: AppText(context.tr(LocaleKeys.profile_title)),
                 onTap: () => context.push(AppRoutes.profile),
+              ),
+            if (showReminders)
+              ListTile(
+                leading: const Icon(Icons.notifications_outlined),
+                title: AppText(context.tr(LocaleKeys.reminders_title)),
+                onTap: () => context.push(AppRoutes.reminders),
               ),
             SwitchListTile(
               title: AppText(context.tr(LocaleKeys.profile_darkTheme)),

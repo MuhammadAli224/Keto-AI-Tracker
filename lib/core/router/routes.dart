@@ -8,6 +8,7 @@ import '../../feature/diary/diary_barrel.dart';
 import '../../feature/nutrition/nutrition_barrel.dart';
 import '../../feature/owner/owner_barrel.dart';
 import '../../feature/progress/progress_barrel.dart';
+import '../../feature/reminders/reminders_barrel.dart';
 import '../../feature/settings/presentation/basic_settings_page.dart';
 import '../../feature/splash_screen/splash_screen.dart';
 import '../../feature/wellness/wellness_barrel.dart';
@@ -113,8 +114,22 @@ GoRouter _createRouter(OwnerIdentity identity) => GoRouter(
     ),
     GoRoute(
       path: AppRoutes.setting,
-      builder: (_, __) =>
-          BasicSettingsPage(showProfile: identity.account != null),
+      builder: (_, __) => BasicSettingsPage(
+        showProfile: identity.account != null,
+        showReminders: identity.canAnalyze,
+      ),
+    ),
+    GoRoute(
+      path: AppRoutes.reminders,
+      builder: (_, __) {
+        final profile = identity.confirmedProfile;
+        if (profile == null) return const SplashScreen();
+        return BlocProvider(
+          key: ValueKey((identity.account?.uid, profile.timezone)),
+          create: (_) => getIt<ReminderCubit>(param1: profile),
+          child: RemindersPage(timezone: profile.timezone),
+        );
+      },
     ),
     if (kDebugMode)
       GoRoute(
@@ -146,6 +161,7 @@ const _protectedLinks = {
   AppRoutes.foodCatalog,
   AppRoutes.wellness,
   AppRoutes.progress,
+  AppRoutes.reminders,
 };
 
 String? _redirectOwner(OwnerIdentity identity, GoRouterState state) {

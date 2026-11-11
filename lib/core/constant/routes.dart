@@ -5,6 +5,7 @@ abstract class AppRoutes {
   static const profile = '/profile';
   static const profileSetup = '/profile/setup';
   static const profilePreview = '/profile/preview';
+  static const reminders = '/settings/reminders';
   static const progress = '/progress';
   static const wellness = '/wellness';
   static const diary = '/diary';
