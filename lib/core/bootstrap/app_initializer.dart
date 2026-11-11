@@ -9,7 +9,6 @@ class AppInitializer {
   AppInitializer._();
 
   static Future<void> init() async {
-    await _initEnvironment();
     await _initLocalization();
     await _initHive();
     await _initHydratedBloc();
@@ -17,10 +16,6 @@ class AppInitializer {
     _initBlocObserver();
     await _initCoreServices();
     _configureErrorWidget();
-  }
-
-  static Future<void> _initEnvironment() async {
-    await EnvConstant.init();
   }
 
   static Future<void> _initLocalization() async {
@@ -52,7 +47,6 @@ class AppInitializer {
   }
 
   static Future<void> _initCoreServices() async {
-    HttpOverrides.global = _AppHttpOverrides();
     await getIt<AppServices>().initAppServices();
   }
 
@@ -90,14 +84,5 @@ class AppInitializer {
         ),
       );
     };
-  }
-}
-
-class _AppHttpOverrides extends HttpOverrides {
-  @override
-  HttpClient createHttpClient(SecurityContext? context) {
-    return super.createHttpClient(context)
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
   }
 }

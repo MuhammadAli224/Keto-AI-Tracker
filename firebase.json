@@ -1,1 +1,36 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"keto-ai-tracker","appId":"1:1038572250448:android:3760660b85614f8930b855","fileOutput":"android/app/google-services.json"}},"ios":{"default":{"projectId":"keto-ai-tracker","appId":"1:1038572250448:ios:96023c2a81a504cf30b855","uploadDebugSymbols":false,"fileOutput":"ios/Runner/GoogleService-Info.plist"}},"dart":{"lib/firebase_options.dart":{"projectId":"keto-ai-tracker","configurations":{"android":"1:1038572250448:android:3760660b85614f8930b855","ios":"1:1038572250448:ios:96023c2a81a504cf30b855"}}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "keto-ai-tracker",
+          "appId": "1:1038572250448:android:3760660b85614f8930b855",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "keto-ai-tracker",
+          "appId": "1:1038572250448:ios:96023c2a81a504cf30b855",
+          "uploadDebugSymbols": false,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "keto-ai-tracker",
+          "configurations": {
+            "android": "1:1038572250448:android:3760660b85614f8930b855",
+            "ios": "1:1038572250448:ios:96023c2a81a504cf30b855"
+          }
+        }
+      }
+    }
+  },
+  "firestore": {
+    "rules": "firestore.rules"
+  },
+  "storage": {
+    "rules": "storage.rules"
+  }
+}

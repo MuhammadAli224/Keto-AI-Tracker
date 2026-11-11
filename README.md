@@ -115,14 +115,13 @@ lib/core/bootstrap/app_initializer.dart
 
 Initialization order:
 
-1. Environment variables via `EnvConstant.init()`
-2. EasyLocalization
-3. Hive CE through `HiveServices`
-4. HydratedBloc storage
-5. GetIt dependency registration
-6. `AppBlocObserver`
-7. Core app services
-8. Debug-friendly error widget
+1. EasyLocalization
+2. Hive CE through `HiveServices`
+3. HydratedBloc storage
+4. GetIt dependency registration
+5. `AppBlocObserver`
+6. Core app services, including Firebase initialization
+7. Debug-friendly error widget
 
 This keeps `main.dart` from becoming a dumping place for service setup.
 
@@ -509,3 +508,29 @@ Main dependencies are grouped in `pubspec.yaml` by purpose:
 - Keep Hive box opening centralized.
 - Use HydratedBloc for small persisted app preferences such as theme mode.
 - Run `flutter analyze` before finishing changes.
+
+## Firebase and local configuration
+
+The checked-in FlutterFire options select the existing Android and iOS apps.
+The bundled app uses standard TLS validation. Supply an optional public API
+base URL with `--dart-define=SERVER=https://example.com`. Build defines and
+mobile assets are visible to app users. Keep server credentials in server-side
+secret storage. The tracked legacy `.env` is no longer bundled. Ignore rules do
+not untrack it, so review repository history separately and rotate any real
+credentials that were previously committed.
+
+The Firestore and Storage rule files in this checkout deny all access by
+default. As features introduce access, scope explicit paths to authenticated
+owners by matching `request.auth.uid` to the path UID. Validate writable fields
+and uploaded file type and size at those paths. Review these rules before
+deploying them. Configure Firebase App Check with Play Integrity on Android
+and App Attest on iOS, then review traffic before enabling enforcement. Keep
+debug credentials out of releases. App Check complements Firebase Auth and
+owner authorization.
+
+Hive supports existing local infrastructure and feature caches. Firestore's
+native cache is for cloud-backed owner documents. Cached data can be stale,
+and locally pending writes can still be rejected by the server. Treat Storage
+uploads and callable Functions as online operations. Keep photo permissions
+and transfers tied to explicit user actions. See [iOS setup](ios/README.md)
+for native SDK requirements.
