@@ -2,16 +2,18 @@
 
 // ignore_for_file: constant_identifier_names
 
-abstract class  LocaleKeys {
+abstract class LocaleKeys {
   static const app_name = 'app.name';
   static const app_tagline = 'app.tagline';
   static const app = 'app';
+  static const auth_providerDisabled = 'auth.providerDisabled';
   static const auth_duplicateEmail = 'auth.duplicateEmail';
   static const auth_login = 'auth.login';
   static const auth_email = 'auth.email';
   static const auth_password = 'auth.password';
   static const auth_emptyPasswordHint = 'auth.emptyPasswordHint';
-  static const auth_passwordValidateLengthHint = 'auth.passwordValidateLengthHint';
+  static const auth_passwordValidateLengthHint =
+      'auth.passwordValidateLengthHint';
   static const auth_otp = 'auth.otp';
   static const auth_register = 'auth.register';
   static const auth_enterEmailHint = 'auth.enterEmailHint';
@@ -28,6 +30,34 @@ abstract class  LocaleKeys {
   static const auth_passwordNotMatchHint = 'auth.passwordNotMatchHint';
   static const auth_emptyConfirmPasswordHint = 'auth.emptyConfirmPasswordHint';
   static const auth = 'auth';
+  static const profile_title = 'profile.title';
+  static const profile_birthYear = 'profile.birthYear';
+  static const profile_height = 'profile.height';
+  static const profile_startingWeight = 'profile.startingWeight';
+  static const profile_currentWeight = 'profile.currentWeight';
+  static const profile_activity = 'profile.activity';
+  static const profile_activityLow = 'profile.activityLow';
+  static const profile_activityModerate = 'profile.activityModerate';
+  static const profile_activityHigh = 'profile.activityHigh';
+  static const profile_windowStart = 'profile.windowStart';
+  static const profile_windowEnd = 'profile.windowEnd';
+  static const profile_locale = 'profile.locale';
+  static const profile_arabic = 'profile.arabic';
+  static const profile_english = 'profile.english';
+  static const profile_timezone = 'profile.timezone';
+  static const profile_weeklyBudget = 'profile.weeklyBudget';
+  static const profile_calories = 'profile.calories';
+  static const profile_protein = 'profile.protein';
+  static const profile_carbs = 'profile.carbs';
+  static const profile_fat = 'profile.fat';
+  static const profile_water = 'profile.water';
+  static const profile_bmi = 'profile.bmi';
+  static const profile_cached = 'profile.cached';
+  static const profile_pending = 'profile.pending';
+  static const profile_synced = 'profile.synced';
+  static const profile_invalidTime = 'profile.invalidTime';
+  static const profile_invalidTimezone = 'profile.invalidTimezone';
+  static const profile = 'profile';
   static const commerce_subscribe = 'commerce.subscribe';
   static const commerce_expireIn = 'commerce.expireIn';
   static const commerce_category = 'commerce.category';
@@ -158,7 +188,8 @@ abstract class  LocaleKeys {
   static const common_warning = 'common.warning';
   static const common_youAreOffline = 'common.youAreOffline';
   static const common_noInternet = 'common.noInternet';
-  static const common_internetConnectionRestored = 'common.internetConnectionRestored';
+  static const common_internetConnectionRestored =
+      'common.internetConnectionRestored';
   static const common_connected = 'common.connected';
   static const common_ok = 'common.ok';
   static const common_yes = 'common.yes';
@@ -201,5 +232,4 @@ abstract class  LocaleKeys {
   static const common_empty = 'common.empty';
   static const common_deleteConfirmation = 'common.deleteConfirmation';
   static const common = 'common';
-
 }

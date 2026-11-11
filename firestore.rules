@@ -1,6 +1,47 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    function isOwner(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+    function bounded(value, minimum, maximum) {
+      return value is number && value >= minimum && value <= maximum;
+    }
+
+    function validProfile(data) {
+      let fields = [
+        'birthYear', 'heightCm', 'startingWeightKg', 'currentWeightKg',
+        'activity', 'windowStart', 'windowEnd', 'locale', 'timezone',
+        'weeklyBudgetJod', 'calories', 'proteinGrams', 'carbsGrams',
+        'fatGrams', 'waterMl', 'confirmationVersion', 'updatedAt'
+      ];
+      return data.keys().hasAll(fields) && data.keys().hasOnly(fields)
+        && data.birthYear is int && bounded(data.birthYear, request.time.year() - 125, request.time.year())
+        && bounded(data.heightCm, 50, 300)
+        && bounded(data.startingWeightKg, 10, 700)
+        && bounded(data.currentWeightKg, 10, 700)
+        && data.activity in ['low', 'moderate', 'high']
+        && data.windowStart is string && data.windowStart.matches('^([01][0-9]|2[0-3]):[0-5][0-9]$')
+        && data.windowEnd is string && data.windowEnd.matches('^([01][0-9]|2[0-3]):[0-5][0-9]$')
+        && data.locale in ['ar', 'en']
+        && data.timezone is string && data.timezone.size() <= 100
+        && data.timezone.matches('^(UTC|[A-Za-z_+-]+(/[A-Za-z0-9_+-]+)+)$')
+        && bounded(data.weeklyBudgetJod, 0, 100000)
+        && data.calories is int && bounded(data.calories, 1, 20000)
+        && bounded(data.proteinGrams, 0, 5000)
+        && bounded(data.carbsGrams, 0, 5000)
+        && bounded(data.fatGrams, 0, 5000)
+        && data.waterMl is int && bounded(data.waterMl, 1, 30000)
+        && data.confirmationVersion is int && data.confirmationVersion == 0
+        && data.updatedAt == request.time;
+    }
+
+    match /users/{uid} {
+      allow get: if isOwner(uid);
+      allow create, update: if isOwner(uid) && validProfile(request.resource.data);
+    }
+
     match /{document=**} {
       allow read, write: if false;
     }

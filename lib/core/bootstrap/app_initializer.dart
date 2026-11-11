@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 
+import '../../feature/owner/di/owner_di.dart';
 import '../../global_imports.dart' hide AppBlocObserver;
 import '../bloc/observer/block_observer.dart';
 import '../widget/app_widget/app_text.dart';
@@ -15,6 +16,7 @@ class AppInitializer {
     await _initDependencyInjection();
     _initBlocObserver();
     await _initCoreServices();
+    initOwnerDI(getIt);
     _configureErrorWidget();
   }
 

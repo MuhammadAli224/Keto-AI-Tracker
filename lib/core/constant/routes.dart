@@ -2,6 +2,7 @@ abstract class AppRoutes {
   AppRoutes._();
 
   static const root = "/";
+  static const profile = '/profile';
   static const home = "/home";
   static const setting = "/setting";
 

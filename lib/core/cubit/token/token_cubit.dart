@@ -24,7 +24,8 @@ class TokenCubit extends Cubit<TokenState> {
   late final StreamSubscription<Session?> _subscription;
   static const _fcmTokenKey = 'fcm_token';
 
-  static TokenState _stateFor(Session? session) => session == null
+  static TokenState _stateFor(Session? session) =>
+      session == null || session.accessToken.isEmpty
       ? const TokenState.initial()
       : TokenState.loaded(session.accessToken);
 
@@ -34,7 +35,10 @@ class TokenCubit extends Cubit<TokenState> {
     String? accountId,
   }) => _session.saveToken(token, rememberMe: rememberMe, accountId: accountId);
 
-  String? get currentToken => _session.current?.accessToken;
+  String? get currentToken {
+    final token = _session.current?.accessToken;
+    return token == null || token.isEmpty ? null : token;
+  }
 
   Future<void> saveFcmToken(String token) =>
       _storage.write(key: _fcmTokenKey, value: token);

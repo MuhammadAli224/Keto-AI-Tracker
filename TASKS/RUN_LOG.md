@@ -26,3 +26,27 @@ Append each task result with Git branch, local commit SHA and verified push stat
   rotation of any real secrets found. No Firebase deployment, tests, or iOS build
   ran. Review App Check setup and rule changes before any deployment.
 - Next: verify the remote checkpoint, then implement Task 02.
+- 2026-11-12T01:16:46+03:00 Verified push of `0a3c9a1548f09bb5606595128801431c3645c8e3` to `origin/codex/keto-ai-tracker-implementation`.
+
+## Task 02 — Authentication and owner profile
+
+- Status: DONE for local implementation. Branch: `codex/keto-ai-tracker-implementation`.
+- Files: `lib/feature/owner/` (owner entities, generated models, Firebase data
+  source, repository, use case, DI, Cubits, and localized screens), router,
+  bootstrap, session/token integration, Bloc observer, English and Arabic
+  dictionaries and generated keys, `firestore.rules`, `README.md`, and checkpoint docs.
+- Email/Password is the selected Firebase provider for an existing owner account.
+  Firebase owns credentials and the existing session layer mirrors only account
+  scope. No Firebase token is forwarded to the legacy HTTP API.
+- A disabled provider is surfaced explicitly. Read-only Firebase CLI access
+  confirmed the configured project is visible. The console required sign-in,
+  so live provider enablement and the existence of the owner account remain
+  unverified. No console changes, remote authentication attempts, or production
+  writes were performed. Owner rules are local and require manual deployment.
+- Freezed, JSON, AutoMappr and localization generation succeeded. Locale key and
+  placeholder parity and Dart formatting passed. `flutter analyze --no-pub`
+  reported only the two pre-existing notification infos.
+- A local Firestore emulator started with the owner rules. This confirms rule
+  loading. Live authenticated profile round trips and device offline sync are
+  pending manual verification. No tests ran.
+- Next: verify the Task 02 remote checkpoint, then implement Task 02A.

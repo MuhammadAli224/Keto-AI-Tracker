@@ -4,6 +4,7 @@
     "tagline": "The best in serve you"
   },
   "auth": {
+    "providerDisabled": "Owner sign-in is unavailable. Enable Email/Password in Firebase Authentication, then reopen the app.",
     "duplicateEmail": "Email is already in use",
     "login": "Login",
     "email": "Email",
@@ -25,6 +26,35 @@
     "logout": "Log out",
     "passwordNotMatchHint": "Passwords do not match",
     "emptyConfirmPasswordHint": "Please confirm your password"
+  },
+  "profile": {
+    "title": "Profile",
+    "birthYear": "Birth year",
+    "height": "Height (cm)",
+    "startingWeight": "Starting weight (kg)",
+    "currentWeight": "Current weight (kg)",
+    "activity": "Activity level",
+    "activityLow": "Low",
+    "activityModerate": "Moderate",
+    "activityHigh": "High",
+    "windowStart": "Meal window start (HH:mm)",
+    "windowEnd": "Meal window end (HH:mm)",
+    "locale": "Preferred language",
+    "arabic": "Arabic",
+    "english": "English",
+    "timezone": "Time zone (e.g. Asia/Amman)",
+    "weeklyBudget": "Weekly food budget (JOD)",
+    "calories": "Daily calorie goal (kcal)",
+    "protein": "Daily protein goal (g)",
+    "carbs": "Daily carbohydrate goal (g)",
+    "fat": "Daily fat goal (g)",
+    "water": "Daily water goal (mL)",
+    "bmi": "BMI: {} kg/m²",
+    "cached": "Showing saved data from this device. Server status is unavailable.",
+    "pending": "Saved on this device. Waiting for the server.",
+    "synced": "Server connection confirmed.",
+    "invalidTime": "Enter a time in 24-hour format (HH:mm).",
+    "invalidTimezone": "Enter a time zone such as Asia/Amman or UTC."
   },
   "commerce": {
     "subscribe": "Subscribe",

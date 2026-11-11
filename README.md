@@ -534,3 +534,17 @@ and locally pending writes can still be rejected by the server. Treat Storage
 uploads and callable Functions as online operations. Keep photo permissions
 and transfers tied to explicit user actions. See [iOS setup](ios/README.md)
 for native SDK requirements.
+
+### Owner account and profile
+
+The app signs in to an existing Firebase Email/Password account. A Firebase
+administrator can check that the provider is enabled and provision the owner
+account in the Firebase console. The app has no public registration flow.
+Firebase Auth restores the identity and the app scopes profile access to
+`users/{uid}`. The Firestore rules prepared here authorize the authenticated
+owner of that document. They deny unauthenticated and cross-owner access.
+
+The profile editor distinguishes cached snapshots, pending writes, and server
+snapshots. BMI is derived from the current weight and height. The Firestore
+document stores measurements, preferences, goals, a confirmation version, and
+a server edit timestamp.
