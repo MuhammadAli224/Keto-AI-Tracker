@@ -1,7 +1,7 @@
 {
   "app": {
-    "name": "App Name",
-    "tagline": "The best in serve you"
+    "name": "Keto AI Tracker",
+    "tagline": "Meals, water, fasting, and progress"
   },
   "auth": {
     "providerDisabled": "Owner sign-in is unavailable. Enable Email/Password in Firebase Authentication, then reopen the app.",
@@ -188,6 +188,23 @@
     "fasts": "{} completed fasts, {} hours recorded",
     "weightChange": "Measured weight change {} kg",
     "gaps": "The report uses recorded days and available nutrients. Missing days and amounts are excluded from averages."
+  },
+  "dashboard": {
+    "nutrition": "Nutrition today",
+    "energy": "Energy",
+    "protein": "Protein",
+    "carbs": "Net carbs",
+    "fat": "Fat",
+    "kcal": "{} kcal",
+    "grams": "{} g",
+    "goalPair": "{} / {}",
+    "currentWeight": "Current weight {} kg",
+    "fastActive": "Fast in progress",
+    "noFast": "No active fast",
+    "unavailable": "Data unavailable",
+    "meals": "Meals",
+    "water": "Water",
+    "progress": "Progress"
   },
   "commerce": {
     "subscribe": "Subscribe",

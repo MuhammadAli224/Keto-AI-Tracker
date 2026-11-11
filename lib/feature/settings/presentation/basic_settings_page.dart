@@ -1,13 +1,18 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../core/constant/routes.dart';
 
 import '../../../core/widget/app_widget/app_text.dart';
 import '../../../generated/app_strings.g.dart';
 import 'cubit/settings_cubit.dart';
 
 class BasicSettingsPage extends StatelessWidget {
-  const BasicSettingsPage({super.key});
+  const BasicSettingsPage({super.key, this.showProfile = false});
+
+  final bool showProfile;
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +22,12 @@ class BasicSettingsPage extends StatelessWidget {
       body: SafeArea(
         child: ListView(
           children: [
+            if (showProfile)
+              ListTile(
+                leading: const Icon(Icons.person_outline),
+                title: AppText(context.tr(LocaleKeys.profile_title)),
+                onTap: () => context.push(AppRoutes.profile),
+              ),
             SwitchListTile(
               title: AppText(context.tr(LocaleKeys.profile_darkTheme)),
               value: settings.isDarkMode,

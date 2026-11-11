@@ -34,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   void _startLetterAnimation() {
-    _timer = Timer.periodic(const Duration(milliseconds: 90), (timer) async {
+    _timer = Timer.periodic(const Duration(milliseconds: 90), (timer) {
       final appName = context.tr(LocaleKeys.app_name);
 
       if (currentIndex < appName.length) {
@@ -46,11 +46,6 @@ class _SplashScreenState extends State<SplashScreen>
 
       _timer?.cancel();
       _fadeController.forward();
-      await Future<void>.delayed(Duration.zero);
-
-      if (mounted) {
-        context.go(AppRoutes.home);
-      }
     });
   }
 

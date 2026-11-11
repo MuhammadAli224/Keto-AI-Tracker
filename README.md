@@ -617,3 +617,16 @@ adherence uses recorded days and the current goal. The report shows ended
 fasts and actual weight change when there are two measurements. It makes no
 weight-loss forecast. A large observed change triggers a prompt to check the
 readings and seek professional advice when appropriate. [CDC weight tracking guidance](https://www.cdc.gov/healthy-weight-growth/losing-weight/index.html) [NHS guidance on unintentional weight loss](https://www.nhs.uk/symptoms/unintentional-weight-loss/)
+
+### Dashboard and navigation
+
+The dashboard reads today's diary and water entries, the current fasting
+session, and weight history. It shows configured targets and sync status.
+Unknown and unavailable values have their own labels. The app formats the
+weekly budget in JOD and uses the selected Arabic or English locale for
+labels, dates, and numbers.
+
+Protected links to the diary, wellness tracker, progress, food catalog, and
+profile retain their destination through sign-in and profile setup. The router
+accepts only known local paths as continuation destinations. Basic settings
+are available during setup.

@@ -10,7 +10,8 @@ Branch: `codex/keto-ai-tracker-implementation`
 | 03 Food catalog and nutrition engine | DONE | `2f11791c3f3301cf2a50f9b9d3bde5506eefd5b8` verified at 2026-11-12T01:41:30+03:00 |
 | 04 Meal diary and offline sync | DONE | `0a84b8c06f85409f03d93c5d2077acd83d1801a9` verified at 2026-11-12T01:49:37+03:00 |
 | 05 Water and fasting trackers | DONE | `21c2f6ea35cf160b1268d91ba5bc753e502df8a4` verified at 2026-11-12T01:57:29+03:00 |
-| 06 Weight and progress reports | DONE | Checkpoint pending |
+| 06 Weight and progress reports | DONE | `7a529b14d256f04772e29fbe2286bddf920b2ae3` verified at 2026-11-12T02:06:45+03:00 |
+| 07 Dashboard and localization | DONE | Checkpoint pending |
 
 Task 01 restored standard TLS validation, removed the bundled `.env`, added
 the Firebase SDKs, made app-service initialization idempotent, and configured
@@ -35,4 +36,7 @@ Firestore sync status, editable goals and optional suggestions.
 Task 06 added weight tracking, a measured trend and weekly summaries that
 separate missing data from recorded values.
 
-Next: verify the Task 06 checkpoint, then execute Task 07.
+Task 07 connected the localized dashboard to existing tracker streams and
+preserved safe deep-link destinations through the first-run gate.
+
+Next: verify the Task 07 checkpoint, then execute Task 08.

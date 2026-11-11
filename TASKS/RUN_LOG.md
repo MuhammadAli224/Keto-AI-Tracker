@@ -161,3 +161,23 @@ Append each task result with Git branch, local commit SHA and verified push stat
   chart rendering, authenticated sync and weekly report were not exercised on
   a device. No deployments or tests ran.
 - Next: verify the remote checkpoint, then implement Task 07.
+- 2026-11-12T02:06:45+03:00 Verified push of `7a529b14d256f04772e29fbe2286bddf920b2ae3` to `origin/codex/keto-ai-tracker-implementation`.
+
+## Task 07 — Dashboard, navigation and localization
+
+- Status: DONE for local implementation. Branch: `codex/keto-ai-tracker-implementation`.
+- Files: dashboard page and cards, router, basic settings, startup splash,
+  Arabic and English dictionaries and generated keys, README and checkpoint docs.
+- The dashboard uses the existing diary, wellness and progress Cubits. It
+  shows known calorie/macronutrient and water totals against configured
+  goals, fasting status, actual weight trend, derived BMI, and JOD budget.
+  Cached and pending states remain visible. Missing values are never
+  replaced with example data.
+- Primary navigation reaches the trackers. An allowlist retains protected
+  deep links across authentication and onboarding. The setup and settings
+  paths remain accessible as appropriate. The localized theme retains
+  Almarai and supports Arabic RTL and English LTR.
+- Key generation, dictionary/placeholder parity and formatting passed.
+  Analyzer reported only the two baseline notification infos. Device
+  rendering and deep-link dispatch remain unverified. No tests ran.
+- Next: verify the remote checkpoint, then implement Task 08.
