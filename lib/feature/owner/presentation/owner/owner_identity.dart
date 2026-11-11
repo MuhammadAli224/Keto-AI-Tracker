@@ -4,6 +4,9 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../../../core/session/session_manager.dart';
+import '../../../progress/domain/entities/progress.dart';
+import '../../../progress/domain/repository/progress_repository.dart';
+import '../../../progress/domain/usecases/progress_access.dart';
 import '../../domain/entities/owner_account.dart';
 import '../../domain/entities/owner_profile.dart';
 import '../../domain/repository/owner_repository.dart';
@@ -11,10 +14,14 @@ import '../../domain/usecases/owner_access.dart';
 
 /// Keeps route guards in sync with the single identity provided by Firebase.
 class OwnerIdentity extends ChangeNotifier {
-  OwnerIdentity(this._access, this._session);
+  OwnerIdentity(this._access, this._session, this._progress);
 
   final OwnerAccess _access;
   final SessionManager _session;
+  final ProgressAccess _progress;
+  StreamSubscription<Either<ProgressFailure, WeightHistory>>?
+  _weightSubscription;
+  double? latestWeightKg;
   StreamSubscription<OwnerAccount?>? _subscription;
   StreamSubscription<Either<OwnerFailure, OwnerProfileSnapshot>>?
   _profileSubscription;
@@ -25,7 +32,14 @@ class OwnerIdentity extends ChangeNotifier {
   bool get canAnalyze =>
       account != null && _snapshot?.profile?.isConfirmed == true;
 
-  OwnerProfile? get confirmedProfile => canAnalyze ? _snapshot?.profile : null;
+  OwnerProfile? get confirmedProfile {
+    if (!canAnalyze) return null;
+    final profile = _snapshot?.profile;
+    final measured = latestWeightKg;
+    return measured == null
+        ? profile
+        : profile?.copyWith(currentWeightKg: measured);
+  }
 
   OwnerAccount? account;
   bool ready = false;
@@ -41,6 +55,9 @@ class OwnerIdentity extends ChangeNotifier {
   Future<void> _synchronize(OwnerAccount? next, {bool failed = false}) async {
     final revision = ++_revision;
     _snapshot = null;
+    latestWeightKg = null;
+    unawaited(_weightSubscription?.cancel());
+    _weightSubscription = null;
     unawaited(_profileSubscription?.cancel());
     _profileSubscription = null;
     if (account != null && account != next) {
@@ -69,7 +86,26 @@ class OwnerIdentity extends ChangeNotifier {
     _profileSubscription = _access.watchProfile(uid).listen((result) {
       if (_revision != revision) return;
       _snapshot = result.fold((_) => null, (snapshot) => snapshot);
+      if (canAnalyze) {
+        _watchWeights(revision);
+      } else {
+        latestWeightKg = null;
+        unawaited(_weightSubscription?.cancel());
+        _weightSubscription = null;
+      }
       notifyListeners();
+    });
+  }
+
+  void _watchWeights(int revision) {
+    _weightSubscription ??= _progress.watchWeights().listen((result) {
+      if (_revision != revision || !canAnalyze) return;
+      result.fold((_) {}, (history) {
+        final kg = history.entries.isEmpty ? null : history.entries.first.kg;
+        if (latestWeightKg == kg) return;
+        latestWeightKg = kg;
+        notifyListeners();
+      });
     });
   }
 
@@ -77,6 +113,7 @@ class OwnerIdentity extends ChangeNotifier {
   void dispose() {
     _revision++;
     unawaited(_subscription?.cancel());
+    unawaited(_weightSubscription?.cancel());
     unawaited(_profileSubscription?.cancel());
     super.dispose();
   }

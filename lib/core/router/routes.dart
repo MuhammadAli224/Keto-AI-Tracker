@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../../feature/diary/diary_barrel.dart';
 import '../../feature/nutrition/nutrition_barrel.dart';
 import '../../feature/owner/owner_barrel.dart';
+import '../../feature/progress/progress_barrel.dart';
 import '../../feature/settings/presentation/basic_settings_page.dart';
 import '../../feature/splash_screen/splash_screen.dart';
 import '../../feature/wellness/wellness_barrel.dart';
@@ -42,6 +43,20 @@ GoRouter _createRouter(OwnerIdentity identity) => GoRouter(
   routes: [
     GoRoute(path: AppRoutes.root, builder: (_, __) => const SplashScreen()),
     GoRoute(path: AppRoutes.home, builder: (_, __) => const OwnerHomePage()),
+    GoRoute(
+      path: AppRoutes.progress,
+      builder: (_, __) {
+        final profile = identity.confirmedProfile;
+        if (profile == null) return const SplashScreen();
+        return BlocProvider(
+          key: ValueKey((identity.account?.uid, profile.timezone)),
+          create: (_) => getIt<ProgressCubit>(param1: profile.timezone)
+            ..loadWeights()
+            ..loadReport(profile.waterMl),
+          child: ProgressPage(profile: profile),
+        );
+      },
+    ),
     GoRoute(
       path: AppRoutes.wellness,
       builder: (_, __) {
@@ -124,6 +139,10 @@ Widget _profileProviders(OwnerIdentity identity, {bool setup = false}) {
       BlocProvider(create: (_) => getIt<OwnerAuthCubit>()),
       BlocProvider(create: (_) => getIt<OwnerProfileCubit>(param1: uid)),
     ],
-    child: OwnerProfilePage(setup: setup, onRetry: identity.retryProfile),
+    child: OwnerProfilePage(
+      setup: setup,
+      onRetry: identity.retryProfile,
+      latestWeightKg: setup ? null : identity.latestWeightKg,
+    ),
   );
 }

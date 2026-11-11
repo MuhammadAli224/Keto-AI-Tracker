@@ -57,7 +57,11 @@ class OwnerProfileCubit extends Cubit<OwnerProfileState>
     }, onDone: () => finishRequest(_watch, request));
   }
 
-  Future<void> save(OwnerProfile profile) async {
+  Future<void> save(
+    OwnerProfile profile, {
+    double? latestWeightKg,
+    bool weightEdited = false,
+  }) async {
     final current = state;
     if (isClosed || current is! ProfileReady || current.saving) return;
     if (current.snapshot.profile == null &&
@@ -67,7 +71,23 @@ class OwnerProfileCubit extends Cubit<OwnerProfileState>
     final request = beginRequest(_save);
     emit(current.copyWith(saving: true, saveError: null));
     try {
-      final result = await _access.saveProfile(uid, profile);
+      final recordWeight =
+          current.snapshot.profile?.isConfirmed == true &&
+          latestWeightKg != null &&
+          weightEdited &&
+          latestWeightKg != profile.currentWeightKg;
+      final saved = latestWeightKg != null && !recordWeight
+          ? profile.copyWith(
+              currentWeightKg:
+                  current.snapshot.profile?.currentWeightKg ??
+                  profile.currentWeightKg,
+            )
+          : profile;
+      final result = await _access.saveProfile(
+        uid,
+        saved,
+        recordWeight: recordWeight,
+      );
       final latest = state;
       if (!isCurrentRequest(_save, request) || latest is! ProfileReady) return;
       emit(

@@ -23,6 +23,7 @@ class OwnerAccess {
 
   Future<Either<OwnerFailure, Unit>> saveProfile(
     String uid,
-    OwnerProfile profile,
-  ) => _repository.saveProfile(uid, profile);
+    OwnerProfile profile, {
+    bool recordWeight = false,
+  }) => _repository.saveProfile(uid, profile, recordWeight: recordWeight);
 }

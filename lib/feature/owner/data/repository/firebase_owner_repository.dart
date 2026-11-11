@@ -81,13 +81,15 @@ class FirebaseOwnerRepository implements OwnerRepository {
   @override
   Future<Either<OwnerFailure, Unit>> saveProfile(
     String uid,
-    OwnerProfile profile,
-  ) async {
+    OwnerProfile profile, {
+    bool recordWeight = false,
+  }) async {
     if (!profile.isComplete) return Left(OwnerFailure(OwnerError.denied));
     try {
       await _source.saveProfile(
         uid,
         _mapper.convert<OwnerProfile, OwnerProfileDto>(profile),
+        recordWeight: recordWeight,
       );
       return const Right(unit);
     } on Exception catch (error) {

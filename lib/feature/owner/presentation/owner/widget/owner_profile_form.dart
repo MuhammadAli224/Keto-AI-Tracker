@@ -48,15 +48,18 @@ class OwnerProfileForm extends StatefulWidget {
     required this.onSave,
     this.setup = false,
     this.preview = false,
+    this.latestWeightKg,
   });
 
   final OwnerProfile? profile;
   final ProfileSync sync;
   final bool saving;
   final String? errorKey;
-  final ValueChanged<OwnerProfile>? onSave;
+  final void Function(OwnerProfile profile, {required bool weightEdited})?
+  onSave;
   final bool setup;
   final bool preview;
+  final double? latestWeightKg;
 
   bool get maySave =>
       onSave != null &&
@@ -75,6 +78,7 @@ class _OwnerProfileFormState extends State<OwnerProfileForm> {
   String? _activity;
   String? _locale;
   bool _dirty = false;
+  bool _weightEdited = false;
   bool _conflicted = false;
 
   @override
@@ -88,8 +92,16 @@ class _OwnerProfileFormState extends State<OwnerProfileForm> {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.saving && !widget.saving && widget.errorKey == null) {
       _dirty = false;
+      _weightEdited = false;
     }
-    if (oldWidget.profile != widget.profile) {
+    if (_dirty &&
+        !_weightEdited &&
+        oldWidget.latestWeightKg != widget.latestWeightKg) {
+      final weight = widget.latestWeightKg ?? widget.profile?.currentWeightKg;
+      _fields[_Field.currentWeight]!.text = weight?.toString() ?? '';
+    }
+    if (oldWidget.profile != widget.profile ||
+        oldWidget.latestWeightKg != widget.latestWeightKg) {
       if (!_dirty) {
         _load(widget.profile);
       } else if (!oldWidget.saving &&
@@ -113,7 +125,7 @@ class _OwnerProfileFormState extends State<OwnerProfileForm> {
       _Field.birthYear: profile.birthYear,
       _Field.height: profile.heightCm,
       _Field.startingWeight: profile.startingWeightKg,
-      _Field.currentWeight: profile.currentWeightKg,
+      _Field.currentWeight: widget.latestWeightKg ?? profile.currentWeightKg,
       _Field.windowStart: profile.windowStart,
       _Field.windowEnd: profile.windowEnd,
       _Field.timezone: profile.timezone,
@@ -212,7 +224,7 @@ class _OwnerProfileFormState extends State<OwnerProfileForm> {
     }
     if (!widget.maySave || _conflicted) return;
     _dirty = true;
-    widget.onSave?.call(draft);
+    widget.onSave?.call(draft, weightEdited: _weightEdited);
   }
 
   Future<bool> _review() async {
@@ -274,7 +286,10 @@ class _OwnerProfileFormState extends State<OwnerProfileForm> {
         helperText: hint == null ? null : context.tr(hint),
         helperMaxLines: 2,
       ),
-      onChanged: (_) => setState(() => _dirty = true),
+      onChanged: (_) => setState(() {
+        _dirty = true;
+        if (field == _Field.currentWeight) _weightEdited = true;
+      }),
       validator: (_) => _valid(field)
           ? null
           : context.tr(

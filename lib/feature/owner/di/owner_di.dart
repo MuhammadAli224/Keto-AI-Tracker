@@ -26,7 +26,7 @@ void initOwnerDI(GetIt getIt) {
     (uid, _) => OwnerProfileCubit(getIt(), uid),
   );
   getIt.registerSingleton(
-    OwnerIdentity(getIt(), getIt())..start(),
+    OwnerIdentity(getIt(), getIt(), getIt())..start(),
     dispose: (identity) => identity.dispose(),
   );
 }

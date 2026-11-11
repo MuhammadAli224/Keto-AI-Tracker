@@ -13,10 +13,16 @@ import '../widget/owner_error_text.dart';
 import '../widget/owner_profile_form.dart';
 
 class OwnerProfilePage extends StatelessWidget {
-  const OwnerProfilePage({super.key, this.setup = false, this.onRetry});
+  const OwnerProfilePage({
+    super.key,
+    this.setup = false,
+    this.onRetry,
+    this.latestWeightKg,
+  });
 
   final bool setup;
   final VoidCallback? onRetry;
+  final double? latestWeightKg;
 
   @override
   Widget build(BuildContext context) {
@@ -71,13 +77,19 @@ class OwnerProfilePage extends StatelessWidget {
                   ),
                   ProfileReady() => OwnerProfileForm(
                     setup: setup,
+                    latestWeightKg: latestWeightKg,
                     profile: state.snapshot.profile,
                     sync: state.snapshot.sync,
                     saving: state.saving,
                     errorKey: state.saveError == null
                         ? null
                         : ownerErrorKey(state.saveError!),
-                    onSave: context.read<OwnerProfileCubit>().save,
+                    onSave: (profile, {required weightEdited}) =>
+                        context.read<OwnerProfileCubit>().save(
+                          profile,
+                          latestWeightKg: latestWeightKg,
+                          weightEdited: weightEdited,
+                        ),
                   ),
                 },
               ),

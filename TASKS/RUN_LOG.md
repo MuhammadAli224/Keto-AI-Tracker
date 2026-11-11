@@ -140,3 +140,24 @@ Append each task result with Git branch, local commit SHA and verified push stat
   Real-device restart/offline behavior and cross-device conflicts remain
   unverified. No deployments or tests ran.
 - Next: verify the remote checkpoint, then implement Task 06.
+- 2026-11-12T01:57:29+03:00 Verified push of `21c2f6ea35cf160b1268d91ba5bc753e502df8a4` to `origin/codex/keto-ai-tracker-implementation`.
+
+## Task 06 — Weight and progress reports
+
+- Status: DONE for local implementation. Branch: `codex/keto-ai-tracker-implementation`.
+- Files: `lib/feature/progress/`, owner identity/profile data and editor,
+  bootstrap/router/home, Firestore rules, Arabic and English dictionaries and
+  generated keys, README and checkpoint docs.
+- Weight records support add/edit/remove and per-record sync state. The daily
+  and weekly chart uses measured points and a separate starting-weight
+  reference. Profile BMI follows the latest logged measurement. A current
+  weight edit in Profile creates a new measurement when there is log history.
+- Weekly reporting uses seven calendar days, known nutrient averages with day
+  counts, water adherence based on recorded days, completed fasting duration
+  and measured weight change. It uses no forecasts or imputed values. A large
+  recorded rate is surfaced as a check-the-data cue, not a clinical threshold.
+- Codegen, locale parity, formatting and local Firestore rule loading passed.
+  Analyzer reported only the two baseline notification infos. The native
+  chart rendering, authenticated sync and weekly report were not exercised on
+  a device. No deployments or tests ran.
+- Next: verify the remote checkpoint, then implement Task 07.

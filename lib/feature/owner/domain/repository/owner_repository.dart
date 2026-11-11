@@ -26,6 +26,7 @@ abstract interface class OwnerRepository {
 
   Future<Either<OwnerFailure, Unit>> saveProfile(
     String uid,
-    OwnerProfile profile,
-  );
+    OwnerProfile profile, {
+    bool recordWeight = false,
+  });
 }

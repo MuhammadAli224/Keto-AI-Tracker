@@ -159,6 +159,30 @@ service cloud.firestore {
         && getAfter(/databases/$(database)/documents/users/$(uid)/fasting/current).data == request.resource.data;
     }
 
+    function validWeight(data, id) {
+      let fields = ['id', 'kg', 'measuredAt', 'timezone', 'notes', 'deleted', 'updatedAt'];
+      return data.keys().hasAll(fields) && data.keys().hasOnly(fields)
+        && uuid(id) && data.id == id
+        && bounded(data.kg, 10, 700)
+        && data.measuredAt is timestamp
+        && data.timezone is string && data.timezone.size() <= 100
+        && (data.notes == null || (data.notes is string && data.notes.size() <= 500))
+        && data.deleted is bool && data.updatedAt == request.time;
+    }
+
+    match /users/{uid}/weights/{id} {
+      allow read: if isOwner(uid);
+      allow create: if isOwner(uid) && hasConfirmedProfile(uid)
+        && validWeight(request.resource.data, id) && request.resource.data.deleted == false;
+      allow update: if isOwner(uid) && hasConfirmedProfile(uid)
+        && validWeight(request.resource.data, id)
+        && (
+          (resource.data.deleted == false && request.resource.data.deleted == false)
+          || (request.resource.data.deleted == true
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['deleted', 'updatedAt']))
+        );
+    }
+
     match /{document=**} {
       allow read, write: if false;
     }

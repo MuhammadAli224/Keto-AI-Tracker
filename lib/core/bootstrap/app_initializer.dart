@@ -5,6 +5,7 @@ import 'package:timezone/data/latest_all.dart' as timezone;
 import '../../feature/diary/di/diary_di.dart';
 import '../../feature/nutrition/di/nutrition_di.dart';
 import '../../feature/owner/di/owner_di.dart';
+import '../../feature/progress/di/progress_di.dart';
 import '../../feature/wellness/di/wellness_di.dart';
 import '../../global_imports.dart' hide AppBlocObserver;
 import '../bloc/observer/block_observer.dart';
@@ -21,6 +22,7 @@ class AppInitializer {
     await _initDependencyInjection();
     _initBlocObserver();
     await _initCoreServices();
+    initProgressDI(getIt);
     initOwnerDI(getIt);
     initNutritionDI(getIt);
     initDiaryDI(getIt);

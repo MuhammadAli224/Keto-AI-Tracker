@@ -601,3 +601,19 @@ shown as a setup suggestion. A single current record prevents overlapping
 server-confirmed sessions. Ending or cancelling a fast archives it in the
 same Firestore batch. The in-app note for feeling unwell follows NHS advice
 to stop fasting and seek help if needed. [NHS fasting guidance](https://www.nelft.nhs.uk/news-events/staying-healthy-during-ramadan-15955) [NHS dizziness guidance](https://www.nhs.uk/symptoms/dizziness/)
+
+### Weight and progress
+
+Weight records have an owner-scoped ID, measurement instant, local time zone,
+optional note and sync status. The trend uses the latest measurement in each
+day or week and plots the profile starting weight as a reference line. Empty
+periods have no points. Profile shows the latest logged weight and derives BMI
+from it. Explicit edits to the current weight in Profile can record a new
+measurement without rewriting previous entries.
+
+The weekly report covers the most recent seven calendar days. Nutrition
+averages use only recorded days with known values for that metric. Water
+adherence uses recorded days and the current goal. The report shows ended
+fasts and actual weight change when there are two measurements. It makes no
+weight-loss forecast. A large observed change triggers a prompt to check the
+readings and seek professional advice when appropriate. [CDC weight tracking guidance](https://www.cdc.gov/healthy-weight-growth/losing-weight/index.html) [NHS guidance on unintentional weight loss](https://www.nhs.uk/symptoms/unintentional-weight-loss/)

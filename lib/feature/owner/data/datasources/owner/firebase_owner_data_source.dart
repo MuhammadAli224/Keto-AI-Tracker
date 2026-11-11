@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:uuid/uuid.dart';
+
+import '../../../../progress/data/model/weight_dto.dart';
 
 import '../../model/owner_profile_dto.dart';
 
@@ -31,15 +34,31 @@ class FirebaseOwnerDataSource {
   Stream<DocumentSnapshot<Map<String, dynamic>>> watchProfile(String uid) =>
       _profile(uid).snapshots(includeMetadataChanges: true);
 
-  Future<void> saveProfile(String uid, OwnerProfileDto profile) {
+  Future<void> saveProfile(
+    String uid,
+    OwnerProfileDto profile, {
+    bool recordWeight = false,
+  }) {
     final json = profile.toJson()
       ..remove('confirmedAt')
       ..remove('updatedAt');
-    return _profile(uid).set({
+    final ref = _profile(uid);
+    final data = {
       ...json,
       'updatedAt': FieldValue.serverTimestamp(),
       if (profile.confirmationVersion > 0 && profile.confirmedAt == null)
         'confirmedAt': FieldValue.serverTimestamp(),
-    }, SetOptions(merge: true));
+    };
+    if (!recordWeight) return ref.set(data, SetOptions(merge: true));
+    final weight = WeightDto(
+      id: const Uuid().v4(),
+      kg: profile.currentWeightKg,
+      measuredAt: DateTime.now().toUtc(),
+      timezone: profile.timezone,
+    );
+    final batch = _firestore.batch();
+    batch.set(ref, data, SetOptions(merge: true));
+    batch.set(ref.collection('weights').doc(weight.id), weight.toFirestore());
+    return batch.commit();
   }
 }
