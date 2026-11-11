@@ -2,6 +2,7 @@ class BoxKey {
   BoxKey._();
 
   static const String appBox = "appBox";
+  static const String mealAttachments = 'mealAttachments';
   static const String foodCatalog = 'foodCatalog';
   static const String cacheBox = "featureCache";
 

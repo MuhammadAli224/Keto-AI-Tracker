@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../feature/diary/diary_barrel.dart';
 import '../../feature/nutrition/nutrition_barrel.dart';
 import '../../feature/owner/owner_barrel.dart';
 import '../../feature/settings/presentation/basic_settings_page.dart';
@@ -40,6 +41,27 @@ GoRouter _createRouter(OwnerIdentity identity) => GoRouter(
   routes: [
     GoRoute(path: AppRoutes.root, builder: (_, __) => const SplashScreen()),
     GoRoute(path: AppRoutes.home, builder: (_, __) => const OwnerHomePage()),
+    GoRoute(
+      path: AppRoutes.diary,
+      builder: (_, __) {
+        final profile = identity.confirmedProfile;
+        if (profile == null) return const SplashScreen();
+        return MultiBlocProvider(
+          key: ValueKey((identity.account?.uid, profile.timezone)),
+          providers: [
+            BlocProvider(create: (_) => getIt<CatalogCubit>()..load()),
+            BlocProvider(
+              create: (_) {
+                final diary = getIt<DiaryCubit>(param1: profile.timezone);
+                diary.selectDay(diary.state.date);
+                return diary;
+              },
+            ),
+          ],
+          child: const DiaryPage(),
+        );
+      },
+    ),
     GoRoute(
       path: AppRoutes.foodCatalog,
       builder: (_, __) => BlocProvider(

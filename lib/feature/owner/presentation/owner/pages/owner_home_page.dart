@@ -16,6 +16,11 @@ class OwnerHomePage extends StatelessWidget {
       child: ListView(
         children: [
           ListTile(
+            leading: const Icon(Icons.menu_book_outlined),
+            title: AppText(context.tr(LocaleKeys.diary_title)),
+            onTap: () => context.push(AppRoutes.diary),
+          ),
+          ListTile(
             leading: const Icon(Icons.restaurant_menu_outlined),
             title: AppText(context.tr(LocaleKeys.nutrition_catalog)),
             onTap: () => context.push(AppRoutes.foodCatalog),

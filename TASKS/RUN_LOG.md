@@ -98,3 +98,23 @@ Append each task result with Git branch, local commit SHA and verified push stat
   Analyzer reported only the two pre-existing notification infos. No device
   catalog workflow, production data writes, rule deployments, or tests ran.
 - Next: verify the remote checkpoint, then implement Task 04.
+- 2026-11-12T01:41:30+03:00 Verified push of `2f11791c3f3301cf2a50f9b9d3bde5506eefd5b8` to `origin/codex/keto-ai-tracker-implementation`.
+
+## Task 04 — Meal diary and offline sync
+
+- Status: DONE for local implementation. Branch: `codex/keto-ai-tracker-implementation`.
+- Files: `lib/feature/diary/`, shared owner calendar, bootstrap, UID/timezone
+  route composition, Hive attachment metadata, Firestore rules, locale
+  dictionaries and generated keys, pub manifests, README and checkpoint docs.
+- Meals use a stable UUID and nested serving snapshots. The UI supports
+  creation, draft/confirmed transitions, edits, soft deletion and selecting
+  a date. A saved meal keeps its time zone and local day key. Time zones use
+  the IANA database and times skipped by a clock change are rejected.
+- Firestore snapshot metadata distinguishes cache, pending and server sync.
+  Daily totals sum confirmed meals. Tombstones prevent stale resurrection.
+  Local image references are kept out of Firestore, ready for Task 10 capture.
+- Dependency resolution, Freezed, JSON, mapper and localization generation,
+  locale parity, Dart formatting and local rule loading passed. Analysis
+  reported only the two baseline notification infos. Offline device sync and
+  concurrent device edits were not exercised. No deployments or tests ran.
+- Next: verify the remote checkpoint, then implement Task 05.

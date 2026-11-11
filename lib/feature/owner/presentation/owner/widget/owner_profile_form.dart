@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../core/time/owner_calendar.dart';
 import '../../../../../core/widget/app_widget/app_text.dart';
 import '../../../../../generated/app_strings.g.dart';
 import '../../../domain/entities/owner_profile.dart';
@@ -171,11 +172,7 @@ class _OwnerProfileFormState extends State<OwnerProfileForm> {
       _Field.windowStart || _Field.windowEnd => RegExp(
         r'^(?:[01][0-9]|2[0-3]):[0-5][0-9]$',
       ).hasMatch(_numberText(_text(field))),
-      _Field.timezone =>
-        _text(field).length <= 100 &&
-            RegExp(
-              r'^(?:UTC|[A-Za-z_+-]+(?:/[A-Za-z0-9_+-]+)+)$',
-            ).hasMatch(_text(field)),
+      _Field.timezone => OwnerCalendar.supports(_text(field)),
       _Field.budget => between(_number(field), 0, 100000),
       _Field.calories => between(_integer(field)?.toDouble(), 1, 20000),
       _Field.protein ||

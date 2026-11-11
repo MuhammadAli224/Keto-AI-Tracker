@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:timezone/data/latest_all.dart' as timezone;
 
+import '../../feature/diary/di/diary_di.dart';
 import '../../feature/nutrition/di/nutrition_di.dart';
 import '../../feature/owner/di/owner_di.dart';
 import '../../global_imports.dart' hide AppBlocObserver;
@@ -11,6 +13,7 @@ class AppInitializer {
   AppInitializer._();
 
   static Future<void> init() async {
+    timezone.initializeTimeZones();
     await _initLocalization();
     await _initHive();
     await _initHydratedBloc();
@@ -19,6 +22,7 @@ class AppInitializer {
     await _initCoreServices();
     initOwnerDI(getIt);
     initNutritionDI(getIt);
+    initDiaryDI(getIt);
     _configureErrorWidget();
   }
 

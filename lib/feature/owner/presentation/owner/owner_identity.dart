@@ -25,6 +25,8 @@ class OwnerIdentity extends ChangeNotifier {
   bool get canAnalyze =>
       account != null && _snapshot?.profile?.isConfirmed == true;
 
+  OwnerProfile? get confirmedProfile => canAnalyze ? _snapshot?.profile : null;
+
   OwnerAccount? account;
   bool ready = false;
   bool unavailable = false;

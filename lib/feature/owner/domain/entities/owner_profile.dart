@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../../core/time/owner_calendar.dart';
+
 part 'owner_profile.freezed.dart';
 
 @freezed
@@ -46,7 +48,7 @@ abstract class OwnerProfile with _$OwnerProfile {
         _time.hasMatch(windowEnd) &&
         const {'ar', 'en'}.contains(locale) &&
         timezone.length <= 100 &&
-        _zone.hasMatch(timezone) &&
+        OwnerCalendar.supports(timezone) &&
         _bounded(weeklyBudgetJod, 0, 100000) &&
         _bounded(calories, 1, 20000) &&
         _bounded(proteinGrams, 0, 5000) &&
@@ -59,7 +61,6 @@ abstract class OwnerProfile with _$OwnerProfile {
       value.isFinite && value >= min && value <= max;
 
   static final _time = RegExp(r'^([01][0-9]|2[0-3]):[0-5][0-9]$');
-  static final _zone = RegExp(r'^(UTC|[A-Za-z_+-]+(/[A-Za-z0-9_+-]+)+)$');
 
   double get bmi => calculateBmi(currentWeightKg, heightCm);
 

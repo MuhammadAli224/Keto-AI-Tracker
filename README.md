@@ -572,3 +572,18 @@ carbohydrate and 9 kcal per gram of fat. Recipe estimates sum ingredient
 portions and divide by the measured finished weight. The UI rounds to one
 decimal place. The diary can store immutable serving snapshots with nutrient
 amounts and provenance as consumed.
+
+### Meal diary sync
+
+Each meal uses a client-generated UUID under `users/{uid}/meals/{id}`. The
+entry stores the eaten instant in UTC, the time zone and local day key at
+capture, meal type, state, and as-consumed serving snapshots. Drafts and
+tombstones are excluded from daily totals. Changing the profile time zone
+does not rebucket meals already recorded. Device image references stay local.
+
+Android and iOS use Firestore's native offline cache and pending writes. The
+diary distinguishes local cache, pending write, and server-synced snapshots.
+The server can still reject a pending write. Firestore resolves concurrent
+edits to the same meal with last-write-wins. Tombstones reject resurrection by
+a stale write. Daily totals are calculated from the current entries, with no
+shared daily counters. Background delivery depends on the OS and app state.

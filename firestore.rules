@@ -49,6 +49,41 @@ service cloud.firestore {
           == resource.data.get('confirmedAt', request.time);
     }
 
+    function hasConfirmedProfile(uid) {
+      let owner = get(/databases/$(database)/documents/users/$(uid)).data;
+      return owner.confirmationVersion == 1 && owner.confirmedAt is timestamp;
+    }
+
+    function validMeal(data, mealId) {
+      let fields = ['id', 'dayKey', 'eatenAtUtc', 'timezone', 'type',
+        'status', 'servings', 'updatedAt'];
+      return data.keys().hasAll(fields) && data.keys().hasOnly(fields)
+        && data.id == mealId
+        && mealId.matches('^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$')
+        && data.dayKey is string && data.dayKey.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+        && data.eatenAtUtc is timestamp
+        && data.timezone is string && data.timezone.size() <= 100
+        && data.type in ['breakfast', 'lunch', 'dinner', 'snack']
+        && data.status in ['draft', 'confirmed', 'deleted']
+        && data.servings is list && data.servings.size() <= 50
+        && (data.status != 'confirmed' || data.servings.size() > 0)
+        && data.updatedAt == request.time;
+    }
+
+    match /users/{uid}/meals/{mealId} {
+      allow read: if isOwner(uid);
+      allow create: if isOwner(uid) && hasConfirmedProfile(uid)
+        && request.resource.data.status != 'deleted'
+        && validMeal(request.resource.data, mealId);
+      allow update: if isOwner(uid) && hasConfirmedProfile(uid)
+        && validMeal(request.resource.data, mealId)
+        && (
+          (resource.data.status != 'deleted' && request.resource.data.status != 'deleted')
+          || (request.resource.data.status == 'deleted'
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'updatedAt']))
+        );
+    }
+
     match /{document=**} {
       allow read, write: if false;
     }
