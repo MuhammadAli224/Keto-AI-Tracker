@@ -62,3 +62,27 @@ budget within the approved limit. Enable TTL on the server-only
 `_aiGatewayRequests.expiresAt` field after review. The gateway sets
 `store: false` for Responses API calls. Review provider retention separately.
 [Responses API](https://developers.openai.com/api/reference/resources/responses/methods/create) [Firebase App Check](https://firebase.google.com/docs/app-check/cloud-functions)
+
+## Flutter client
+
+Ordinary builds show the manual fallback. An approved native build can enable
+the callable client with `--dart-define=AI_ASSISTANCE_ENABLED=true`.
+Configure Play Integrity on Android and App Attest on iOS before enabling
+the client. Meal review additionally needs the Storage build flag and an
+explicitly approved, completed upload. Open the saved draft and approve sending
+the current image to OpenAI. AI findings are held in the editor's memory.
+Matching a finding to the catalog and reviewing its weight creates an editable
+serving. Diary totals change only after confirming the meal.
+
+Coach requests may include `includeGoals: true` after a separate opt-in.
+The gateway reads the latest approved daily energy, protein, net carb, fat
+and water targets from the owner profile. It sends only those targets and
+the submitted question. The app keeps the reply in memory and opens the
+profile for any manual goal changes.
+
+Closing or cancelling a review discards the result and prevents a request
+that has yet to leave the app. An already dispatched Firebase callable may
+still complete and count toward the quota. The app never retries it
+automatically. Removing an uploaded image uses the diary attachment deletion
+flow. The callable does not store coach messages or AI estimates. Review the
+provider's retention and spending controls before activation.

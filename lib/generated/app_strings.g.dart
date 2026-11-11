@@ -422,4 +422,27 @@ abstract class LocaleKeys {
   static const common_empty = 'common.empty';
   static const common_deleteConfirmation = 'common.deleteConfirmation';
   static const common = 'common';
+  static const ai_mealReview = 'ai.mealReview';
+  static const ai_unavailable = 'ai.unavailable';
+  static const ai_uploadFirst = 'ai.uploadFirst';
+  static const ai_photoConsent = 'ai.photoConsent';
+  static const ai_send = 'ai.send';
+  static const ai_estimateHelp = 'ai.estimateHelp';
+  static const ai_noIngredients = 'ai.noIngredients';
+  static const ai_ingredient = 'ai.ingredient';
+  static const ai_sauce = 'ai.sauce';
+  static const ai_oil = 'ai.oil';
+  static const ai_lowUncertainty = 'ai.lowUncertainty';
+  static const ai_mediumUncertainty = 'ai.mediumUncertainty';
+  static const ai_highUncertainty = 'ai.highUncertainty';
+  static const ai_matchFood = 'ai.matchFood';
+  static const ai_coach = 'ai.coach';
+  static const ai_coachScope = 'ai.coachScope';
+  static const ai_question = 'ai.question';
+  static const ai_shareGoals = 'ai.shareGoals';
+  static const ai_messageConsent = 'ai.messageConsent';
+  static const ai_reviewGoals = 'ai.reviewGoals';
+  static const ai_limitReached = 'ai.limitReached';
+  static const ai_connection = 'ai.connection';
+  static const ai = 'ai';
 }

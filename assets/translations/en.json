@@ -428,5 +428,29 @@
     "home": "Home",
     "empty": "Nothing here yet",
     "deleteConfirmation": "Delete {item}?"
+  },
+  "ai": {
+    "mealReview": "Review meal photo with AI",
+    "unavailable": "AI is unavailable. You can still log meals and edit your goals manually.",
+    "uploadFirst": "Save the meal as a draft and wait for the approved photo upload. Reopen the meal to request a review.",
+    "photoConsent": "Send this meal photo to OpenAI for estimates? Review the photo for private details before sending.",
+    "send": "Send to OpenAI",
+    "estimateHelp": "Estimated ingredients. Verify portions, sauces and cooking oils. Choose a catalog food and review its edible weight before adding it.",
+    "noIngredients": "No ingredients were identified. Enter the meal manually.",
+    "ingredient": "Ingredient",
+    "sauce": "Sauce",
+    "oil": "Oil",
+    "lowUncertainty": "Low uncertainty",
+    "mediumUncertainty": "Medium uncertainty",
+    "highUncertainty": "High uncertainty",
+    "matchFood": "Choose food",
+    "coach": "AI Coach",
+    "coachScope": "Ask about meal logging, grocery planning or hydration. For medical or urgent health concerns, contact a health professional.",
+    "question": "Your question",
+    "shareGoals": "Include my approved daily calorie, macro and water goals",
+    "messageConsent": "I agree to send this message and any selected goals to OpenAI. My diary history stays private.",
+    "reviewGoals": "Review goals in my profile",
+    "limitReached": "The AI request limit has been reached. Try again later.",
+    "connection": "AI could not respond. Check your connection or continue manually."
   }
 }

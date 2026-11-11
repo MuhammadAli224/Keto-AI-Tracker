@@ -10,6 +10,7 @@ const requestFields = {
 export const mealRequest = z.strictObject({ ...requestFields, mealId: uuid });
 export const coachRequest = z.strictObject({
   ...requestFields,
+  includeGoals: z.boolean().default(false),
   message: z.string().trim().min(1).max(1200).refine((value) => Buffer.byteLength(value, "utf8") <= 4800),
 });
 

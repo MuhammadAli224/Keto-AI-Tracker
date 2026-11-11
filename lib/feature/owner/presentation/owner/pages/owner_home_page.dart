@@ -112,6 +112,11 @@ class _OwnerHomePageState extends State<OwnerHomePage> {
                     onTap: () => context.push(AppRoutes.profile),
                   ),
                   ListTile(
+                    leading: const Icon(Icons.chat_bubble_outline),
+                    title: AppText(context.tr(LocaleKeys.ai_coach)),
+                    onTap: () => context.push(AppRoutes.coach),
+                  ),
+                  ListTile(
                     leading: const Icon(Icons.menu_book_outlined),
                     title: AppText(context.tr(LocaleKeys.nutrition_catalog)),
                     onTap: () => context.push(AppRoutes.foodCatalog),

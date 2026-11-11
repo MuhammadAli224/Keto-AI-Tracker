@@ -15,7 +15,8 @@ Branch: `codex/keto-ai-tracker-implementation`
 | 08 Local reminders and FCM setup | DONE | `76a37b1d86153444433793ab507985ec67fccbea` verified at 2026-11-12T02:20:05+03:00 |
 | 09 Android home-screen widget | DONE | `d3f5bcacaab2aa400c33a25519bbfb7cc6355590` verified at 2026-11-12T02:29:10+03:00 |
 | 10 Meal photo capture and review | DONE | `1681d630a706ad5201d5f56b6a1b391f499a2754` verified at 2026-11-12T02:45:44+03:00 |
-| 11 Cloud Functions OpenAI gateway | DONE locally; BLOCKED_EXTERNAL for live activation | Checkpoint pending |
+| 11 Cloud Functions OpenAI gateway | DONE locally; BLOCKED_EXTERNAL for live activation | `f51b319111f02743572b7199da066a0debcdeea8` verified at 2026-11-12T02:53:00+03:00 |
+| 12 AI meal review and coach | DONE locally; BLOCKED_EXTERNAL for live AI | Checkpoint pending |
 
 Task 01 restored standard TLS validation, removed the bundled `.env`, added
 the Firebase SDKs, made app-service initialization idempotent, and configured
@@ -55,4 +56,7 @@ persisted Storage queue. Live Storage activation remains external.
 Task 11 added authenticated mock callables and a disabled live Responses API
 transport. Deployment, billing, secret and live App Check setup remain external.
 
-Next: verify the Task 11 checkpoint, then execute Task 12.
+Task 12 added consented meal estimates and coach guidance with manual fallback.
+Real inference remains external and disabled in default builds.
+
+Next: verify the Task 12 checkpoint, then execute Task 13.

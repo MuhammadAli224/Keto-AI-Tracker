@@ -7,17 +7,32 @@ import '../../../domain/entities/nutrition.dart';
 import 'nutrition_text.dart';
 
 class ServingDialog extends StatefulWidget {
-  const ServingDialog({super.key, required this.food, this.select = false});
+  const ServingDialog({
+    super.key,
+    required this.food,
+    this.select = false,
+    this.initialGrams,
+  });
 
   final Food food;
   final bool select;
+  final double? initialGrams;
 
   @override
   State<ServingDialog> createState() => _ServingDialogState();
 }
 
 class _ServingDialogState extends State<ServingDialog> {
-  double? _grams;
+  late double? _grams = widget.initialGrams;
+  late final _quantity = TextEditingController(
+    text: widget.initialGrams?.toString(),
+  );
+
+  @override
+  void dispose() {
+    _quantity.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +52,7 @@ class _ServingDialogState extends State<ServingDialog> {
           if (widget.food.source != NutritionSource.usda && reference != null)
             AppText(reference),
           TextField(
+            controller: _quantity,
             autofocus: true,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             decoration: InputDecoration(

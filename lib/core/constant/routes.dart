@@ -9,6 +9,7 @@ abstract class AppRoutes {
   static const reminders = '/settings/reminders';
   static const progress = '/progress';
   static const wellness = '/wellness';
+  static const coach = '/coach';
   static const diary = '/diary';
   static const foodCatalog = '/foods';
   static const home = "/home";

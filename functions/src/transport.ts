@@ -7,7 +7,7 @@ type CoachOutput = z.infer<typeof coachOutput>;
 export interface AiTransport {
   readonly mode: "mock" | "live";
   interpret(locale: Locale, photo?: Buffer): Promise<MealOutput>;
-  coach(locale: Locale, message: string): Promise<CoachOutput>;
+  coach(locale: Locale, message: string, goals?: Record<string, number>): Promise<CoachOutput>;
 }
 
 export class MockTransport implements AiTransport {
@@ -55,9 +55,10 @@ export class OpenAiTransport implements AiTransport {
     ].join(" "));
   }
 
-  async coach(locale: Locale, message: string): Promise<CoachOutput> {
+  async coach(locale: Locale, message: string, goals?: Record<string, number>): Promise<CoachOutput> {
+    const dailyGoals = goals ? `Approved daily goals: ${JSON.stringify(goals)}. ` : "";
     return this.respond("coach_review", coachOutput, 650, [
-      { type: "input_text", text: `Reply in ${locale}. User message follows:\n${message}` },
+      { type: "input_text", text: `Reply in ${locale}. ${dailyGoals}User message follows:\n${message}` },
     ], [
       "Give general, nonclinical support for food logging, grocery planning and hydration habits.",
       "Do not diagnose, give medical treatment advice, change goals, prescribe restricted eating,",

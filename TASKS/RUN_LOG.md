@@ -270,3 +270,24 @@ Append each task result with Git branch, local commit SHA and verified push stat
 - No tests, deployment, API requests to OpenAI, secret creation or billing
   changes ran.
 - Next: verify the remote checkpoint, then implement Task 12.
+- 2026-11-12T02:53:00+03:00 Verified push of `f51b319111f02743572b7199da066a0debcdeea8` to `origin/codex/keto-ai-tracker-implementation`.
+
+## Task 12 — AI meal interpretation and coach integration
+
+- Status: DONE locally. Live callable deployment, App Check attestation,
+  Storage and OpenAI activation remain BLOCKED_EXTERNAL.
+- Files: `lib/feature/ai_assistance/`, diary editor, catalog serving dialog,
+  owner dashboard route, localization, gateway contract and run docs.
+- Photo estimates require a confirmed profile, saved meal, completed approved
+  upload and separate per-request consent. Findings are memory-only and never
+  write diary totals. The owner selects catalog data and can edit the quantity
+  before adding a serving and confirming the meal.
+- Coach sends the submitted message. A separate unchecked option includes the
+  latest approved daily targets from Firestore. Goals can be changed only
+  through the existing profile editor. Cancellation ignores already-dispatched
+  replies without initiating another request.
+- Functions build, locale parity, code generation, formatting and Flutter
+  analysis passed. Code generation emitted the existing annotation-constraint
+  warning for server pagination. No tests, OpenAI calls, deployed requests or
+  native attestation were exercised.
+- Next: verify the remote checkpoint, then implement Task 13.

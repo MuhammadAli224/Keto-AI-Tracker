@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../feature/ai_assistance/ai_assistance_barrel.dart';
 import '../../feature/diary/diary_barrel.dart';
 import '../../feature/home_widget/home_widget_barrel.dart';
 import '../../feature/meal_photo/meal_photo_barrel.dart';
@@ -104,14 +105,27 @@ GoRouter _createRouter(OwnerIdentity identity) => GoRouter(
           ],
           child: DiaryPage(
             withPhoto: supportsMealPhotos
-                ? (id, editor) => BlocProvider(
-                    create: (_) => getIt<MealPhotoCubit>(param1: id),
+                ? (id, editor) => MultiBlocProvider(
+                    providers: [
+                      BlocProvider(
+                        create: (_) => getIt<MealPhotoCubit>(param1: id),
+                      ),
+                      BlocProvider(create: (_) => getIt<AiAssistanceCubit>()),
+                    ],
                     child: editor,
                   )
                 : null,
           ),
         );
       },
+    ),
+    GoRoute(
+      path: AppRoutes.coach,
+      builder: (_, __) => BlocProvider(
+        key: ValueKey(identity.account?.uid),
+        create: (_) => getIt<AiAssistanceCubit>(),
+        child: const AiCoachPage(),
+      ),
     ),
     GoRoute(
       path: AppRoutes.foodCatalog,
@@ -177,6 +191,7 @@ const _protectedLinks = {
   AppRoutes.home,
   AppRoutes.profile,
   AppRoutes.diary,
+  AppRoutes.coach,
   AppRoutes.foodCatalog,
   AppRoutes.wellness,
   AppRoutes.progress,

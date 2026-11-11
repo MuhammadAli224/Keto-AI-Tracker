@@ -5,7 +5,7 @@ import { CallableRequest, HttpsError } from "firebase-functions/v2/https";
 
 const maxImageBytes = 2 * 1024 * 1024;
 
-export async function authorizedOwner(request: CallableRequest<unknown>, live: boolean): Promise<string> {
+export async function authorizedOwner(request: CallableRequest<unknown>, live: boolean): Promise<{ uid: string; goals: Record<string, number> }> {
   const uid = request.auth?.uid;
   if (!uid) throw new HttpsError("unauthenticated", "Sign in before using the gateway.");
   if (live && request.auth?.token.ketoAiOwner !== true) {
@@ -15,7 +15,16 @@ export async function authorizedOwner(request: CallableRequest<unknown>, live: b
   if (profile.get("confirmationVersion") !== 1 || !(profile.get("confirmedAt") instanceof Timestamp)) {
     throw new HttpsError("failed-precondition", "Confirm your profile before using the gateway.");
   }
-  return uid;
+  const goals: Record<string, number> = {};
+  for (const [field, max] of Object.entries({
+    calories: 20000, proteinGrams: 5000, carbsGrams: 5000, fatGrams: 5000, waterMl: 30000,
+  })) {
+    const value: unknown = profile.get(field);
+    if (typeof value === "number" && Number.isFinite(value) && value >= 0 && value <= max) {
+      goals[field] = value;
+    }
+  }
+  return { uid, goals };
 }
 
 export async function checkMeal(uid: string, mealId: string): Promise<void> {

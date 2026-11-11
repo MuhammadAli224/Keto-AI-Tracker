@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/time/owner_calendar.dart';
 import '../../../../../core/widget/app_widget/app_text.dart';
 import '../../../../../generated/app_strings.g.dart';
+import '../../../../ai_assistance/ai_assistance_barrel.dart';
 import '../../../../meal_photo/meal_photo_barrel.dart';
 import '../../../../nutrition/nutrition_barrel.dart';
 import '../../../domain/entities/meal_entry.dart';
@@ -81,7 +82,7 @@ class _MealEditorState extends State<MealEditor> {
     }
   }
 
-  Future<void> _addFood() async {
+  Future<void> _addFood({double? estimatedGrams}) async {
     final food = await showModalBottomSheet<Food>(
       context: context,
       builder: (context) => SafeArea(
@@ -100,9 +101,12 @@ class _MealEditorState extends State<MealEditor> {
     if (!mounted || food == null) return;
     final item = await showDialog<Serving>(
       context: context,
-      builder: (_) => ServingDialog(food: food, select: true),
+      builder: (_) =>
+          ServingDialog(food: food, select: true, initialGrams: estimatedGrams),
     );
-    if (mounted && item != null) setState(() => _servings.add(item));
+    if (mounted && item != null && _servings.length < 50) {
+      setState(() => _servings.add(item));
+    }
   }
 
   Future<void> _save(MealStatus status) async {
@@ -193,7 +197,40 @@ class _MealEditorState extends State<MealEditor> {
                 if (type != null) setState(() => _type = type);
               },
             ),
-            if (widget.photoEnabled) const MealPhotoPanel(),
+            if (widget.photoEnabled)
+              BlocListener<MealPhotoCubit, MealPhotoState>(
+                listenWhen: (previous, current) =>
+                    previous.photo?.ref != current.photo?.ref ||
+                    previous.upload != current.upload ||
+                    previous.status != current.status,
+                listener: (context, _) =>
+                    context.read<AiAssistanceCubit>().clear(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const MealPhotoPanel(),
+                    MealEstimatePanel(
+                      mealId: widget.id,
+                      photoReady:
+                          widget.meal != null &&
+                          photo?.status == MealPhotoStatus.uploaded &&
+                          photo?.upload == true &&
+                          photo?.photo != null &&
+                          photo?.busy == false,
+                      isCurrentPhoto: () {
+                        final current = context.read<MealPhotoCubit>().state;
+                        return current.photo?.ref == photo?.photo?.ref &&
+                            current.upload &&
+                            !current.busy &&
+                            current.status == MealPhotoStatus.uploaded;
+                      },
+                      onSelect: widget.foods.isEmpty || _servings.length >= 50
+                          ? null
+                          : (grams) => _addFood(estimatedGrams: grams),
+                    ),
+                  ],
+                ),
+              ),
             for (var index = 0; index < _servings.length; index++)
               ListTile(
                 title: AppText(_servings[index].name),
