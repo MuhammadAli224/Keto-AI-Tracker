@@ -587,3 +587,17 @@ The server can still reject a pending write. Firestore resolves concurrent
 edits to the same meal with last-write-wins. Tombstones reject resurrection by
 a stale write. Daily totals are calculated from the current entries, with no
 shared daily counters. Background delivery depends on the OS and app state.
+
+### Water and fasting
+
+Water totals sum individual entries for the profile's local calendar day.
+The 3,000 mL setup suggestion is editable, and setting the goal to zero
+turns off the target. The log supports quick amounts, custom entries, and
+undo. Deletions use tombstones.
+
+The fasting tracker measures elapsed time from stored timestamps. Its
+editable plan starts from the configured meal window, with 14:00–21:00
+shown as a setup suggestion. A single current record prevents overlapping
+server-confirmed sessions. Ending or cancelling a fast archives it in the
+same Firestore batch. The in-app note for feeling unwell follows NHS advice
+to stop fasting and seek help if needed. [NHS fasting guidance](https://www.nelft.nhs.uk/news-events/staying-healthy-during-ramadan-15955) [NHS dizziness guidance](https://www.nhs.uk/symptoms/dizziness/)

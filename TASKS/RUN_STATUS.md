@@ -8,7 +8,8 @@ Branch: `codex/keto-ai-tracker-implementation`
 | 02 Authentication and owner profile | DONE | `2e8fd41fbd3d0462a1de7f8bf4a9cc4a383221fc` verified at 2026-11-12T01:27:05+03:00 |
 | 02A First-run profile gate | DONE | `013ef1017b365bbec6e8727d96589800185c5e1d` verified at 2026-11-12T01:33:19+03:00 |
 | 03 Food catalog and nutrition engine | DONE | `2f11791c3f3301cf2a50f9b9d3bde5506eefd5b8` verified at 2026-11-12T01:41:30+03:00 |
-| 04 Meal diary and offline sync | DONE | Checkpoint pending |
+| 04 Meal diary and offline sync | DONE | `0a84b8c06f85409f03d93c5d2077acd83d1801a9` verified at 2026-11-12T01:49:37+03:00 |
+| 05 Water and fasting trackers | DONE | Checkpoint pending |
 
 Task 01 restored standard TLS validation, removed the bundled `.env`, added
 the Firebase SDKs, made app-service initialization idempotent, and configured
@@ -27,4 +28,7 @@ portion and nutrition calculations using source-labeled reference values.
 Task 04 added UID-scoped meal entries, Firestore offline metadata, day
 selection and deterministic confirmed meal totals.
 
-Next: verify the Task 04 checkpoint, then execute Task 05.
+Task 05 added local-day water logs and timestamp-based fasting with
+Firestore sync status, editable goals and optional suggestions.
+
+Next: verify the Task 05 checkpoint, then execute Task 06.

@@ -5,6 +5,7 @@ import 'package:timezone/data/latest_all.dart' as timezone;
 import '../../feature/diary/di/diary_di.dart';
 import '../../feature/nutrition/di/nutrition_di.dart';
 import '../../feature/owner/di/owner_di.dart';
+import '../../feature/wellness/di/wellness_di.dart';
 import '../../global_imports.dart' hide AppBlocObserver;
 import '../bloc/observer/block_observer.dart';
 import '../widget/app_widget/app_text.dart';
@@ -23,6 +24,7 @@ class AppInitializer {
     initOwnerDI(getIt);
     initNutritionDI(getIt);
     initDiaryDI(getIt);
+    initWellnessDI(getIt);
     _configureErrorWidget();
   }
 

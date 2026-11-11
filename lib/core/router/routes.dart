@@ -8,6 +8,7 @@ import '../../feature/nutrition/nutrition_barrel.dart';
 import '../../feature/owner/owner_barrel.dart';
 import '../../feature/settings/presentation/basic_settings_page.dart';
 import '../../feature/splash_screen/splash_screen.dart';
+import '../../feature/wellness/wellness_barrel.dart';
 import '../constant/routes.dart';
 import '../context/global.dart';
 import '../dependencies/dependencies_injection.dart';
@@ -41,6 +42,23 @@ GoRouter _createRouter(OwnerIdentity identity) => GoRouter(
   routes: [
     GoRoute(path: AppRoutes.root, builder: (_, __) => const SplashScreen()),
     GoRoute(path: AppRoutes.home, builder: (_, __) => const OwnerHomePage()),
+    GoRoute(
+      path: AppRoutes.wellness,
+      builder: (_, __) {
+        final profile = identity.confirmedProfile;
+        if (profile == null) return const SplashScreen();
+        return BlocProvider(
+          key: ValueKey((identity.account?.uid, profile.timezone)),
+          create: (_) =>
+              getIt<WellnessCubit>(param1: profile.timezone)..start(),
+          child: WellnessPage(
+            waterGoal: profile.waterMl,
+            windowStart: profile.windowStart,
+            windowEnd: profile.windowEnd,
+          ),
+        );
+      },
+    ),
     GoRoute(
       path: AppRoutes.diary,
       builder: (_, __) {

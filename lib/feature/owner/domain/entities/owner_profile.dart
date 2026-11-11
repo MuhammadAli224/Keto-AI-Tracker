@@ -54,7 +54,7 @@ abstract class OwnerProfile with _$OwnerProfile {
         _bounded(proteinGrams, 0, 5000) &&
         _bounded(carbsGrams, 0, 5000) &&
         _bounded(fatGrams, 0, 5000) &&
-        _bounded(waterMl, 1, 30000);
+        _bounded(waterMl, 0, 30000);
   }
 
   static bool _bounded(num value, num min, num max) =>

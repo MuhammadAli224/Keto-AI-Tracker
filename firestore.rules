@@ -32,7 +32,7 @@ service cloud.firestore {
         && bounded(data.proteinGrams, 0, 5000)
         && bounded(data.carbsGrams, 0, 5000)
         && bounded(data.fatGrams, 0, 5000)
-        && data.waterMl is int && bounded(data.waterMl, 1, 30000)
+        && data.waterMl is int && bounded(data.waterMl, 0, 30000)
         && data.confirmationVersion is int && data.confirmationVersion == 1
         && data.confirmedAt is timestamp
         && data.updatedAt == request.time;
@@ -82,6 +82,81 @@ service cloud.firestore {
           || (request.resource.data.status == 'deleted'
             && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'updatedAt']))
         );
+    }
+
+    function uuid(id) {
+      return id is string && id.matches('^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$');
+    }
+
+    function validWater(data, id) {
+      let fields = ['id', 'ml', 'recordedAt', 'dayKey', 'timezone', 'deleted', 'updatedAt'];
+      return data.keys().hasAll(fields) && data.keys().hasOnly(fields)
+        && uuid(id) && data.id == id
+        && data.ml is int && bounded(data.ml, 1, 10000)
+        && data.recordedAt is timestamp
+        && data.dayKey is string && data.dayKey.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+        && data.timezone is string && data.timezone.size() <= 100
+        && data.deleted is bool && data.updatedAt == request.time;
+    }
+
+    match /users/{uid}/water/{id} {
+      allow read: if isOwner(uid);
+      allow create: if isOwner(uid) && hasConfirmedProfile(uid)
+        && validWater(request.resource.data, id) && request.resource.data.deleted == false;
+      allow update: if isOwner(uid) && hasConfirmedProfile(uid)
+        && validWater(request.resource.data, id)
+        && (
+          (request.resource.data.deleted == true
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['deleted', 'updatedAt']))
+          || request.resource.data.diff(resource.data).affectedKeys().hasOnly(['updatedAt'])
+        );
+    }
+
+    function validFast(data) {
+      let fields = ['id', 'startedAt', 'plannedEndAt', 'actualEndAt',
+        'timezone', 'status', 'updatedAt'];
+      return data.keys().hasAll(fields) && data.keys().hasOnly(fields)
+        && uuid(data.id)
+        && data.startedAt is timestamp && data.plannedEndAt is timestamp
+        && data.plannedEndAt > data.startedAt
+        && data.timezone is string && data.timezone.size() <= 100
+        && (
+          (data.status == 'active' && data.actualEndAt == null)
+          || (data.status in ['ended', 'cancelled']
+            && data.actualEndAt is timestamp && data.actualEndAt >= data.startedAt)
+        )
+        && data.updatedAt == request.time;
+    }
+
+    function matchesFastHistory(uid, data) {
+      return getAfter(/databases/$(database)/documents/users/$(uid)/fastingHistory/$(data.id)).data == data;
+    }
+
+    match /users/{uid}/fasting/current {
+      allow read: if isOwner(uid);
+      allow create: if isOwner(uid) && hasConfirmedProfile(uid)
+        && validFast(request.resource.data) && request.resource.data.status == 'active';
+      allow update: if isOwner(uid) && hasConfirmedProfile(uid)
+        && validFast(request.resource.data)
+        && (
+          (resource.data.status != 'active' && request.resource.data.status == 'active'
+            && request.resource.data.id != resource.data.id)
+          || (resource.data.status == 'active' && request.resource.data.status == 'active'
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['updatedAt']))
+          || (resource.data.status == 'active'
+            && request.resource.data.status in ['ended', 'cancelled']
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'actualEndAt', 'updatedAt'])
+            && matchesFastHistory(uid, request.resource.data))
+        );
+    }
+
+    match /users/{uid}/fastingHistory/{id} {
+      allow read: if isOwner(uid);
+      allow create: if isOwner(uid) && hasConfirmedProfile(uid)
+        && validFast(request.resource.data)
+        && request.resource.data.id == id
+        && request.resource.data.status in ['ended', 'cancelled']
+        && getAfter(/databases/$(database)/documents/users/$(uid)/fasting/current).data == request.resource.data;
     }
 
     match /{document=**} {

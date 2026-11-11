@@ -118,3 +118,25 @@ Append each task result with Git branch, local commit SHA and verified push stat
   reported only the two baseline notification infos. Offline device sync and
   concurrent device edits were not exercised. No deployments or tests ran.
 - Next: verify the remote checkpoint, then implement Task 05.
+- 2026-11-12T01:49:37+03:00 Verified push of `0a84b8c06f85409f03d93c5d2077acd83d1801a9` to `origin/codex/keto-ai-tracker-implementation`.
+
+## Task 05 — Water and fasting trackers
+
+- Status: DONE for local implementation. Branch: `codex/keto-ai-tracker-implementation`.
+- Files: `lib/feature/wellness/`, owner profile validation and form, owner home,
+  bootstrap/router, Firestore rules, bilingual dictionaries and generated
+  keys, README and checkpoint docs.
+- Water events have stable UUIDs, are scoped to the UID and local day, and
+  support quick/custom amounts, undo, tombstones and per-entry sync state.
+  The profile uses zero for an optional water target and labels 3,000 mL as
+  an editable setup suggestion.
+- The fasting tracker restores the active session from Firestore, derives
+  elapsed time from stored UTC instants and displays time in the session
+  zone. End/cancel and history are atomic. The local cache may temporarily
+  show a conflicting offline start until the server accepts one session.
+  The planned duration and meal window are editable suggestions.
+- Code generation, locale parity, formatting and local Firestore rule loading
+  passed. Analyzer reported only the two pre-existing notification infos.
+  Real-device restart/offline behavior and cross-device conflicts remain
+  unverified. No deployments or tests ran.
+- Next: verify the remote checkpoint, then implement Task 06.

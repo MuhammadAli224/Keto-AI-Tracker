@@ -178,7 +178,7 @@ class _OwnerProfileFormState extends State<OwnerProfileForm> {
       _Field.protein ||
       _Field.carbs ||
       _Field.fat => between(_number(field), 0, 5000),
-      _Field.water => between(_integer(field)?.toDouble(), 1, 30000),
+      _Field.water => between(_integer(field)?.toDouble(), 0, 30000),
     };
   }
 
@@ -257,13 +257,23 @@ class _OwnerProfileFormState extends State<OwnerProfileForm> {
   Widget _input(BuildContext context, _Field field) {
     final time = field == _Field.windowStart || field == _Field.windowEnd;
     final timezone = field == _Field.timezone;
+    final hint = switch (field) {
+      _Field.water => LocaleKeys.profile_waterSuggestion,
+      _Field.windowStart => LocaleKeys.profile_windowStartSuggestion,
+      _Field.windowEnd => LocaleKeys.profile_windowEndSuggestion,
+      _ => null,
+    };
     return TextFormField(
       controller: _fields[field],
       enabled: !widget.saving,
       keyboardType: timezone || time
           ? TextInputType.text
           : const TextInputType.numberWithOptions(decimal: true),
-      decoration: InputDecoration(labelText: context.tr(field.label)),
+      decoration: InputDecoration(
+        labelText: context.tr(field.label),
+        helperText: hint == null ? null : context.tr(hint),
+        helperMaxLines: 2,
+      ),
       onChanged: (_) => setState(() => _dirty = true),
       validator: (_) => _valid(field)
           ? null

@@ -28,6 +28,9 @@
     "emptyConfirmPasswordHint": "Please confirm your password"
   },
   "profile": {
+    "waterSuggestion": "Suggested 3,000 mL. Enter 0 for no goal.",
+    "windowStartSuggestion": "Suggested start 14:00",
+    "windowEndSuggestion": "Suggested end 21:00",
     "setup": "Set up your profile",
     "preview": "Preview profile setup",
     "previewNotice": "Development preview. Entries are discarded when you leave.",
@@ -131,6 +134,33 @@
     "noMeals": "No meals for this day.",
     "catalogUnavailable": "The food catalog could not be loaded. You can still save a draft.",
     "invalidMeal": "Check the meal date and the recorded portions."
+  },
+  "wellness": {
+    "title": "Water and fasting",
+    "water": "Water today",
+    "fasting": "Fasting",
+    "ml": "{} mL",
+    "waterTarget": "Daily goal {} mL",
+    "noWaterGoal": "No daily water goal set",
+    "editWaterGoal": "Edit water goal",
+    "customWater": "Custom amount",
+    "waterAmount": "Water (mL)",
+    "undoWater": "Undo last water entry",
+    "cached": "Cached on this device",
+    "pending": "Waiting for the server",
+    "synced": "Synced",
+    "startFast": "Start fast",
+    "endFast": "End fast",
+    "cancelFast": "Cancel fast",
+    "ended": "Last fast ended",
+    "cancelled": "Last fast was cancelled",
+    "plannedHours": "Planned hours",
+    "plannedEnd": "Planned end {}",
+    "elapsed": "Elapsed {}",
+    "mealWindow": "Meal window {}–{}",
+    "editWindow": "Edit meal window",
+    "unwell": "Feeling dizzy or unwell?",
+    "safety": "Stop fasting if you feel dizzy or unwell. Seek medical advice if symptoms persist or you are concerned."
   },
   "commerce": {
     "subscribe": "Subscribe",
