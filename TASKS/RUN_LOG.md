@@ -229,3 +229,26 @@ Append each task result with Git branch, local commit SHA and verified push stat
   Launcher placement, rendered widget values and real-device refresh remain
   unverified. No tests or cloud deployments ran.
 - Next: verify the remote checkpoint, then implement Task 10.
+- 2026-11-12T02:29:10+03:00 Verified push of `d3f5bcacaab2aa400c33a25519bbfb7cc6355590` to `origin/codex/keto-ai-tracker-implementation`.
+
+## Task 10 — Meal photo capture and review
+
+- Status: DONE for local implementation. Branch: `codex/keto-ai-tracker-implementation`.
+- Files: `lib/feature/meal_photo/`, diary editor and attachment lifecycle,
+  platform privacy bridge and iOS permissions, Storage rules, localization,
+  dependencies, README and checkpoint docs.
+- Camera/gallery photos are rotated, resized, stripped of metadata, and kept
+  in a backup-excluded local directory. Redaction is applied to pixels.
+  Photos are optional and the diary still requires human confirmation.
+- Firebase Storage transfer is disabled in ordinary builds and per-image
+  consent starts disabled. The persisted UID-scoped queue retries the same
+  object path, separates local/queued/uploading/uploaded/deletion states,
+  and stops using the previous account after sign-out.
+- Dependency resolution, model and key generation, locale parity, formatting,
+  and local Storage rule loading passed. Flutter analysis reported no issues.
+  Android `:app:assembleDebug` passed using the Task 01 writable cache. The
+  iOS Swift source parsed and the plist validated. The Storage emulator
+  emitted a Java deprecation notice.
+  Real camera, iOS native runtime, live uploads and device offline retry remain
+  unverified. No tests, production uploads or rule deployments ran.
+- Next: verify the remote checkpoint, then implement Task 11.

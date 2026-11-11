@@ -12,4 +12,5 @@ class LocalMealAttachments {
 
   Future<void> store(String uid, String id, String ref) =>
       _box.put(_key(uid, id), ref);
+  Future<void> remove(String uid, String id) => _box.delete(_key(uid, id));
 }

@@ -1,6 +1,18 @@
 rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
+    match /users/{uid}/mealPhotos/{fileName} {
+      function isOwner() {
+        return request.auth != null && request.auth.uid == uid;
+      }
+
+      allow get, delete: if isOwner();
+      allow create, update: if isOwner()
+        && fileName.matches('^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}[.]jpg$')
+        && request.resource.contentType == 'image/jpeg'
+        && request.resource.size <= 2 * 1024 * 1024;
+    }
+
     match /{object=**} {
       allow read, write: if false;
     }

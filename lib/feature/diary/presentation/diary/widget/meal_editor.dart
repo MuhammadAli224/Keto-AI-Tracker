@@ -1,9 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/time/owner_calendar.dart';
 import '../../../../../core/widget/app_widget/app_text.dart';
 import '../../../../../generated/app_strings.g.dart';
+import '../../../../meal_photo/meal_photo_barrel.dart';
 import '../../../../nutrition/nutrition_barrel.dart';
 import '../../../domain/entities/meal_entry.dart';
 
@@ -22,6 +24,7 @@ class MealEditor extends StatefulWidget {
     required this.calendar,
     required this.foods,
     this.meal,
+    this.photoEnabled = false,
   });
 
   final String id;
@@ -29,6 +32,7 @@ class MealEditor extends StatefulWidget {
   final OwnerCalendar calendar;
   final List<Food> foods;
   final MealEntry? meal;
+  final bool photoEnabled;
 
   @override
   State<MealEditor> createState() => _MealEditorState();
@@ -101,7 +105,7 @@ class _MealEditorState extends State<MealEditor> {
     if (mounted && item != null) setState(() => _servings.add(item));
   }
 
-  void _save(MealStatus status) {
+  Future<void> _save(MealStatus status) async {
     final instant = widget.calendar.instant(_date, _time.hour, _time.minute);
     final local = widget.calendar.local(instant);
     if (local.year != _date.year ||
@@ -112,6 +116,15 @@ class _MealEditorState extends State<MealEditor> {
       setState(() => _invalidTime = true);
       return;
     }
+    var localPhoto = widget.meal?.localImageRef;
+    if (widget.photoEnabled) {
+      try {
+        localPhoto = await context.read<MealPhotoCubit>().commit();
+      } catch (_) {
+        return;
+      }
+    }
+    if (!mounted) return;
     Navigator.pop(
       context,
       MealEntry(
@@ -122,7 +135,7 @@ class _MealEditorState extends State<MealEditor> {
         type: _type,
         status: status,
         servings: List.of(_servings),
-        localImageRef: widget.meal?.localImageRef,
+        localImageRef: localPhoto,
       ),
     );
   }
@@ -131,6 +144,10 @@ class _MealEditorState extends State<MealEditor> {
   Widget build(BuildContext context) {
     final locale = context.locale.toString();
     final grams = NumberFormat('0.0', locale);
+    final photo = widget.photoEnabled
+        ? context.watch<MealPhotoCubit>().state
+        : null;
+    final canSave = photo == null || (photo.ready && !photo.busy);
     return Scaffold(
       appBar: AppBar(
         title: AppText(
@@ -176,6 +193,7 @@ class _MealEditorState extends State<MealEditor> {
                 if (type != null) setState(() => _type = type);
               },
             ),
+            if (widget.photoEnabled) const MealPhotoPanel(),
             for (var index = 0; index < _servings.length; index++)
               ListTile(
                 title: AppText(_servings[index].name),
@@ -206,11 +224,11 @@ class _MealEditorState extends State<MealEditor> {
               spacing: 8,
               children: [
                 OutlinedButton(
-                  onPressed: () => _save(MealStatus.draft),
+                  onPressed: canSave ? () => _save(MealStatus.draft) : null,
                   child: AppText(context.tr(LocaleKeys.diary_saveDraft)),
                 ),
                 FilledButton(
-                  onPressed: _servings.isEmpty
+                  onPressed: !canSave || _servings.isEmpty
                       ? null
                       : () => _save(MealStatus.confirmed),
                   child: AppText(context.tr(LocaleKeys.diary_confirmMeal)),

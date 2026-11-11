@@ -71,7 +71,11 @@ class FirestoreDiaryRepository implements DiaryRepository {
   ) async {
     try {
       final ref = meal.localImageRef;
-      if (ref != null) await _attachments.store(uid, meal.id, ref);
+      if (ref != null) {
+        await _attachments.store(uid, meal.id, ref);
+      } else {
+        await _attachments.remove(uid, meal.id);
+      }
       await _source.save(uid, _mapper.convert<MealEntry, MealDto>(meal));
       return Right(meal);
     } catch (error) {
@@ -85,6 +89,7 @@ class FirestoreDiaryRepository implements DiaryRepository {
     MealEntry meal,
   ) async {
     try {
+      await _attachments.remove(uid, meal.id);
       await _source.delete(uid, meal.id);
       return Right(meal.copyWith(status: MealStatus.deleted));
     } catch (error) {

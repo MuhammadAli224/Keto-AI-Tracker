@@ -13,7 +13,8 @@ Branch: `codex/keto-ai-tracker-implementation`
 | 06 Weight and progress reports | DONE | `7a529b14d256f04772e29fbe2286bddf920b2ae3` verified at 2026-11-12T02:06:45+03:00 |
 | 07 Dashboard and localization | DONE | `0366e649176f9970510f6b0783b10fcdf4565dae` verified at 2026-11-12T02:11:14+03:00 |
 | 08 Local reminders and FCM setup | DONE | `76a37b1d86153444433793ab507985ec67fccbea` verified at 2026-11-12T02:20:05+03:00 |
-| 09 Android home-screen widget | DONE | Checkpoint pending |
+| 09 Android home-screen widget | DONE | `d3f5bcacaab2aa400c33a25519bbfb7cc6355590` verified at 2026-11-12T02:29:10+03:00 |
+| 10 Meal photo capture and review | DONE | Checkpoint pending |
 
 Task 01 restored standard TLS validation, removed the bundled `.env`, added
 the Firebase SDKs, made app-service initialization idempotent, and configured
@@ -47,4 +48,7 @@ registration and privacy-preserving notification text.
 Task 09 added the native Android widget with opt-in health values, an
 app-local snapshot, protected links, and iOS design notes.
 
-Next: verify the Task 09 checkpoint, then execute Task 10.
+Task 10 added local photo drafts, redaction, explicit upload consent and a
+persisted Storage queue. Live Storage activation remains external.
+
+Next: verify the Task 10 checkpoint, then execute Task 11.

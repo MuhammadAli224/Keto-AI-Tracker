@@ -234,6 +234,26 @@
     "privacy": "Anyone who can see your home screen can see these values. Turn this off to hide them.",
     "failed": "The widget could not be refreshed. Try changing this setting again."
   },
+  "mealPhoto": {
+    "title": "Meal photo",
+    "camera": "Take photo",
+    "gallery": "Choose photo",
+    "recover": "Recover interrupted photo",
+    "redact": "Cover sensitive areas",
+    "redactInstruction": "Drag across the photo to cover an area. Apply to save the redacted copy.",
+    "remove": "Remove photo",
+    "upload": "Upload this photo when saved",
+    "uploadConsent": "The prepared photo will be sent to Firebase Storage when you save. You can keep it on this device instead.",
+    "storageUnavailable": "Photo upload is unavailable in this build. You can keep the photo on this device.",
+    "localOnly": "Kept on this device",
+    "queued": "Queued for upload",
+    "uploading": "Uploading photo",
+    "uploaded": "Photo uploaded",
+    "uploadFailed": "Upload failed. The local photo is still available.",
+    "removing": "Waiting to remove the cloud copy",
+    "removeFailed": "The cloud copy could not be removed. Retry when connected.",
+    "error": "Could not prepare or save the photo. You can still log ingredients manually."
+  },
   "commerce": {
     "subscribe": "Subscribe",
     "expireIn": "Expire In",

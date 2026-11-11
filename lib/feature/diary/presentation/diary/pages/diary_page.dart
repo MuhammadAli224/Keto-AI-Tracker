@@ -12,7 +12,9 @@ import '../cubit/diary_cubit.dart';
 import '../widget/meal_editor.dart';
 
 class DiaryPage extends StatelessWidget {
-  const DiaryPage({super.key});
+  const DiaryPage({super.key, this.withPhoto});
+
+  final Widget Function(String mealId, Widget editor)? withPhoto;
 
   String _error(DiaryError error) => switch (error) {
     DiaryError.denied => LocaleKeys.common_forbidden,
@@ -42,15 +44,19 @@ class DiaryPage extends StatelessWidget {
     final id = meal?.id ?? diary.newId();
     final result = await Navigator.of(context).push<MealEntry>(
       MaterialPageRoute(
-        builder: (_) => MealEditor(
-          id: id,
-          date: date,
-          calendar: meal == null
-              ? diary.calendar
-              : OwnerCalendar(meal.timezone),
-          meal: meal,
-          foods: catalog is CatalogReady ? catalog.foods : const [],
-        ),
+        builder: (_) {
+          final editor = MealEditor(
+            id: id,
+            date: date,
+            calendar: meal == null
+                ? diary.calendar
+                : OwnerCalendar(meal.timezone),
+            meal: meal,
+            photoEnabled: withPhoto != null,
+            foods: catalog is CatalogReady ? catalog.foods : const [],
+          );
+          return withPhoto?.call(id, editor) ?? editor;
+        },
       ),
     );
     if (!context.mounted || result == null) return;

@@ -5,6 +5,7 @@ import 'package:hive_ce/hive.dart';
 
 import '../../../core/constant/box_key.dart';
 import '../../../core/time/owner_calendar.dart';
+import '../../meal_photo/domain/meal_photo_access.dart';
 import '../../owner/owner_barrel.dart';
 import '../data/datasources/diary/firestore_meal_data_source.dart';
 import '../data/datasources/diary/local_meal_attachments.dart';
@@ -30,6 +31,12 @@ void initDiaryDI(GetIt getIt) {
     }),
   );
   getIt.registerFactoryParam<DiaryCubit, String, void>(
-    (zone, _) => DiaryCubit(getIt(), OwnerCalendar(zone)),
+    (zone, _) => DiaryCubit(
+      getIt(),
+      OwnerCalendar(zone),
+      deletePhoto: getIt.isRegistered<MealPhotoAccess>()
+          ? getIt<MealPhotoAccess>().deleteLinked
+          : null,
+    ),
   );
 }

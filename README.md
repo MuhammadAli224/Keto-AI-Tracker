@@ -661,3 +661,22 @@ the app's local summary file and does not query Firebase. Changing privacy
 settings or signing out clears the summary. Widget rows open the matching
 screen without writing an entry. Launcher refresh and expiration are best
 effort. [Android widget overview](https://developer.android.com/develop/ui/views/appwidgets/overview)
+
+### Meal photos
+
+In the meal editor, take or choose a photo, cover sensitive areas if needed,
+and save it with a draft. The app rotates and compresses the image, strips
+EXIF metadata, and stores the JPEG in an app-private, backup-excluded directory.
+Removing or replacing the photo removes the previous linked local copy.
+Uncommitted edits are discarded when the editor closes normally. Android can
+recover an interrupted picker result for the same owner. Ingredients and
+quantities remain editable, and only confirmed meals count toward totals.
+
+Photos stay on the device by default. After Firebase Storage is provisioned
+and its rules are reviewed and manually deployed, a build can expose explicit
+upload consent with `--dart-define=MEAL_PHOTO_STORAGE_ENABLED=true`. The local
+queue resumes pending work when the app runs or connectivity returns. A new
+process restarts the transfer against the same owner/meal object path. No
+permanent download URLs are issued. Turning upload off or removing a photo
+queues deletion of its cloud copy. Cloud deletion can remain pending offline.
+[Flutter image picker](https://pub.dev/packages/image_picker) [Firebase Storage uploads](https://firebase.google.com/docs/storage/flutter/upload-files)

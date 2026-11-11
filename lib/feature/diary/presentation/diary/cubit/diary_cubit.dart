@@ -27,10 +27,15 @@ sealed class DiaryState with _$DiaryState {
 
 class DiaryCubit extends Cubit<DiaryState>
     with CubitLifecycleMixin<DiaryState> {
-  DiaryCubit(this._access, this.calendar)
-    : super(DiaryState.loading(calendar.date(DateTime.now())));
+  DiaryCubit(
+    this._access,
+    this.calendar, {
+    Future<void> Function(String)? deletePhoto,
+  }) : _deletePhoto = deletePhoto,
+       super(DiaryState.loading(calendar.date(DateTime.now())));
 
   final DiaryAccess _access;
+  final Future<void> Function(String)? _deletePhoto;
   final OwnerCalendar calendar;
   StreamSubscription<Either<DiaryFailure, DiaryDay>>? _subscription;
   final _writes = <String>{};
@@ -64,8 +69,14 @@ class DiaryCubit extends Cubit<DiaryState>
   Future<void> save(MealEntry meal) =>
       _write(meal.id, () => _access.save(meal));
 
-  Future<void> delete(MealEntry meal) =>
-      _write(meal.id, () => _access.delete(meal));
+  Future<void> delete(MealEntry meal) => _write(meal.id, () async {
+    try {
+      await _deletePhoto?.call(meal.id);
+    } catch (_) {
+      return Left(DiaryFailure(DiaryError.unexpected));
+    }
+    return _access.delete(meal);
+  });
 
   Future<void> _write(
     String id,

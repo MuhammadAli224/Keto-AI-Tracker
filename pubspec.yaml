@@ -55,6 +55,7 @@ dependencies:
 
   # Files and Images
   cached_network_image_plus:
+  image: ^4.8.0
   image_picker: ^1.2.4
   path:
   path_provider: ^2.1.6

@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../feature/diary/diary_barrel.dart';
 import '../../feature/home_widget/home_widget_barrel.dart';
+import '../../feature/meal_photo/meal_photo_barrel.dart';
 import '../../feature/nutrition/nutrition_barrel.dart';
 import '../../feature/owner/owner_barrel.dart';
 import '../../feature/progress/progress_barrel.dart';
@@ -101,7 +102,14 @@ GoRouter _createRouter(OwnerIdentity identity) => GoRouter(
             BlocProvider(create: (_) => getIt<CatalogCubit>()..load()),
             BlocProvider(create: (_) => _startDiary(profile.timezone)),
           ],
-          child: const DiaryPage(),
+          child: DiaryPage(
+            withPhoto: supportsMealPhotos
+                ? (id, editor) => BlocProvider(
+                    create: (_) => getIt<MealPhotoCubit>(param1: id),
+                    child: editor,
+                  )
+                : null,
+          ),
         );
       },
     ),
