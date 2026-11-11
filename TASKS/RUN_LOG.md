@@ -252,3 +252,21 @@ Append each task result with Git branch, local commit SHA and verified push stat
   Real camera, iOS native runtime, live uploads and device offline retry remain
   unverified. No tests, production uploads or rule deployments ran.
 - Next: verify the remote checkpoint, then implement Task 11.
+- 2026-11-12T02:45:44+03:00 Verified push of `1681d630a706ad5201d5f56b6a1b391f499a2754` to `origin/codex/keto-ai-tracker-implementation`.
+
+## Task 11 — Cloud Functions OpenAI gateway scaffold
+
+- Status: DONE locally. Provider provisioning, secret creation, billing,
+  deployed callables, live owner authorization and App Check are BLOCKED_EXTERNAL.
+- Files: `firebase.json`, `functions/` sources, dependency lock and contract,
+  and checkpoint docs. The callables enforce UID ownership and profile
+  confirmation. The live path adds an owner claim, bounded image reads, strict
+  response validation, transactional quotas and duplicate request protection.
+- TypeScript build and Flutter analysis passed. The demo-project emulators
+  registered both mock callables with Auth, Firestore and Storage running.
+  The standalone emulator used bundled Node 20 for registration. Deployment
+  targets Node 22. The Storage rules runtime emitted a Java deprecation notice.
+  End-to-end authenticated callable requests were not exercised.
+- No tests, deployment, API requests to OpenAI, secret creation or billing
+  changes ran.
+- Next: verify the remote checkpoint, then implement Task 12.

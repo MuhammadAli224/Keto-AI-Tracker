@@ -14,7 +14,8 @@ Branch: `codex/keto-ai-tracker-implementation`
 | 07 Dashboard and localization | DONE | `0366e649176f9970510f6b0783b10fcdf4565dae` verified at 2026-11-12T02:11:14+03:00 |
 | 08 Local reminders and FCM setup | DONE | `76a37b1d86153444433793ab507985ec67fccbea` verified at 2026-11-12T02:20:05+03:00 |
 | 09 Android home-screen widget | DONE | `d3f5bcacaab2aa400c33a25519bbfb7cc6355590` verified at 2026-11-12T02:29:10+03:00 |
-| 10 Meal photo capture and review | DONE | Checkpoint pending |
+| 10 Meal photo capture and review | DONE | `1681d630a706ad5201d5f56b6a1b391f499a2754` verified at 2026-11-12T02:45:44+03:00 |
+| 11 Cloud Functions OpenAI gateway | DONE locally; BLOCKED_EXTERNAL for live activation | Checkpoint pending |
 
 Task 01 restored standard TLS validation, removed the bundled `.env`, added
 the Firebase SDKs, made app-service initialization idempotent, and configured
@@ -51,4 +52,7 @@ app-local snapshot, protected links, and iOS design notes.
 Task 10 added local photo drafts, redaction, explicit upload consent and a
 persisted Storage queue. Live Storage activation remains external.
 
-Next: verify the Task 10 checkpoint, then execute Task 11.
+Task 11 added authenticated mock callables and a disabled live Responses API
+transport. Deployment, billing, secret and live App Check setup remain external.
+
+Next: verify the Task 11 checkpoint, then execute Task 12.
