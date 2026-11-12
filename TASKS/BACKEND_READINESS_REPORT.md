@@ -70,3 +70,20 @@
 1. Configure Firestore TTL for `_aiGatewayRequests.expiresAt` if approved. The application sets the marker expiration to seven days. Account for TTL deletion costs and asynchronous cleanup.
 2. Configure provider alerts and confirm approved model access, project rate limits, usage reporting and applicable privacy terms. Keep cloud and client live flags off pending approval. Establish an operator process to disable live mode and redeploy the callables if needed.
 3. With synthetic data and explicit runtime authorization, verify the newer client and callable revision together. Check replacement between approval and dispatch, old photo rejection, simultaneous quota reservations, repeated IDs, UTC rollover, timeout and refusal handling, and opt-in goal sharing. Provider behavior needs a separately approved live request.
+
+## Task 20 — Static integration and release blockers
+
+| Check | Result |
+| --- | --- |
+| `flutter analyze --no-pub` | Passed in the current workspace with no analyzer findings. |
+| `dart format --output=none --set-exit-if-changed` | Passed for all eight Dart files changed in Tasks 15–19. |
+| `npm --prefix functions run build` | Passed using Node.js 24. The declared deployment runtime is Node.js 22. |
+| Firestore and Storage rules | Passed local compilation with no rules diagnostics. Both rulesets also loaded in the Firebase emulators on a disposable demo project. Java 25 emitted a pre-existing Storage runtime dependency warning about `sun.misc.Unsafe`. |
+| Android Firebase registration | The package name, Firebase project and Android app registration agree across Gradle and the checked-in Firebase configuration. |
+| Git whitespace check | Passed across the backend change set. |
+
+The committed Android tree lacks the manifest's `.MainActivity` and contains the widget receiver in the old package. The working tree contains uncommitted Kotlin replacements that were excluded from this backend change set. A clean checkout needs the manifest classes and the Android photo, export and widget channel implementations before device validation. Release signing also needs the intended certificate before Play Integrity validation.
+
+The Firebase project was not modified. Live project settings, deployed rules, IAM, storage retention, Android attestation and provider availability still require operator verification. The tracked legacy root dotenv remains outside Flutter assets and the Functions deployment source. This review did not audit Git history for secrets.
+
+The mobile app and Android emulator were not run. No test cases were created or executed. Local rules checks compiled and loaded the rules without authorization requests. No Firebase deployment, billing change, provider request, credential provisioning or iOS work was performed.
