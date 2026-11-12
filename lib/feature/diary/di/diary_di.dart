@@ -12,7 +12,7 @@ import '../data/datasources/diary/local_meal_attachments.dart';
 import '../data/repository/firestore_diary_repository.dart';
 import '../domain/repository/diary_repository.dart';
 import '../domain/usecases/diary_access.dart';
-import '../presentation/diary/cubit/diary_cubit.dart';
+import '../presentation/cubit/diary/diary_cubit.dart';
 
 void initDiaryDI(GetIt getIt) {
   getIt.registerLazySingleton<DiaryRepository>(

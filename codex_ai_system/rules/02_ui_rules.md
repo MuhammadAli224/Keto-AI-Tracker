@@ -2,7 +2,12 @@
 
 ## Widgets and text
 
-- Keep pages focused on layout; put custom reusable widgets in separate files.
+- Keep pages focused on route composition and layout. Extract distinct sections,
+  cards, tabs, forms, and dialogs into small widgets in `widget/`, including
+  sections with a single caller.
+- Give each widget its own named file. Keep a stateful widget's private State
+  and closely coupled implementation details in the same file. Keep short
+  compositions of framework widgets inline.
 - Use core/widget/app_widget/app_text.dart for every displayed text widget.
 - Use AppText(context.tr(LocaleKeys.common_save)) for translated UI labels.
 - Use context.tr(key, args: [...], namedArgs: {...}) whenever BuildContext is

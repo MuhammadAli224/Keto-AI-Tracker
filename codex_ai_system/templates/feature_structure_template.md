@@ -16,9 +16,9 @@ lib/feature/{name}/
 │   ├── repository/{name}_repository.dart
 │   └── usecases/get_{name}_use_case.dart
 ├── di/{name}_di.dart
-├── presentation/{name}/
-│   ├── cubit/{name}_cubit.dart
-│   ├── cubit/{name}_state.dart
+├── presentation/
+│   ├── cubit/{name}/{name}_cubit.dart
+│   ├── cubit/{name}/{name}_state.dart
 │   ├── pages/{name}_page.dart
 │   └── widget/{name}_widget.dart
 └── {name}_barrel.dart

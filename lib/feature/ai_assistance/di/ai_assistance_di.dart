@@ -5,7 +5,7 @@ import '../../owner/owner_barrel.dart';
 import '../data/firebase_ai_data_source.dart';
 import '../data/firebase_ai_repository.dart';
 import '../domain/ai_assistance_access.dart';
-import '../presentation/ai_assistance_cubit.dart';
+import '../presentation/cubit/ai_assistance/ai_assistance_cubit.dart';
 
 void initAiAssistanceDI(GetIt getIt) {
   final identity = getIt<OwnerIdentity>();

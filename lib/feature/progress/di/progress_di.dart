@@ -8,7 +8,7 @@ import '../data/datasources/progress/firestore_progress_data_source.dart';
 import '../data/repository/firestore_progress_repository.dart';
 import '../domain/repository/progress_repository.dart';
 import '../domain/usecases/progress_access.dart';
-import '../presentation/progress/cubit/progress_cubit.dart';
+import '../presentation/cubit/progress/progress_cubit.dart';
 
 void initProgressDI(GetIt getIt) {
   getIt.registerLazySingleton<ProgressRepository>(

@@ -5,7 +5,7 @@ import 'package:hive_ce/hive.dart';
 import '../../../core/constant/box_key.dart';
 import '../data/android_widget_bridge.dart';
 import '../data/widget_snapshot_service.dart';
-import '../presentation/home_widget_cubit.dart';
+import '../presentation/cubit/home_widget/home_widget_cubit.dart';
 
 bool get supportsHomeWidget =>
     !kIsWeb && defaultTargetPlatform == TargetPlatform.android;

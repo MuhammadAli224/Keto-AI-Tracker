@@ -10,7 +10,7 @@ import '../data/awesome_reminder_scheduler.dart';
 import '../data/reminder_coordinator.dart';
 import '../data/reminder_preferences.dart';
 import '../domain/reminder_settings.dart';
-import '../presentation/reminder_cubit.dart';
+import '../presentation/cubit/reminders/reminder_cubit.dart';
 
 void initReminderDI(GetIt getIt) {
   final identity = getIt<OwnerIdentity>();

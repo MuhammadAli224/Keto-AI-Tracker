@@ -1,3 +1,3 @@
 export 'di/home_widget_di.dart';
-export 'presentation/home_widget_cubit.dart';
-export 'presentation/home_widget_page.dart';
+export 'presentation/cubit/home_widget/home_widget_cubit.dart';
+export 'presentation/pages/home_widget_page.dart';

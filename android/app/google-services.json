@@ -7,12 +7,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1038572250448:android:3760660b85614f8930b855",
+        "mobilesdk_app_id": "1:1038572250448:android:486ce081d3242c3230b855",
         "android_client_info": {
-          "package_name": "com.example.flutter_app"
+          "package_name": "com.keto.tracker.ai"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1038572250448-caqltu9daj3v2b1a507o6ids7bibmmrv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyA3wrKPbuSM-9naFk_KtOypq2Idz1hialE"
@@ -20,7 +25,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1038572250448-caqltu9daj3v2b1a507o6ids7bibmmrv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1038572250448-pvjoooluo0abk2805as4plg0f7v69h2c.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.flutterApp"
+              }
+            }
+          ]
         }
       }
     }

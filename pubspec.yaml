@@ -87,6 +87,7 @@ dev_dependencies:
   # Flutter Tooling
   flutter_lints:
   flutter_native_splash:
+  change_app_package_name: ^1.5.0
 
   #  flutter pub run build_runner build --delete-conflicting-outputs
   #  flutter pub run build_runner watch --delete-conflicting-outputs

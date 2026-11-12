@@ -11,7 +11,7 @@ import '../data/local_budget_data_source.dart';
 import '../data/local_budget_repository.dart';
 import '../data/owner_export_data_source.dart';
 import '../domain/budget_access.dart';
-import '../presentation/budget_cubit.dart';
+import '../presentation/cubit/budget/budget_cubit.dart';
 
 bool get supportsOwnerExport =>
     !kIsWeb &&

@@ -7,7 +7,7 @@ import '../data/datasources/nutrition/local_catalog.dart';
 import '../data/repository/local_catalog_repository.dart';
 import '../domain/repository/catalog_repository.dart';
 import '../domain/usecases/catalog_access.dart';
-import '../presentation/nutrition/cubit/catalog_cubit.dart';
+import '../presentation/cubit/nutrition/catalog_cubit.dart';
 
 void initNutritionDI(GetIt getIt) {
   getIt.registerLazySingleton<CatalogRepository>(

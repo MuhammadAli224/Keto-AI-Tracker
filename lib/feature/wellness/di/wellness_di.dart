@@ -8,7 +8,7 @@ import '../data/datasources/wellness/firestore_wellness_data_source.dart';
 import '../data/repository/firestore_wellness_repository.dart';
 import '../domain/repository/wellness_repository.dart';
 import '../domain/usecases/wellness_access.dart';
-import '../presentation/wellness/cubit/wellness_cubit.dart';
+import '../presentation/cubit/wellness/wellness_cubit.dart';
 
 void initWellnessDI(GetIt getIt) {
   getIt.registerLazySingleton<WellnessRepository>(

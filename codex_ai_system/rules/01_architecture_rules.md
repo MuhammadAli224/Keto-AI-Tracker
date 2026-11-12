@@ -9,6 +9,9 @@ UI → Cubit → UseCase → Repository interface
 ```
 
 - Features live in `lib/feature/`. Match the Mason structure and feature template.
+- Use `presentation/cubit/{feature_name}/` for Cubits, state, and their generated
+  parts, `presentation/pages/` for route screens, and `presentation/widget/`
+  for feature widgets. Create each directory when it has contents.
 - UI does not call repositories, datasources, storage, or APIs.
 - Business Cubits call use cases; session/settings infrastructure adapters may wrap
   their dedicated services directly without artificial pass-through use cases.

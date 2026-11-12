@@ -11,7 +11,7 @@ import '../data/firebase_meal_photo_repository.dart';
 import '../data/local_meal_photos.dart';
 import '../data/photo_queue_store.dart';
 import '../domain/meal_photo_access.dart';
-import '../presentation/meal_photo_cubit.dart';
+import '../presentation/cubit/meal_photo/meal_photo_cubit.dart';
 
 bool get supportsMealPhotos =>
     !kIsWeb &&

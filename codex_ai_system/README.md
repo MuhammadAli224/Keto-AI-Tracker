@@ -24,8 +24,8 @@ Explicitly import and call `initProductsDI()` from the composition root after co
 DI initializes, and register the page in GoRouter if needed. No global feature
 exports are required.
 
-The existing directory convention is `data/datasources/{feature}/` and
-`presentation/{feature}/`. Both the brick and templates follow it.
+The brick and feature template use `data/datasources/{feature}/` and the
+presentation layout in the [architecture rules](rules/01_architecture_rules.md).
 With `with_cache: false`, no local datasource implementation is generated or
 registered (the scaffold retains an empty local file).
 

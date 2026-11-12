@@ -51,18 +51,18 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyA3wrKPbuSM-9naFk_KtOypq2Idz1hialE',
-    appId: '1:1038572250448:android:3760660b85614f8930b855',
+    appId: '1:1038572250448:android:486ce081d3242c3230b855',
     messagingSenderId: '1038572250448',
     projectId: 'keto-ai-tracker',
     storageBucket: 'keto-ai-tracker.firebasestorage.app',
   );
-
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDes1izMY7iwjvurrBrEGaNuCxZoSFQhi8',
-    appId: '1:1038572250448:ios:96023c2a81a504cf30b855',
+    appId: '1:1038572250448:ios:a6f5d3db5d098b0730b855',
     messagingSenderId: '1038572250448',
     projectId: 'keto-ai-tracker',
     storageBucket: 'keto-ai-tracker.firebasestorage.app',
-    iosBundleId: 'com.example.flutterApp',
+    iosClientId: '1038572250448-he59g00oa0ihj4iirevn0i4kn8jc04rt.apps.googleusercontent.com',
+    iosBundleId: 'com.keto.tracker.ai',
   );
 }
