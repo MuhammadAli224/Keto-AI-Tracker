@@ -15,7 +15,7 @@ Send `requestId` as a new lowercase UUID for each intentional request,
 | Callable | Additional input | Result fields |
 | --- | --- | --- |
 | `interpretMeal` | `mealId`, an existing UID-owned draft or confirmed meal UUID | `mode`, `ingredients`, `clarificationQuestions`, `needsReview` |
-| `askCoach` | `message`, at most 1,200 characters and 4,800 UTF-8 bytes | `mode`, `guidance`, `clarificationQuestions` |
+| `askCoach` | `message`, at most 1,200 characters and 4,800 UTF-8 bytes. Optional `includeGoals` defaults to false. | `mode`, `guidance`, `clarificationQuestions` |
 
 An ingredient has `name`, nullable estimated `grams`, `uncertainty` with
 `low`, `medium` or `high`, and `kind` with `ingredient`, `sauce` or
@@ -26,7 +26,7 @@ manual fallback. The live coach provides general planning support and does
 not change goals or prescribe treatment.
 
 Firebase callable errors include `unauthenticated` for missing Auth,
-`permission-denied` for missing live owner authorization, `failed-precondition`
+`permission-denied` for missing owner authorization, `failed-precondition`
 for an unconfirmed profile, `invalid-argument` for invalid inputs,
 `not-found` for unavailable owned meals/photos, `already-exists` for a
 previously reserved request ID, `resource-exhausted` for quota limits, and
@@ -39,14 +39,16 @@ prompts, images, identifiers from the model provider, or model output.
 The deployment runtime is Node.js 22. Run `npm ci` and `npm run build` from
 this directory. Use only a Firebase `demo-` project for local services.
 From the repo root, `firebase emulators:start --only auth,firestore,storage,functions --project demo-keto-tracker`
-loads the mock. Auth and a confirmed profile are still required. App Check is
-enforced outside the emulator.
+loads the mock. Auth, the `ketoAiOwner` custom claim and a confirmed profile
+are required. App Check is enforced outside the emulator.
 
 ## Manual prerequisites for live use
 
-Review the Functions service account and grant only the Firestore, Storage,
-and secret access needed. Provision the server-side `OPENAI_API_KEY` in
-Firebase Secret Manager. Authorize the intended Firebase owner with the
+Set `AI_GATEWAY_SERVICE_ACCOUNT` to the dedicated runtime service account email.
+Grant only the Firestore, Storage and secret access needed. Every deployed
+callable revision binds `OPENAI_API_KEY` in Secret Manager, including with live
+mode disabled. Local emulator use requires no provider secret.
+Authorize the intended Firebase owner with the
 `ketoAiOwner` custom claim using trusted admin tooling. Configure and verify
 the App Check clients. A live request additionally requires the
 `AI_GATEWAY_LIVE` boolean parameter, which defaults to false. Confirm

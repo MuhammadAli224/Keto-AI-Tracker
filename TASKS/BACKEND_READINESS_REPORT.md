@@ -37,3 +37,23 @@
 1. In Play Console, link Play Integrity to the intended Firebase project. Register the Android app in Firebase App Check with its intended signing certificate SHA-256. The current Gradle release block uses debug signing and requires production signing configuration before Play validation. [Play Integrity setup](https://firebase.google.com/docs/app-check/android/play-integrity-provider)
 2. Register only the authorized development device's Debug provider token in a nonproduction Firebase project after runtime work is approved. Keep the token out of source, shared logs, and release builds. [Flutter debug provider](https://firebase.google.com/docs/app-check/flutter/debug-provider)
 3. Verify valid token traffic in App Check metrics for a debug build and a Play-distributed build signed as intended. Leave Firebase console enforcement disabled for this readiness pass.
+
+## Task 18 — Cloud Functions deployment and OpenAI contract
+
+- Firebase deploy targets Node.js 22 and runs the TypeScript build before publishing. The two Gen 2 callables use `us-central1`, Firebase callable authentication, strict request schemas, explicit consent and an owner-confirmed profile. The Flutter caller uses the same region and operation names.
+- The gateway now requires a dedicated runtime identity via `AI_GATEWAY_SERVICE_ACCOUNT` for cloud deployment. Local emulation still uses the mock without a service account parameter or provider credential. The production transport defaults to mock via `AI_GATEWAY_LIVE=false`.
+- The approved live path uses the pinned `gpt-5.4-mini-2026-03-17` snapshot through the Responses API. The model supports image input and structured output. The gateway validates returned data before giving it to the client. Live compatibility and credential access remain unverified. [OpenAI model documentation](https://developers.openai.com/api/docs/models/gpt-5.4-mini)
+- The TypeScript build passed with the workspace's Node.js 24 installation. Cloud deployment remains configured for Node.js 22.
+
+### Manual Functions configuration and deployment
+
+1. After separate authorization for billing and cloud deployment, confirm the Firebase plan and required Google Cloud APIs. Set `AI_GATEWAY_SERVICE_ACCOUNT` to a dedicated runtime account. Grant the deployer permission to use it. Scope the runtime identity to Firestore reads and quota writes, object reads in the intended Storage bucket and access to the named secret. Review IAM separately because the Admin SDK bypasses client rules.
+2. In approved Firebase Functions deployment parameters set `AI_GATEWAY_LIVE=false`. The static Secret Manager binding is required even when the cloud revision runs in mock mode. Provider secret provisioning is a separate operator action. Keep the value out of dotenv, Flutter defines, Git and shell arguments. [Firebase Functions configuration](https://firebase.google.com/docs/functions/config-env)
+3. Once approved, use Node.js 22 and the following commands from the repository root. The first Firebase command takes the provider key via protected input. The Functions deployment targets only the two named callables.
+
+   ```sh
+   npm --prefix functions ci
+   npm --prefix functions run build
+   firebase functions:secrets:set OPENAI_API_KEY --project APPROVED_PROJECT_ID
+   firebase deploy --only functions:interpretMeal,functions:askCoach --project APPROVED_PROJECT_ID
+   ```

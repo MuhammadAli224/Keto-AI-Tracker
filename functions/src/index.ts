@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase-admin/app";
-import { defineBoolean, defineSecret } from "firebase-functions/params";
+import { defineBoolean, defineSecret, defineString } from "firebase-functions/params";
 import { HttpsError, onCall } from "firebase-functions/v2/https";
 import { coachRequest, mealRequest } from "./contract";
 import { authorizedOwner, checkMeal, ownedPhoto, reserveRequest } from "./security";
@@ -9,11 +9,15 @@ initializeApp();
 
 const emulator = process.env.FUNCTIONS_EMULATOR === "true";
 const enableLive = emulator ? undefined : defineBoolean("AI_GATEWAY_LIVE", { default: false });
+const serviceAccount = emulator ? undefined : defineString("AI_GATEWAY_SERVICE_ACCOUNT", {
+  description: "Email of the dedicated Cloud Functions runtime service account.",
+});
 const providerCredential = defineSecret("OPENAI_API_KEY");
 
 const callableOptions = {
   region: "us-central1",
   enforceAppCheck: !emulator,
+  serviceAccount,
   secrets: emulator ? [] : [providerCredential],
   timeoutSeconds: 45,
   maxInstances: 2,
