@@ -17,7 +17,8 @@ Branch: `codex/keto-ai-tracker-implementation`
 | 10 Meal photo capture and review | DONE | `1681d630a706ad5201d5f56b6a1b391f499a2754` verified at 2026-11-12T02:45:44+03:00 |
 | 11 Cloud Functions OpenAI gateway | DONE locally; BLOCKED_EXTERNAL for live activation | `f51b319111f02743572b7199da066a0debcdeea8` verified at 2026-11-12T02:53:00+03:00 |
 | 12 AI meal review and coach | DONE locally; BLOCKED_EXTERNAL for live AI | `bb956828e30f7bf1bb741549872d3ceefee05e08` verified at 2026-11-12T02:58:17+03:00 |
-| 13 Weekly budget and data export | DONE | Checkpoint pending |
+| 13 Weekly budget and data export | DONE | `3b4a344ab6568545504614c4f5cfa6712d11c38f` verified at 2026-11-12T03:07:31+03:00 |
+| 14 Integration and release review | DONE locally; BLOCKED_EXTERNAL for iOS and production activation | Checkpoint pending |
 
 Task 01 restored standard TLS validation, removed the bundled `.env`, added
 the Firebase SDKs, made app-service initialization idempotent, and configured
@@ -63,4 +64,8 @@ Real inference remains external and disabled in default builds.
 Task 13 added an owner-local weekly planner with exact JOD expense arithmetic
 and a consented JSON export of synced records and local expenses.
 
-Next: verify the Task 13 checkpoint, then execute Task 14.
+Task 14 fixed an Android startup localization error, redacted legacy network
+logs, built the Android APK, and verified signed-out routing and BMI in the
+offline emulator. Device and cloud gaps are in the release checklist.
+
+Next: verify the Task 14 checkpoint, then execute the final documentation checkpoint.

@@ -314,3 +314,33 @@ Append each task result with Git branch, local commit SHA and verified push stat
   Authenticated export and physical document pickers remain unverified.
   No tests or production writes ran.
 - Next: verify the remote checkpoint, then implement Task 14.
+- 2026-11-12T03:07:31+03:00 Verified push of `3b4a344ab6568545504614c4f5cfa6712d11c38f` to `origin/codex/keto-ai-tracker-implementation`.
+
+## Task 14 — Integration review and release readiness
+
+- Status: DONE locally. iOS build and live Firebase/AI activation remain
+  BLOCKED_EXTERNAL. Physical and authenticated runtime checks are pending.
+- Files: localized app title and bootstrap error widget, legacy HTTP and
+  repository logging, README, task index, release checklist and run docs.
+- The first emulator launch timed out on the native splash. The Flutter
+  debugger showed a localization exception in the error renderer. The app
+  title now resolves inside the localization tree, and the error widget can
+  render before translations load. HTTP logs now contain only method, status
+  and error category. They omit headers, URLs, bodies and raw exception text.
+- Final branch-wide Dart format check covered 174 files. Flutter analysis
+  reported no issues. Locale parity passed for 455 strings. Functions
+  TypeScript compiled. No Mason templates changed.
+- Android `:app:assembleDebug` passed with JDK 17 and writable Gradle caches.
+  The APK contains English and Arabic assets and excludes `.env`. After
+  restarting the emulator with host graphics, Flutter reported its first
+  rasterized frame. A signed-out `/coach` launch rendered the login route.
+  In the offline debug profile preview, changing height and weight separately
+  recalculated the read-only BMI using synthetic inputs. Source review checked
+  the signed-in/unconfirmed branch and post-onboarding profile budget and
+  goal editing. Authenticated runtime validation remains open.
+- iOS AppDelegate Swift parse and Info.plist lint passed. The pinned Firebase
+  Apple 13.1.1 manifest rejected the installed Swift 6.2.0 with the requirement
+  for Swift 6.2.3 and Xcode 26.2 or later. No iOS build passed.
+- No tests, production writes, deployments, credentials, billing changes or
+  paid calls ran. The existing tracked `.env` was unchanged.
+- Next: verify the remote checkpoint, then push the separate final report.

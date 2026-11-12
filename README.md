@@ -709,3 +709,19 @@ authorized project administrator must handle a full account reset, including
 owner subcollections and stored photos, after confirming the intended scope.
 Deleting a Firebase Auth account alone does not remove its data. Delete exported
 files separately from their chosen destinations.
+
+### AI-assisted review
+
+Standard builds use the manual diary and profile flows. The optional native
+AI client requires a confirmed profile, per-request consent, an authorized
+owner account, and App Check. Meal review also requires an approved photo
+upload. Suggestions only become diary servings after catalog matching and
+quantity review. Coach requests send the question and, if explicitly selected,
+approved daily goals. See the [gateway contract and activation prerequisites](functions/README.md).
+
+## Release verification
+
+See the [manual release checklist](TASKS/RELEASE_CHECKLIST.md) for Android
+builds, Firebase configuration, local smoke checks, iOS setup and the optional
+AI rollout. The current Android configuration uses the development application
+ID and debug signing. Review distribution identity and signing before release.

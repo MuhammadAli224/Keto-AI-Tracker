@@ -15,12 +15,15 @@ Local code changes, documentation, Dart generation, analysis and Android build a
 After Task 02, Task 02A implements first-run profile review, editable age/height/current weight/budget/goals, and automatically computed read-only BMI. Analysis and AI requests remain unavailable until profile confirmation. The owner can edit these values later.
 
 ## Important scope decisions
-- Android first, iOS integration documented but not verified on Windows.
+- Android first. iOS integration and required toolchain are documented.
 - Flutter existing Feature-First Clean Architecture, GetIt/Cubit, Freezed/AutoMappr, Mason, Hive CE for existing app cache and Firestore offline for owner data.
 - No automatic Firebase deployment or paid OpenAI calls.
 - No tests by default because repo `AGENTS.md` explicitly forbids them without explicit user instruction.
 - AI photo estimates must be confirmed by user and backed by nutrition facts rather than assuming vision guesses are authoritative.
 - Firebase console Auth provider, billing, App Check, Firestore rules, Functions secrets/deployment require deliberate manual review.
 
-## Suggested manual review after run
-Read `TASKS/FINAL_REPORT.md`, inspect `git status`/commits and verified remote pushes, check Firestore rules, run on physical Android device, verify offline sync across devices, notification permissions, and widget privacy before enabling paid services.
+## Review after the run
+
+Read the [final report](FINAL_REPORT.md) for the verified checkpoints and
+remaining limitations. Follow the [manual release checklist](RELEASE_CHECKLIST.md)
+before deploying rules, configuring cloud services or distributing a build.
