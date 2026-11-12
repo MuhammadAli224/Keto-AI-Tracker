@@ -72,6 +72,7 @@ export class OpenAiTransport implements AiTransport {
   ): Promise<z.infer<T>> {
     const response = await fetch("https://api.openai.com/v1/responses", {
       method: "POST",
+      redirect: "error",
       headers: { Authorization: `Bearer ${this.credential}`, "Content-Type": "application/json" },
       signal: AbortSignal.timeout(30_000),
       body: JSON.stringify({

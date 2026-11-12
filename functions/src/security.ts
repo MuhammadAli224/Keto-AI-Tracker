@@ -34,7 +34,7 @@ export async function checkMeal(uid: string, mealId: string): Promise<void> {
   }
 }
 
-export async function ownedPhoto(uid: string, mealId: string): Promise<Buffer> {
+export async function ownedPhoto(uid: string, mealId: string, photoRef: string): Promise<Buffer> {
   const name = `users/${uid}/mealPhotos/${mealId}.jpg`;
   const bucket = getStorage().bucket();
   let metadata;
@@ -45,6 +45,9 @@ export async function ownedPhoto(uid: string, mealId: string): Promise<Buffer> {
       throw new HttpsError("not-found", "The meal photo is unavailable.");
     }
     throw error;
+  }
+  if (metadata.metadata?.photoRef !== photoRef) {
+    throw new HttpsError("failed-precondition", "Upload the approved meal photo before review.");
   }
   const size = Number(metadata.size);
   if (!Number.isSafeInteger(size) || size < 3 || size > maxImageBytes ||
@@ -72,21 +75,36 @@ function digest(value: string): string {
   return createHash("sha256").update(value).digest("hex");
 }
 
+function quotaInteger(value: unknown): number {
+  if (typeof value !== "number" || !Number.isSafeInteger(value) || value < 0) {
+    throw new Error("Invalid quota state");
+  }
+  return value;
+}
+
 export async function reserveRequest(uid: string, requestId: string): Promise<void> {
   const db = getFirestore();
   const owner = db.collection("_aiGatewayLimits").doc(`owner_${digest(uid)}`);
   const global = db.collection("_aiGatewayLimits").doc("global");
   const marker = db.collection("_aiGatewayRequests").doc(digest(`${uid}\0${requestId}`));
-  const now = Date.now();
-  const day = new Date(now).toISOString().slice(0, 10);
   await db.runTransaction(async (transaction) => {
     const [ownerQuota, globalQuota, prior] = await transaction.getAll(owner, global, marker);
     if (!ownerQuota || !globalQuota || !prior) throw new Error("Quota unavailable");
     if (prior.exists) throw new HttpsError("already-exists", "This request has already been submitted.");
-    const count = (value: typeof ownerQuota) => value.get("day") === day ? Number(value.get("count") ?? 0) : 0;
+    const now = globalQuota.readTime.toMillis();
+    const day = new Date(now).toISOString().slice(0, 10);
+    const count = (value: typeof ownerQuota) => {
+      if (!value.exists) return 0;
+      const quotaDay: unknown = value.get("day");
+      if (typeof quotaDay !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(quotaDay) || quotaDay > day) {
+        throw new Error("Invalid quota day");
+      }
+      const quotaCount = quotaInteger(value.get("count"));
+      return quotaDay === day ? quotaCount : 0;
+    };
     const ownerCount = count(ownerQuota);
     const globalCount = count(globalQuota);
-    const lastRequest = Number(ownerQuota.get("lastRequest") ?? 0);
+    const lastRequest = ownerQuota.exists ? quotaInteger(ownerQuota.get("lastRequest")) : 0;
     if (ownerCount >= 4 || globalCount >= 20 || now - lastRequest < 30_000) {
       throw new HttpsError("resource-exhausted", "The gateway request limit has been reached.");
     }

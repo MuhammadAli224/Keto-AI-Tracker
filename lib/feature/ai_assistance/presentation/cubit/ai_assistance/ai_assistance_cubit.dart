@@ -48,12 +48,14 @@ class AiAssistanceCubit extends Cubit<AiAssistanceState>
 
   Future<void> interpret(
     String mealId,
+    String photoRef,
     String locale, {
     required bool consent,
   }) => _run(
     (request) async => AiAssistanceState(
       meal: await _access.interpret(
         mealId: mealId,
+        photoRef: photoRef,
         locale: locale,
         consent: consent,
         cancellation: request,

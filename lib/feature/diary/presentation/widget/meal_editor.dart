@@ -211,12 +211,13 @@ class _MealEditorState extends State<MealEditor> {
                     const MealPhotoPanel(),
                     MealEstimatePanel(
                       mealId: widget.id,
-                      photoReady:
+                      photoRef:
                           widget.meal != null &&
-                          photo?.status == MealPhotoStatus.uploaded &&
-                          photo?.upload == true &&
-                          photo?.photo != null &&
-                          photo?.busy == false,
+                              photo?.status == MealPhotoStatus.uploaded &&
+                              photo?.upload == true &&
+                              photo?.busy == false
+                          ? photo?.photo?.ref
+                          : null,
                       isCurrentPhoto: () {
                         final current = context.read<MealPhotoCubit>().state;
                         return current.photo?.ref == photo?.photo?.ref &&

@@ -7,7 +7,7 @@ const requestFields = {
   consent: z.literal(true),
 };
 
-export const mealRequest = z.strictObject({ ...requestFields, mealId: uuid });
+export const mealRequest = z.strictObject({ ...requestFields, mealId: uuid, photoRef: uuid });
 export const coachRequest = z.strictObject({
   ...requestFields,
   includeGoals: z.boolean().default(false),

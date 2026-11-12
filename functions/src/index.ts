@@ -52,7 +52,7 @@ export const interpretMeal = onCall<unknown>(callableOptions, (request) => safeC
   await checkMeal(uid, parsed.data.mealId);
   const service = transport(live);
   if (live) await reserveRequest(uid, parsed.data.requestId);
-  const photo = live ? await ownedPhoto(uid, parsed.data.mealId) : undefined;
+  const photo = live ? await ownedPhoto(uid, parsed.data.mealId, parsed.data.photoRef) : undefined;
   const result = await service.interpret(parsed.data.locale, photo);
   return { mode: service.mode, needsReview: true, ...result };
 }));

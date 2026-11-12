@@ -12,13 +12,13 @@ class MealEstimatePanel extends StatelessWidget {
   const MealEstimatePanel({
     super.key,
     required this.mealId,
-    required this.photoReady,
+    required this.photoRef,
     required this.isCurrentPhoto,
     required this.onSelect,
   });
 
   final String mealId;
-  final bool photoReady;
+  final String? photoRef;
   final bool Function() isCurrentPhoto;
   final ValueChanged<double?>? onSelect;
 
@@ -28,17 +28,18 @@ class MealEstimatePanel extends StatelessWidget {
     final state = cubit.state;
     final meal = state.meal;
     final available = cubit.available;
+    final approvedRef = photoRef;
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            if (!available || !photoReady)
+            if (!available || approvedRef == null)
               AppText(context.tr(LocaleKeys.ai_mealReview)),
             if (!available)
               AppText(context.tr(LocaleKeys.ai_unavailable))
-            else if (!photoReady)
+            else if (approvedRef == null)
               AppText(context.tr(LocaleKeys.ai_uploadFirst))
             else ...[
               OutlinedButton(
@@ -75,6 +76,7 @@ class MealEstimatePanel extends StatelessWidget {
                         }
                         await cubit.interpret(
                           mealId,
+                          approvedRef,
                           context.locale.languageCode,
                           consent: true,
                         );

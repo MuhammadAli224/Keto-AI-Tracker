@@ -14,7 +14,7 @@ Send `requestId` as a new lowercase UUID for each intentional request,
 
 | Callable | Additional input | Result fields |
 | --- | --- | --- |
-| `interpretMeal` | `mealId`, an existing UID-owned draft or confirmed meal UUID | `mode`, `ingredients`, `clarificationQuestions`, `needsReview` |
+| `interpretMeal` | `mealId`, an existing UID-owned draft or confirmed meal UUID, and `photoRef`, the approved local photo's UUID recorded by the uploader | `mode`, `ingredients`, `clarificationQuestions`, `needsReview` |
 | `askCoach` | `message`, at most 1,200 characters and 4,800 UTF-8 bytes. Optional `includeGoals` defaults to false. | `mode`, `guidance`, `clarificationQuestions` |
 
 An ingredient has `name`, nullable estimated `grams`, `uncertainty` with
@@ -27,7 +27,7 @@ not change goals or prescribe treatment.
 
 Firebase callable errors include `unauthenticated` for missing Auth,
 `permission-denied` for missing owner authorization, `failed-precondition`
-for an unconfirmed profile, `invalid-argument` for invalid inputs,
+for an unconfirmed profile or mismatched photo reference, `invalid-argument` for invalid inputs,
 `not-found` for unavailable owned meals/photos, `already-exists` for a
 previously reserved request ID, `resource-exhausted` for quota limits, and
 `unavailable` for provider or infrastructure errors. Avoid automatic retries
@@ -57,12 +57,13 @@ and billing before enabling it. The pinned vision-capable model is
 `gpt-5.4-mini-2026-03-17`. [OpenAI model documentation](https://developers.openai.com/api/docs/models/gpt-5.4-mini)
 
 The gateway uses one upstream request, bounded image bytes, fixed output
-token limits, per-owner and global daily quotas, and a cooldown per owner.
-Callers supply a UUID so an identical request cannot be charged twice.
-Failures consume a reservation. Keep the global cap and provider project
-budget within the approved limit. Enable TTL on the server-only
+token limits, four live reservations per owner per UTC day, 20 per project
+per UTC day, and a 30-second owner cooldown. Request IDs are deduplicated
+while the request marker exists. Failures after reservation consume a slot.
+Enable TTL on the server-only
 `_aiGatewayRequests.expiresAt` field after review. The gateway sets
-`store: false` for Responses API calls. Review provider retention separately.
+`store: false` for Responses API calls. Review provider retention and configure
+provider budget alerts separately.
 [Responses API](https://developers.openai.com/api/reference/resources/responses/methods/create) [Firebase App Check](https://firebase.google.com/docs/app-check/cloud-functions)
 
 ## Flutter client
@@ -72,7 +73,8 @@ the callable client with `--dart-define=AI_ASSISTANCE_ENABLED=true`.
 Configure Play Integrity on Android and App Attest on iOS before enabling
 the client. Meal review additionally needs the Storage build flag and an
 explicitly approved, completed upload. Open the saved draft and approve sending
-the current image to OpenAI. AI findings are held in the editor's memory.
+the current image to OpenAI. Uploads made before the photo reference was
+recorded must be reuploaded with fresh consent for AI review. AI findings are held in the editor's memory.
 Matching a finding to the catalog and reviewing its weight creates an editable
 serving. Diary totals change only after confirming the meal.
 

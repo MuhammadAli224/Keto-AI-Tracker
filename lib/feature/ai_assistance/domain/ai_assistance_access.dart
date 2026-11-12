@@ -6,6 +6,7 @@ abstract interface class AiAssistanceRepository {
   Future<MealEstimate> interpret(
     String uid,
     String mealId,
+    String photoRef,
     String locale,
     bool Function() canSend,
   );
@@ -28,13 +29,15 @@ class AiAssistanceAccess {
 
   Future<MealEstimate> interpret({
     required String mealId,
+    required String photoRef,
     required String locale,
     required bool consent,
     required RequestCancellation cancellation,
   }) => _request(
     consent,
     cancellation,
-    (uid, canSend) => _repository.interpret(uid, mealId, locale, canSend),
+    (uid, canSend) =>
+        _repository.interpret(uid, mealId, photoRef, locale, canSend),
   );
 
   Future<CoachReply> coach({

@@ -15,11 +15,13 @@ class FirebaseAiRepository implements AiAssistanceRepository {
   Future<MealEstimate> interpret(
     String uid,
     String mealId,
+    String photoRef,
     String locale,
     bool Function() canSend,
   ) async {
     final result = await _request('interpretMeal', uid, locale, {
       'mealId': mealId,
+      'photoRef': photoRef,
     }, canSend);
     if (result['needsReview'] != true) throw AiFailure.unavailable;
     return MealEstimate(

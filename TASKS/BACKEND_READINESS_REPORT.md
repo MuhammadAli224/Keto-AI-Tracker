@@ -57,3 +57,16 @@
    firebase functions:secrets:set OPENAI_API_KEY --project APPROVED_PROJECT_ID
    firebase deploy --only functions:interpretMeal,functions:askCoach --project APPROVED_PROJECT_ID
    ```
+
+## Task 19 — Quotas, errors and health-data privacy
+
+- Both live operations reserve capacity atomically before sending anything to OpenAI. The shared limits are four reservations per owner per UTC day, 20 per project per UTC day and one reservation per owner per 30 seconds. Quota time now comes from the Firestore transaction snapshot, and invalid quota counters fail closed. Duplicate request IDs are rejected while their markers exist. A failure after reservation uses a slot even when it occurs before any provider charge.
+- Each callable is capped at two instances with concurrency one and a 45-second timeout. The provider request has a 30-second timeout, one attempt, 900 meal or 650 coach output tokens, and a fixed model. HTTP redirects fail without resending submitted data. The UI maps gateway quota and duplicate errors to a limited state and offers manual fallback. Closing a route discards local results, while an already dispatched request may finish.
+- Meal review now sends the approved photo's opaque reference. The gateway requires that reference in object metadata and reads the exact Storage generation it validated. A replaced or legacy photo is rejected before contacting OpenAI. Reupload older photos with fresh consent for live review. Meal analysis sends the image and locale. Coach sends the submitted message, locale and, only when selected, the five approved daily goal fields.
+- The gateway stores timestamps, counters and hashed request identifiers. It has no content logging or persistence for AI prompts, results or photo bytes. `store: false` is set for the provider request. Review OpenAI's abuse-monitoring retention and image exceptions before approving live health-data processing. [OpenAI data controls](https://developers.openai.com/api/docs/guides/your-data)
+
+### Manual quotas, privacy and runtime prerequisites
+
+1. Configure Firestore TTL for `_aiGatewayRequests.expiresAt` if approved. The application sets the marker expiration to seven days. Account for TTL deletion costs and asynchronous cleanup.
+2. Configure provider alerts and confirm approved model access, project rate limits, usage reporting and applicable privacy terms. Keep cloud and client live flags off pending approval. Establish an operator process to disable live mode and redeploy the callables if needed.
+3. With synthetic data and explicit runtime authorization, verify the newer client and callable revision together. Check replacement between approval and dispatch, old photo rejection, simultaneous quota reservations, repeated IDs, UTC rollover, timeout and refusal handling, and opt-in goal sharing. Provider behavior needs a separately approved live request.

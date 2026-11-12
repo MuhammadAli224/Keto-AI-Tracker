@@ -262,7 +262,10 @@ class FirebaseMealPhotoRepository implements MealPhotoRepository {
       if (!current()) return;
       final task = reference.putFile(
         file,
-        SettableMetadata(contentType: 'image/jpeg'),
+        SettableMetadata(
+          contentType: 'image/jpeg',
+          customMetadata: {'photoRef': ref},
+        ),
       );
       _upload = task;
       try {
