@@ -44,7 +44,7 @@ export const interpretMeal = onCall<unknown>(callableOptions, (request) => safeC
   const parsed = mealRequest.safeParse(request.data);
   if (!parsed.success) throw new HttpsError("invalid-argument", "Invalid meal request.");
   const live = isLive();
-  const { uid } = await authorizedOwner(request, live);
+  const { uid } = await authorizedOwner(request);
   await checkMeal(uid, parsed.data.mealId);
   const service = transport(live);
   if (live) await reserveRequest(uid, parsed.data.requestId);
@@ -57,7 +57,7 @@ export const askCoach = onCall<unknown>(callableOptions, (request) => safeCall(a
   const parsed = coachRequest.safeParse(request.data);
   if (!parsed.success) throw new HttpsError("invalid-argument", "Invalid coach request.");
   const live = isLive();
-  const { uid, goals } = await authorizedOwner(request, live);
+  const { uid, goals } = await authorizedOwner(request);
   const service = transport(live);
   if (live) await reserveRequest(uid, parsed.data.requestId);
   const result = await service.coach(

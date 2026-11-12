@@ -5,11 +5,11 @@ import { CallableRequest, HttpsError } from "firebase-functions/v2/https";
 
 const maxImageBytes = 2 * 1024 * 1024;
 
-export async function authorizedOwner(request: CallableRequest<unknown>, live: boolean): Promise<{ uid: string; goals: Record<string, number> }> {
+export async function authorizedOwner(request: CallableRequest<unknown>): Promise<{ uid: string; goals: Record<string, number> }> {
   const uid = request.auth?.uid;
   if (!uid) throw new HttpsError("unauthenticated", "Sign in before using the gateway.");
-  if (live && request.auth?.token.ketoAiOwner !== true) {
-    throw new HttpsError("permission-denied", "Live access is unavailable for this account.");
+  if (request.auth?.token.ketoAiOwner !== true) {
+    throw new HttpsError("permission-denied", "Gateway access is unavailable for this account.");
   }
   const profile = await getFirestore().collection("users").doc(uid).get();
   if (profile.get("confirmationVersion") !== 1 || !(profile.get("confirmedAt") instanceof Timestamp)) {
