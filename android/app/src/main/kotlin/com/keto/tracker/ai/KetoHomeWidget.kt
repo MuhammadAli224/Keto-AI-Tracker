@@ -1,4 +1,4 @@
-package com.example.flutter_app
+package com.keto.tracker.ai
 
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
