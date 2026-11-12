@@ -3,13 +3,19 @@ service firebase.storage {
   match /b/{bucket}/o {
     match /users/{uid}/mealPhotos/{fileName} {
       function isOwner() {
-        return request.auth != null && request.auth.uid == uid;
+        return request.auth != null
+          && request.auth.uid == uid
+          && request.auth.token.get('ketoAiOwner', false) == true;
       }
 
-      allow get, delete: if isOwner();
-      allow create, update: if isOwner()
-        && fileName.matches('^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}[.]jpg$')
+      function isMealPhoto() {
+        return fileName.matches('^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}[.]jpg$');
+      }
+
+      allow get, delete: if isOwner() && isMealPhoto();
+      allow create, update: if isOwner() && isMealPhoto()
         && request.resource.contentType == 'image/jpeg'
+        && request.resource.size >= 3
         && request.resource.size <= 2 * 1024 * 1024;
     }
 

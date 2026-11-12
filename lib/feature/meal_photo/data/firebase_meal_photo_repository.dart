@@ -16,9 +16,7 @@ class FirebaseMealPhotoRepository implements MealPhotoRepository {
     this._auth,
     this._connectivity,
   ) {
-    if (storageAvailable) {
-      _network = _connectivity.onConnectivityChanged.listen((_) => _resume());
-    }
+    _network = _connectivity.onConnectivityChanged.listen((_) => _resume());
   }
 
   final LocalMealPhotos _files;
@@ -114,7 +112,9 @@ class FirebaseMealPhotoRepository implements MealPhotoRepository {
 
     final previous = _queue.read(uid, mealId);
     final approved = upload && photo != null && storageAvailable;
-    final remote = previous?.remoteMayExist ?? false;
+    final remote =
+        (previous?.remoteMayExist ?? false) ||
+        (photo == null && storageAvailable);
     final sameUpload =
         approved &&
         previous?.ref == photo.ref &&
@@ -173,7 +173,7 @@ class FirebaseMealPhotoRepository implements MealPhotoRepository {
   );
 
   void _resume() {
-    if (!storageAvailable || _owner == null) return;
+    if (_owner == null) return;
     if (_running) {
       _requested = true;
       return;
@@ -197,7 +197,8 @@ class FirebaseMealPhotoRepository implements MealPhotoRepository {
           if (!_isOwner(uid)) break;
           if (record.status == MealPhotoStatus.removing) {
             await _transfer(uid, record, remove: true);
-          } else if (record.uploadApproved &&
+          } else if (storageAvailable &&
+              record.uploadApproved &&
               (record.status == MealPhotoStatus.queued ||
                   record.status == MealPhotoStatus.uploading)) {
             await _transfer(uid, record);
@@ -233,7 +234,8 @@ class FirebaseMealPhotoRepository implements MealPhotoRepository {
     try {
       if (remove) {
         try {
-          await reference.delete().timeout(const Duration(seconds: 30));
+          // Wait for the SDK operation to settle before reusing this path.
+          await reference.delete();
         } on FirebaseException catch (error) {
           if (error.code != 'object-not-found') rethrow;
         }
