@@ -16,7 +16,8 @@ Branch: `codex/keto-ai-tracker-implementation`
 | 09 Android home-screen widget | DONE | `d3f5bcacaab2aa400c33a25519bbfb7cc6355590` verified at 2026-11-12T02:29:10+03:00 |
 | 10 Meal photo capture and review | DONE | `1681d630a706ad5201d5f56b6a1b391f499a2754` verified at 2026-11-12T02:45:44+03:00 |
 | 11 Cloud Functions OpenAI gateway | DONE locally; BLOCKED_EXTERNAL for live activation | `f51b319111f02743572b7199da066a0debcdeea8` verified at 2026-11-12T02:53:00+03:00 |
-| 12 AI meal review and coach | DONE locally; BLOCKED_EXTERNAL for live AI | Checkpoint pending |
+| 12 AI meal review and coach | DONE locally; BLOCKED_EXTERNAL for live AI | `bb956828e30f7bf1bb741549872d3ceefee05e08` verified at 2026-11-12T02:58:17+03:00 |
+| 13 Weekly budget and data export | DONE | Checkpoint pending |
 
 Task 01 restored standard TLS validation, removed the bundled `.env`, added
 the Firebase SDKs, made app-service initialization idempotent, and configured
@@ -59,4 +60,7 @@ transport. Deployment, billing, secret and live App Check setup remain external.
 Task 12 added consented meal estimates and coach guidance with manual fallback.
 Real inference remains external and disabled in default builds.
 
-Next: verify the Task 12 checkpoint, then execute Task 13.
+Task 13 added an owner-local weekly planner with exact JOD expense arithmetic
+and a consented JSON export of synced records and local expenses.
+
+Next: verify the Task 13 checkpoint, then execute Task 14.

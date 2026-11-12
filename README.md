@@ -680,3 +680,32 @@ process restarts the transfer against the same owner/meal object path. No
 permanent download URLs are issued. Turning upload off or removing a photo
 queues deletion of its cloud copy. Cloud deletion can remain pending offline.
 [Flutter image picker](https://pub.dev/packages/image_picker) [Firebase Storage uploads](https://firebase.google.com/docs/storage/flutter/upload-files)
+
+### Weekly budget and portable data
+
+Confirm or edit the suggested JOD 20 weekly amount during setup. To change it
+later, open Profile. The planner applies the latest approved amount to the week
+being viewed. Weeks start Monday in the profile's time zone. Purchases, prices
+and editable meal drafts are kept on this device under the signed-in account.
+Enter prices per 100 g from your own purchases or price references. The planner
+sorts known prices and labels missing prices as unknown. Meal drafts have no
+effect on diary totals or targets.
+
+Under Settings → Export my data, confirm the export and select a destination in
+the Android or iOS document picker. The versioned JSON contains synced meal
+drafts and confirmed meals, water, weight (including notes), approved goals and
+this device's expenses. It includes explicit units and UTC timestamps and omits
+deleted entries, photo files and paths, credentials, AI data and the account UID.
+Export needs network access and synced Firestore changes. Review the selected
+destination and any sharing permissions before giving someone the file.
+
+Delete an expense in the planner. Clear an individual price or draft to remove
+it from the device. Signing out hides the account's local records and leaves
+them available if the same account signs in again. Clearing app storage or
+uninstalling removes this device's planner data and cached copies, subject to
+the device's backup and restore settings. It does not
+remove Firestore, Storage, Firebase Auth data or exports saved elsewhere. An
+authorized project administrator must handle a full account reset, including
+owner subcollections and stored photos, after confirming the intended scope.
+Deleting a Firebase Auth account alone does not remove its data. Delete exported
+files separately from their chosen destinations.

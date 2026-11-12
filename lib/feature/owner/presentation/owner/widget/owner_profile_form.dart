@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../core/domain/jod.dart';
 import '../../../../../core/time/owner_calendar.dart';
 import '../../../../../core/widget/app_widget/app_text.dart';
 import '../../../../../generated/app_strings.g.dart';
@@ -117,6 +118,7 @@ class _OwnerProfileFormState extends State<OwnerProfileForm> {
       for (final controller in _fields.values) {
         controller.clear();
       }
+      if (widget.setup) _fields[_Field.budget]!.text = '20.000';
       _activity = null;
       _locale = null;
       return;
@@ -129,7 +131,7 @@ class _OwnerProfileFormState extends State<OwnerProfileForm> {
       _Field.windowStart: profile.windowStart,
       _Field.windowEnd: profile.windowEnd,
       _Field.timezone: profile.timezone,
-      _Field.budget: profile.weeklyBudgetJod,
+      _Field.budget: jodDecimal((profile.weeklyBudgetJod * 1000).round()),
       _Field.calories: profile.calories,
       _Field.protein: profile.proteinGrams,
       _Field.carbs: profile.carbsGrams,
@@ -168,6 +170,8 @@ class _OwnerProfileFormState extends State<OwnerProfileForm> {
 
   int? _integer(_Field field) => int.tryParse(_numberText(_text(field)));
 
+  int? get _budgetFils => parseJodFils(_text(_Field.budget));
+
   bool _valid(_Field field) {
     bool between(double? value, num low, num high) =>
         value != null && value.isFinite && value >= low && value <= high;
@@ -185,7 +189,7 @@ class _OwnerProfileFormState extends State<OwnerProfileForm> {
         r'^(?:[01][0-9]|2[0-3]):[0-5][0-9]$',
       ).hasMatch(_numberText(_text(field))),
       _Field.timezone => OwnerCalendar.supports(_text(field)),
-      _Field.budget => between(_number(field), 0, 100000),
+      _Field.budget => _budgetFils != null && _budgetFils! <= 100000000,
       _Field.calories => between(_integer(field)?.toDouble(), 1, 20000),
       _Field.protein ||
       _Field.carbs ||
@@ -209,7 +213,7 @@ class _OwnerProfileFormState extends State<OwnerProfileForm> {
       windowEnd: _numberText(_text(_Field.windowEnd)),
       locale: _locale!,
       timezone: _text(_Field.timezone),
-      weeklyBudgetJod: _number(_Field.budget)!,
+      weeklyBudgetJod: _budgetFils! / 1000,
       calories: _integer(_Field.calories)!,
       proteinGrams: _number(_Field.protein)!,
       carbsGrams: _number(_Field.carbs)!,
@@ -271,6 +275,7 @@ class _OwnerProfileFormState extends State<OwnerProfileForm> {
     final timezone = field == _Field.timezone;
     final hint = switch (field) {
       _Field.water => LocaleKeys.profile_waterSuggestion,
+      _Field.budget => LocaleKeys.budget_amount,
       _Field.windowStart => LocaleKeys.profile_windowStartSuggestion,
       _Field.windowEnd => LocaleKeys.profile_windowEndSuggestion,
       _ => null,

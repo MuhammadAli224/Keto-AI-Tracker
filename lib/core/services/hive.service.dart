@@ -7,6 +7,7 @@ class HiveServices {
       _openBox(BoxKey.appBox),
       _openBox(BoxKey.cacheBox),
       _openBox(BoxKey.foodCatalog),
+      _openBox(BoxKey.budget),
       _openBox(BoxKey.mealAttachments),
     ]);
   }

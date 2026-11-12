@@ -3,6 +3,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:timezone/data/latest_all.dart' as timezone;
 
 import '../../feature/ai_assistance/di/ai_assistance_di.dart';
+import '../../feature/budget/di/budget_di.dart';
 import '../../feature/diary/di/diary_di.dart';
 import '../../feature/home_widget/di/home_widget_di.dart';
 import '../../feature/meal_photo/di/meal_photo_di.dart';
@@ -35,6 +36,7 @@ class AppInitializer {
     initHomeWidgetDI(getIt);
     initMealPhotoDI(getIt);
     initAiAssistanceDI(getIt);
+    initBudgetDI(getIt);
     _configureErrorWidget();
   }
 

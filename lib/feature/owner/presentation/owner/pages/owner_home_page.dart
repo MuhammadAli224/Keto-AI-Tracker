@@ -109,7 +109,7 @@ class _OwnerHomePageState extends State<OwnerHomePage> {
                     leading: const Icon(Icons.account_balance_wallet_outlined),
                     title: AppText(context.tr(LocaleKeys.profile_budget)),
                     subtitle: AppText(budget),
-                    onTap: () => context.push(AppRoutes.profile),
+                    onTap: () => context.push(AppRoutes.budget),
                   ),
                   ListTile(
                     leading: const Icon(Icons.chat_bubble_outline),

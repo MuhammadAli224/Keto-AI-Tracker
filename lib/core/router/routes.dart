@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../feature/ai_assistance/ai_assistance_barrel.dart';
+import '../../feature/budget/budget_barrel.dart';
 import '../../feature/diary/diary_barrel.dart';
 import '../../feature/home_widget/home_widget_barrel.dart';
 import '../../feature/meal_photo/meal_photo_barrel.dart';
@@ -120,6 +121,37 @@ GoRouter _createRouter(OwnerIdentity identity) => GoRouter(
       },
     ),
     GoRoute(
+      path: AppRoutes.budget,
+      builder: (_, __) => ListenableBuilder(
+        listenable: identity,
+        builder: (_, _) {
+          final profile = identity.confirmedProfile;
+          if (profile == null) return const SplashScreen();
+          return MultiBlocProvider(
+            key: ValueKey((identity.account?.uid, profile.timezone)),
+            providers: [
+              BlocProvider(
+                create: (_) => getIt<BudgetCubit>(param1: profile.timezone),
+              ),
+              BlocProvider(create: (_) => getIt<CatalogCubit>()..load()),
+            ],
+            child: BudgetPage(
+              weeklyFils: (profile.weeklyBudgetJod * 1000).round(),
+            ),
+          );
+        },
+      ),
+    ),
+    if (supportsOwnerExport)
+      GoRoute(
+        path: AppRoutes.ownerExport,
+        builder: (_, __) => BlocProvider(
+          key: ValueKey(identity.account?.uid),
+          create: (_) => getIt<ExportCubit>(),
+          child: const OwnerExportPage(),
+        ),
+      ),
+    GoRoute(
       path: AppRoutes.coach,
       builder: (_, __) => BlocProvider(
         key: ValueKey(identity.account?.uid),
@@ -140,6 +172,7 @@ GoRouter _createRouter(OwnerIdentity identity) => GoRouter(
       builder: (_, __) => BasicSettingsPage(
         showProfile: identity.account != null,
         showReminders: identity.canAnalyze,
+        showExport: identity.canAnalyze && supportsOwnerExport,
         showHomeWidget: identity.canAnalyze && supportsHomeWidget,
       ),
     ),
@@ -192,6 +225,8 @@ const _protectedLinks = {
   AppRoutes.profile,
   AppRoutes.diary,
   AppRoutes.coach,
+  AppRoutes.budget,
+  AppRoutes.ownerExport,
   AppRoutes.foodCatalog,
   AppRoutes.wellness,
   AppRoutes.progress,

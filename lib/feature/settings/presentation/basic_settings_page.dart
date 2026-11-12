@@ -15,11 +15,13 @@ class BasicSettingsPage extends StatelessWidget {
     this.showProfile = false,
     this.showReminders = false,
     this.showHomeWidget = false,
+    this.showExport = false,
   });
 
   final bool showProfile;
   final bool showReminders;
   final bool showHomeWidget;
+  final bool showExport;
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +48,12 @@ class BasicSettingsPage extends StatelessWidget {
                 leading: const Icon(Icons.widgets_outlined),
                 title: AppText(context.tr(LocaleKeys.homeWidget_title)),
                 onTap: () => context.push(AppRoutes.homeWidget),
+              ),
+            if (showExport)
+              ListTile(
+                leading: const Icon(Icons.file_download_outlined),
+                title: AppText(context.tr(LocaleKeys.budget_export)),
+                onTap: () => context.push(AppRoutes.ownerExport),
               ),
             SwitchListTile(
               title: AppText(context.tr(LocaleKeys.profile_darkTheme)),

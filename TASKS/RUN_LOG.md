@@ -291,3 +291,26 @@ Append each task result with Git branch, local commit SHA and verified push stat
   warning for server pagination. No tests, OpenAI calls, deployed requests or
   native attestation were exercised.
 - Next: verify the remote checkpoint, then implement Task 13.
+- 2026-11-12T02:58:17+03:00 Verified push of `bb956828e30f7bf1bb741549872d3ceefee05e08` to `origin/codex/keto-ai-tracker-implementation`.
+
+## Task 13 — Weekly budget planner and data export
+
+- Status: DONE locally.
+- Files: `lib/feature/budget/`, exact decimal parsing, profile, routes,
+  local storage registration, Android and iOS document pickers, localization
+  and README.
+- Onboarding suggests JOD 20 for explicit review. The planner uses the
+  latest approved profile budget and Monday-based weeks in the owner time
+  zone. Expenses use integer fils. Prices sort only on entered values and
+  show unknowns. Optional editable plans stay separate from diary totals.
+- Export requires confirmation, a signed-in confirmed profile and synced
+  Firestore data. The file uses versioned JSON and explicit units. It includes
+  local expenses and excludes deleted records, photos, credentials and the UID.
+  Android passes bytes to the selected local document provider. iOS uses a
+  protected temporary file and removes it when the picker returns.
+- Code generation, locale parity, Dart format and Flutter analysis passed.
+  The existing server-pagination annotation-constraint warning remains.
+  Android `:app:assembleDebug` and iOS Swift parse/plist validation passed.
+  Authenticated export and physical document pickers remain unverified.
+  No tests or production writes ran.
+- Next: verify the remote checkpoint, then implement Task 14.
