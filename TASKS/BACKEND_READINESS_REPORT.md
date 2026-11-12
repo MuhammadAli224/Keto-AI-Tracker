@@ -26,3 +26,14 @@
 1. Confirm the intended bucket and Android configuration, and keep bucket IAM private. Review any previously issued download links and revoke exposed tokens through the approved administrative workflow. Review bucket soft-delete and retention settings so the retention policy matches the app's deletion disclosure.
 2. The operator can manually publish the reviewed Storage rules with `firebase deploy --only storage --project APPROVED_PROJECT_ID`. Keep `MEAL_PHOTO_STORAGE_ENABLED` off until the bucket and owner claim are ready.
 3. In a nonproduction Android run, verify local-only capture, explicit consent, redaction resetting consent, interrupted transfer retry, and removal on another device. A permanent cloud deletion error may need administrative cleanup if the diary entry has already been removed from the UI. Confirm deletion in the intended bucket before treating a failed or queued removal as complete.
+
+## Task 17 — Android App Check
+
+- Android activates App Check after Firebase initialization and before feature services start. Debug builds use the Debug provider. Profile and release builds use Play Integrity. The AI client reuses the startup configuration on Android.
+- This change adds client attestation without turning on any Firebase console enforcement. The callable scaffold already requires App Check outside the Functions emulator. Production callable deployment requires a working Android attestation setup.
+
+### Manual App Check configuration and runtime prerequisites
+
+1. In Play Console, link Play Integrity to the intended Firebase project. Register the Android app in Firebase App Check with its intended signing certificate SHA-256. The current Gradle release block uses debug signing and requires production signing configuration before Play validation. [Play Integrity setup](https://firebase.google.com/docs/app-check/android/play-integrity-provider)
+2. Register only the authorized development device's Debug provider token in a nonproduction Firebase project after runtime work is approved. Keep the token out of source, shared logs, and release builds. [Flutter debug provider](https://firebase.google.com/docs/app-check/flutter/debug-provider)
+3. Verify valid token traffic in App Check metrics for a debug build and a Play-distributed build signed as intended. Leave Firebase console enforcement disabled for this readiness pass.
