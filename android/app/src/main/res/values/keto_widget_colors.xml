@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="keto_widget_background">#EAF5EC</color>
+    <color name="keto_widget_text">#173422</color>
+    <color name="keto_widget_secondary">#335744</color>
+</resources>

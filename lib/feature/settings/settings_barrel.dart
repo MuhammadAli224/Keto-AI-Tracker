@@ -1,2 +1,2 @@
-export 'presentation/cubit/settings_cubit.dart';
-export 'presentation/cubit/settings_state.dart';
+export 'presentation/cubit/settings/settings_cubit.dart';
+export 'presentation/cubit/settings/settings_state.dart';

@@ -3,7 +3,13 @@ import '../../global_imports.dart';
 class HiveServices {
   Future<void> init() async {
     await Hive.initFlutter();
-    await Future.wait([_openBox(BoxKey.appBox), _openBox(BoxKey.cacheBox)]);
+    await Future.wait([
+      _openBox(BoxKey.appBox),
+      _openBox(BoxKey.cacheBox),
+      _openBox(BoxKey.foodCatalog),
+      _openBox(BoxKey.budget),
+      _openBox(BoxKey.mealAttachments),
+    ]);
   }
 
   Future<void> _openBox(String name) async {

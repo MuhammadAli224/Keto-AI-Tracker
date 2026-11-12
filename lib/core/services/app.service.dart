@@ -3,11 +3,22 @@ import 'package:flutter/services.dart';
 
 import '../../firebase_options.dart';
 import '../../global_imports.dart';
-import 'notification/awesome_notification.service.dart';
-import 'notification/fcm.service.dart';
 
 class AppServices {
-  Future<void> initAppServices() async {
+  Future<void>? _initialization;
+
+  Future<void> initAppServices() => _initialization ??= _initialize();
+
+  Future<void> _initialize() async {
+    try {
+      await _initializePlatformServices();
+    } catch (_) {
+      _initialization = null;
+      rethrow;
+    }
+  }
+
+  Future<void> _initializePlatformServices() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
@@ -18,10 +29,5 @@ class AppServices {
         DeviceOrientation.portraitDown,
       ]),
     ]);
-
-    // await FcmHelper.initFcm();
-    // await NotificationsController.initializeLocalNotifications();
-    // await NotificationsController.initializeIsolateReceivePort();
-    // NotificationsController.startListeningNotificationEvents();
   }
 }

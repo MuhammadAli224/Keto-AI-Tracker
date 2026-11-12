@@ -38,3 +38,19 @@ keep its deployment target consistent with Runner.
 Dependency resolution is currently blocked on this machine by Xcode 26.0.1.
 Project and scheme wiring can be validated independently, but a successful native
 build must be confirmed after upgrading Xcode.
+
+## WidgetKit preparation
+
+The Android widget does not install an iOS extension. To add the iOS widget,
+create a WidgetKit extension in Xcode and give Runner and the extension the
+same approved App Group entitlement. Store a versioned, minimal daily summary
+in the shared container only after the owner opts in. Clear it when visibility
+is turned off or the owner signs out. Exclude the summary from backups and
+render generic placeholder text in hidden or expired states.
+
+Use a timeline provider that reads only the shared local summary. Request
+timeline reloads when app data or privacy changes and let iOS govern delivery.
+Use a protected in-app link for interaction. Validate signing, App Group
+access, lock-screen privacy, and widget refresh on a physical device with a
+supported Xcode version. No extension or App Group has been provisioned here.
+[Apple App Groups](https://developer.apple.com/documentation/xcode/configuring-app-groups)

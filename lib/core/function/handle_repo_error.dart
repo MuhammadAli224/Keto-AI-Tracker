@@ -1,12 +1,7 @@
 import '../../global_imports.dart';
 
 Either<Failure, T> handleRepoDataError<T>(Object e, StackTrace t) {
-  AppLogger.e(
-    "Error is : $e, "
-    "StackTrace is : $t",
-    stackTrace: StackTrace.current,
-    error: e,
-  );
+  AppLogger.e('Repository request failed (${e.runtimeType})');
   return left(AppFailure.fromException(e, t));
 }
 

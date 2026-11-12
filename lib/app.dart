@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
             builder: (context, settings) {
               return MaterialApp.router(
                 debugShowCheckedModeBanner: false,
-                title: context.tr(LocaleKeys.app_name),
+                onGenerateTitle: (context) => context.tr(LocaleKeys.app_name),
                 theme: AppTheme.light,
                 darkTheme: AppTheme.dark,
                 themeMode: settings.themeMode,

@@ -66,6 +66,22 @@ class SessionManager implements SessionReader {
     });
   }
 
+  /// Firebase owns and restores credentials. Only mirror its account scope.
+  Future<void> mirrorFirebaseAccount(String? uid) => _enqueue(() async {
+    if (_current?.accountId == uid && _current?.accessToken.isEmpty != false) {
+      return;
+    }
+    final session = uid == null
+        ? null
+        : Session(accessToken: '', accountId: uid, cacheId: _newScope());
+    _publish(session);
+    try {
+      await _store.clear();
+    } finally {
+      await _invalidateCache();
+    }
+  });
+
   Future<void> logout() async {
     await initialize();
     await _enqueue(() async {

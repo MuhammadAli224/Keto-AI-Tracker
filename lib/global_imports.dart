@@ -17,7 +17,6 @@ export 'package:hive_ce/hive.dart';
 export 'package:hive_ce_flutter/adapters.dart';
 export 'package:hydrated_bloc/hydrated_bloc.dart';
 export 'package:logger/logger.dart';
-export 'package:onesignal_flutter/onesignal_flutter.dart';
 
 export 'core/core.dart';
 ////////////// Features

@@ -1,3 +1,73 @@
 # Execution status
 
-Not started. Codex updates after each task with: status, branch, commit SHA, verified remote push and next action.
+Branch: `codex/keto-ai-tracker-implementation`
+
+| Task | Status | Local commit and verified remote push |
+| --- | --- | --- |
+| 01 Security and Firebase foundation | DONE | `0a3c9a1548f09bb5606595128801431c3645c8e3` verified at 2026-11-12T01:16:46+03:00 |
+| 02 Authentication and owner profile | DONE | `2e8fd41fbd3d0462a1de7f8bf4a9cc4a383221fc` verified at 2026-11-12T01:27:05+03:00 |
+| 02A First-run profile gate | DONE | `013ef1017b365bbec6e8727d96589800185c5e1d` verified at 2026-11-12T01:33:19+03:00 |
+| 03 Food catalog and nutrition engine | DONE | `2f11791c3f3301cf2a50f9b9d3bde5506eefd5b8` verified at 2026-11-12T01:41:30+03:00 |
+| 04 Meal diary and offline sync | DONE | `0a84b8c06f85409f03d93c5d2077acd83d1801a9` verified at 2026-11-12T01:49:37+03:00 |
+| 05 Water and fasting trackers | DONE | `21c2f6ea35cf160b1268d91ba5bc753e502df8a4` verified at 2026-11-12T01:57:29+03:00 |
+| 06 Weight and progress reports | DONE | `7a529b14d256f04772e29fbe2286bddf920b2ae3` verified at 2026-11-12T02:06:45+03:00 |
+| 07 Dashboard and localization | DONE | `0366e649176f9970510f6b0783b10fcdf4565dae` verified at 2026-11-12T02:11:14+03:00 |
+| 08 Local reminders and FCM setup | DONE | `76a37b1d86153444433793ab507985ec67fccbea` verified at 2026-11-12T02:20:05+03:00 |
+| 09 Android home-screen widget | DONE | `d3f5bcacaab2aa400c33a25519bbfb7cc6355590` verified at 2026-11-12T02:29:10+03:00 |
+| 10 Meal photo capture and review | DONE | `1681d630a706ad5201d5f56b6a1b391f499a2754` verified at 2026-11-12T02:45:44+03:00 |
+| 11 Cloud Functions OpenAI gateway | DONE locally; BLOCKED_EXTERNAL for live activation | `f51b319111f02743572b7199da066a0debcdeea8` verified at 2026-11-12T02:53:00+03:00 |
+| 12 AI meal review and coach | DONE locally; BLOCKED_EXTERNAL for live AI | `bb956828e30f7bf1bb741549872d3ceefee05e08` verified at 2026-11-12T02:58:17+03:00 |
+| 13 Weekly budget and data export | DONE | `3b4a344ab6568545504614c4f5cfa6712d11c38f` verified at 2026-11-12T03:07:31+03:00 |
+| 14 Integration and release review | DONE locally; BLOCKED_EXTERNAL for iOS and production activation | `c1ff684b9a8e71b6c4747cb02ee7170827cebffc` verified at 2026-11-12T03:27:01+03:00 |
+
+Task 01 restored standard TLS validation, removed the bundled `.env`, added
+the Firebase SDKs, made app-service initialization idempotent, and configured
+local deny-by-default rules. The optional public HTTP base URL now uses the
+`SERVER` Dart define. See [run log](RUN_LOG.md) for files and verification.
+
+Task 02 added Firebase owner sign-in and profile editing, with scoped rules and
+offline sync indicators. Live Email/Password availability is unverified.
+
+Task 02A requires explicit profile review and Firestore confirmation before
+unlocking the dashboard and future analysis entry points.
+
+Task 03 added the owner-local food and recipe catalog and deterministic
+portion and nutrition calculations using source-labeled reference values.
+
+Task 04 added UID-scoped meal entries, Firestore offline metadata, day
+selection and deterministic confirmed meal totals.
+
+Task 05 added local-day water logs and timestamp-based fasting with
+Firestore sync status, editable goals and optional suggestions.
+
+Task 06 added weight tracking, a measured trend and weekly summaries that
+separate missing data from recorded values.
+
+Task 07 connected the localized dashboard to existing tracker streams and
+preserved safe deep-link destinations through the first-run gate.
+
+Task 08 added local schedules with a permission flow, optional Firebase
+registration and privacy-preserving notification text.
+
+Task 09 added the native Android widget with opt-in health values, an
+app-local snapshot, protected links, and iOS design notes.
+
+Task 10 added local photo drafts, redaction, explicit upload consent and a
+persisted Storage queue. Live Storage activation remains external.
+
+Task 11 added authenticated mock callables and a disabled live Responses API
+transport. Deployment, billing, secret and live App Check setup remain external.
+
+Task 12 added consented meal estimates and coach guidance with manual fallback.
+Real inference remains external and disabled in default builds.
+
+Task 13 added an owner-local weekly planner with exact JOD expense arithmetic
+and a consented JSON export of synced records and local expenses.
+
+Task 14 fixed an Android startup localization error, redacted legacy network
+logs, built the Android APK, and verified signed-out routing and BMI in the
+offline emulator. Device and cloud gaps are in the release checklist.
+
+All implementation checkpoints are verified on the remote branch. See the
+[final report](FINAL_REPORT.md) and [release checklist](RELEASE_CHECKLIST.md)
+for manual activation, device validation and release prerequisites.

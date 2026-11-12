@@ -115,14 +115,13 @@ lib/core/bootstrap/app_initializer.dart
 
 Initialization order:
 
-1. Environment variables via `EnvConstant.init()`
-2. EasyLocalization
-3. Hive CE through `HiveServices`
-4. HydratedBloc storage
-5. GetIt dependency registration
-6. `AppBlocObserver`
-7. Core app services
-8. Debug-friendly error widget
+1. EasyLocalization
+2. Hive CE through `HiveServices`
+3. HydratedBloc storage
+4. GetIt dependency registration
+5. `AppBlocObserver`
+6. Core app services, including Firebase initialization
+7. Debug-friendly error widget
 
 This keeps `main.dart` from becoming a dumping place for service setup.
 
@@ -509,3 +508,220 @@ Main dependencies are grouped in `pubspec.yaml` by purpose:
 - Keep Hive box opening centralized.
 - Use HydratedBloc for small persisted app preferences such as theme mode.
 - Run `flutter analyze` before finishing changes.
+
+## Firebase and local configuration
+
+The checked-in FlutterFire options select the existing Android and iOS apps.
+The bundled app uses standard TLS validation. Supply an optional public API
+base URL with `--dart-define=SERVER=https://example.com`. Build defines and
+mobile assets are visible to app users. Keep server credentials in server-side
+secret storage. The tracked legacy `.env` is no longer bundled. Ignore rules do
+not untrack it, so review repository history separately and rotate any real
+credentials that were previously committed.
+
+The Firestore and Storage rule files in this checkout deny all access by
+default. As features introduce access, scope explicit paths to authenticated
+owners by matching `request.auth.uid` to the path UID. Validate writable fields
+and uploaded file type and size at those paths. Review these rules before
+deploying them. Configure Firebase App Check with Play Integrity on Android
+and App Attest on iOS, then review traffic before enabling enforcement. Keep
+debug credentials out of releases. App Check complements Firebase Auth and
+owner authorization.
+
+Hive supports existing local infrastructure and feature caches. Firestore's
+native cache is for cloud-backed owner documents. Cached data can be stale,
+and locally pending writes can still be rejected by the server. Treat Storage
+uploads and callable Functions as online operations. Keep photo permissions
+and transfers tied to explicit user actions. See [iOS setup](ios/README.md)
+for native SDK requirements.
+
+### Owner account and profile
+
+The app signs in to an existing Firebase Email/Password account. A Firebase
+administrator can check that the provider is enabled and provision the owner
+account in the Firebase console. The app has no public registration flow.
+Firebase Auth restores the identity and the app scopes profile access to
+`users/{uid}`. The Firestore rules prepared here authorize the authenticated
+owner of that document. They deny unauthenticated and cross-owner access.
+
+The profile editor distinguishes cached snapshots, pending writes, and server
+snapshots. BMI is derived from the current weight and height. The Firestore
+document stores measurements, preferences, goals, a confirmation version, and
+a server edit timestamp.
+
+On first run, review and explicitly confirm the profile before opening the
+dashboard. Firestore assigns the confirmation timestamp. A confirmed profile
+can be edited through Profile, and its BMI changes with the measurements. When
+the device has no cached profile and cannot reach the server, the setup screen
+keeps a draft in memory until the server can check whether a profile already
+exists. The development build has an isolated setup preview with no persistence.
+
+### Food catalog and calculations
+
+The confirmed owner can add or edit local foods and recipes. The bundled
+catalog contains three reference foods from USDA Standard Reference Release
+28 (NDB 01123, 09037, and 11205). Values describe 100 g of the edible portion.
+Copy a reference food to enter a different label or estimate. Manual foods and
+recipes stay on the device under the owner's account scope. [USDA SR28 source](https://www.ars.usda.gov/northeast-area/beltsville-md-bhnrc/beltsville-human-nutrition-research-center/methods-and-application-of-food-composition-laboratory/mafcl-site-pages/sr11-sr28/)
+
+The calculator scales recorded values by edible grams and retains unknown
+nutrients as unknown. Net carbohydrates subtract fiber only for data that
+includes fiber in the carbohydrate amount. If declared calories are missing
+and macros are known, the estimate uses 4 kcal per gram of protein or net
+carbohydrate and 9 kcal per gram of fat. Recipe estimates sum ingredient
+portions and divide by the measured finished weight. The UI rounds to one
+decimal place. The diary can store immutable serving snapshots with nutrient
+amounts and provenance as consumed.
+
+### Meal diary sync
+
+Each meal uses a client-generated UUID under `users/{uid}/meals/{id}`. The
+entry stores the eaten instant in UTC, the time zone and local day key at
+capture, meal type, state, and as-consumed serving snapshots. Drafts and
+tombstones are excluded from daily totals. Changing the profile time zone
+does not rebucket meals already recorded. Device image references stay local.
+
+Android and iOS use Firestore's native offline cache and pending writes. The
+diary distinguishes local cache, pending write, and server-synced snapshots.
+The server can still reject a pending write. Firestore resolves concurrent
+edits to the same meal with last-write-wins. Tombstones reject resurrection by
+a stale write. Daily totals are calculated from the current entries, with no
+shared daily counters. Background delivery depends on the OS and app state.
+
+### Water and fasting
+
+Water totals sum individual entries for the profile's local calendar day.
+The 3,000 mL setup suggestion is editable, and setting the goal to zero
+turns off the target. The log supports quick amounts, custom entries, and
+undo. Deletions use tombstones.
+
+The fasting tracker measures elapsed time from stored timestamps. Its
+editable plan starts from the configured meal window, with 14:00–21:00
+shown as a setup suggestion. A single current record prevents overlapping
+server-confirmed sessions. Ending or cancelling a fast archives it in the
+same Firestore batch. The in-app note for feeling unwell follows NHS advice
+to stop fasting and seek help if needed. [NHS fasting guidance](https://www.nelft.nhs.uk/news-events/staying-healthy-during-ramadan-15955) [NHS dizziness guidance](https://www.nhs.uk/symptoms/dizziness/)
+
+### Weight and progress
+
+Weight records have an owner-scoped ID, measurement instant, local time zone,
+optional note and sync status. The trend uses the latest measurement in each
+day or week and plots the profile starting weight as a reference line. Empty
+periods have no points. Profile shows the latest logged weight and derives BMI
+from it. Explicit edits to the current weight in Profile can record a new
+measurement without rewriting previous entries.
+
+The weekly report covers the most recent seven calendar days. Nutrition
+averages use only recorded days with known values for that metric. Water
+adherence uses recorded days and the current goal. The report shows ended
+fasts and actual weight change when there are two measurements. It makes no
+weight-loss forecast. A large observed change triggers a prompt to check the
+readings and seek professional advice when appropriate. [CDC weight tracking guidance](https://www.cdc.gov/healthy-weight-growth/losing-weight/index.html) [NHS guidance on unintentional weight loss](https://www.nhs.uk/symptoms/unintentional-weight-loss/)
+
+### Dashboard and navigation
+
+The dashboard reads today's diary and water entries, the current fasting
+session, and weight history. It shows configured targets and sync status.
+Unknown and unavailable values have their own labels. The app formats the
+weekly budget in JOD and uses the selected Arabic or English locale for
+labels, dates, and numbers.
+
+Protected links to the diary, wellness tracker, progress, food catalog, and
+profile retain their destination through sign-in and profile setup. The router
+accepts only known local paths as continuation destinations. Basic settings
+are available during setup.
+
+### Reminders and optional remote messaging
+
+Open Settings → Reminders to choose daily water, first meal, last meal and
+fasting times, and a weekly weigh-in day and time. The app requests notification
+permission after the user taps Allow notifications. Times use the profile's
+IANA time zone. Notifications use generic lock-screen text. The app uses
+Awesome Notifications for local scheduling and keeps the settings on the device.
+
+Android 13 and newer use the notification runtime permission. Reminders use
+inexact alarms and can be delayed by battery restrictions. The app does not
+request exact-alarm or battery-optimization exemptions. Normal relaunch can
+restore schedules, while a force-stop can prevent delivery until the app is
+opened again. Validate delivery on a physical device before release. [Android alarm scheduling](https://developer.android.com/develop/background-work/services/alarms) [Android notification permission](https://developer.android.com/develop/ui/compose/notifications/notification-permission)
+
+FCM auto-registration is disabled by default. Enabling optional remote
+messaging registers the installation with Firebase and keeps the resulting
+identifier in memory. Local reminders work independently. Remote delivery
+requires a separately approved sender and APNs configuration for iOS. Keep
+remote payloads generic and avoid sending health data. [Flutter FCM setup](https://firebase.google.com/docs/cloud-messaging/flutter/get-started)
+
+### Android home-screen widget
+
+Add Keto AI Tracker from the Android launcher widget picker. Health values
+start hidden. The confirmed owner can enable them from Settings → Home-screen
+widget. The widget shows the confirmed and pending calorie subtotals, water,
+a planned fasting end, and the last recorded weight when available. It uses
+the app's local summary file and does not query Firebase. Changing privacy
+settings or signing out clears the summary. Widget rows open the matching
+screen without writing an entry. Launcher refresh and expiration are best
+effort. [Android widget overview](https://developer.android.com/develop/ui/views/appwidgets/overview)
+
+### Meal photos
+
+In the meal editor, take or choose a photo, cover sensitive areas if needed,
+and save it with a draft. The app rotates and compresses the image, strips
+EXIF metadata, and stores the JPEG in an app-private, backup-excluded directory.
+Removing or replacing the photo removes the previous linked local copy.
+Uncommitted edits are discarded when the editor closes normally. Android can
+recover an interrupted picker result for the same owner. Ingredients and
+quantities remain editable, and only confirmed meals count toward totals.
+
+Photos stay on the device by default. After Firebase Storage is provisioned
+and its rules are reviewed and manually deployed, a build can expose explicit
+upload consent with `--dart-define=MEAL_PHOTO_STORAGE_ENABLED=true`. The local
+queue resumes pending work when the app runs or connectivity returns. A new
+process restarts the transfer against the same owner/meal object path. No
+permanent download URLs are issued. Turning upload off or removing a photo
+queues deletion of its cloud copy. Cloud deletion can remain pending offline.
+[Flutter image picker](https://pub.dev/packages/image_picker) [Firebase Storage uploads](https://firebase.google.com/docs/storage/flutter/upload-files)
+
+### Weekly budget and portable data
+
+Confirm or edit the suggested JOD 20 weekly amount during setup. To change it
+later, open Profile. The planner applies the latest approved amount to the week
+being viewed. Weeks start Monday in the profile's time zone. Purchases, prices
+and editable meal drafts are kept on this device under the signed-in account.
+Enter prices per 100 g from your own purchases or price references. The planner
+sorts known prices and labels missing prices as unknown. Meal drafts have no
+effect on diary totals or targets.
+
+Under Settings → Export my data, confirm the export and select a destination in
+the Android or iOS document picker. The versioned JSON contains synced meal
+drafts and confirmed meals, water, weight (including notes), approved goals and
+this device's expenses. It includes explicit units and UTC timestamps and omits
+deleted entries, photo files and paths, credentials, AI data and the account UID.
+Export needs network access and synced Firestore changes. Review the selected
+destination and any sharing permissions before giving someone the file.
+
+Delete an expense in the planner. Clear an individual price or draft to remove
+it from the device. Signing out hides the account's local records and leaves
+them available if the same account signs in again. Clearing app storage or
+uninstalling removes this device's planner data and cached copies, subject to
+the device's backup and restore settings. It does not
+remove Firestore, Storage, Firebase Auth data or exports saved elsewhere. An
+authorized project administrator must handle a full account reset, including
+owner subcollections and stored photos, after confirming the intended scope.
+Deleting a Firebase Auth account alone does not remove its data. Delete exported
+files separately from their chosen destinations.
+
+### AI-assisted review
+
+Standard builds use the manual diary and profile flows. The optional native
+AI client requires a confirmed profile, per-request consent, an authorized
+owner account, and App Check. Meal review also requires an approved photo
+upload. Suggestions only become diary servings after catalog matching and
+quantity review. Coach requests send the question and, if explicitly selected,
+approved daily goals. See the [gateway contract and activation prerequisites](functions/README.md).
+
+## Release verification
+
+See the [manual release checklist](TASKS/RELEASE_CHECKLIST.md) for Android
+builds, Firebase configuration, local smoke checks, iOS setup and the optional
+AI rollout. The current Android configuration uses the development application
+ID and debug signing. Review distribution identity and signing before release.

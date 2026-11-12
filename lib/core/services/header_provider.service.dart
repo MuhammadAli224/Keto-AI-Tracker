@@ -15,7 +15,7 @@ class HeadersProvider {
 
     final headers = <String, String>{
       _acceptLanguage: language,
-      if (token != null) 'Authorization': 'Bearer $token',
+      if (token != null && token.isNotEmpty) 'Authorization': 'Bearer $token',
     };
 
     return headers;

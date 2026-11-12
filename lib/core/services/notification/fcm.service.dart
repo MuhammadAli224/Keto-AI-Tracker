@@ -1,81 +1,54 @@
-import 'dart:io';
+import 'dart:async';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 
-// import '../../constant/firebase_topic.dart';
-import '../../logger/app_logger.dart';
-import 'awesome_notification.service.dart';
+/// Optional installation registration. No identifiers are logged or uploaded
+/// to an application backend. Local reminders do not depend on this service.
+class FcmRegistration {
+  FcmRegistration(this._messaging);
 
-class FcmHelper {
-  FcmHelper._();
+  final FirebaseMessaging _messaging;
+  StreamSubscription<String>? _registered;
+  StreamSubscription<String>? _unregistered;
+  String? _installationId;
+  bool _requested = false;
+  bool _attempted = false;
 
-  static late FirebaseMessaging messaging;
+  bool get hasRegistration => _installationId != null;
 
-  static Future<void> initFcm() async {
+  Future<void> enable() async {
+    if (_requested) return;
+    _requested = true;
+    _attempted = true;
+    _registered ??= _messaging.onRegistered.listen((id) {
+      if (_requested) _installationId = id;
+    }, onError: (Object _) {});
+    _unregistered ??= _messaging.onUnregistered.listen((_) {
+      _installationId = null;
+    }, onError: (Object _) {});
     try {
-      messaging = FirebaseMessaging.instance;
-
-      await _setupFcmNotificationSettings();
-
-      await _generateFcmToken();
-      // await messaging.subscribeToTopic(FirebaseTopic.all);
-      FirebaseMessaging.onMessage.listen(_fcmForegroundHandler);
-      FirebaseMessaging.onBackgroundMessage(_fcmBackgroundHandler);
-    } catch (error) {
-      AppLogger.e(error);
+      await _messaging.setAutoInitEnabled(true);
+      await _messaging.register().timeout(const Duration(seconds: 8));
+    } catch (_) {
+      _requested = false;
+      await _messaging.setAutoInitEnabled(false);
+      rethrow;
     }
   }
 
-  static Future<void> _setupFcmNotificationSettings() async {
-    messaging.setForegroundNotificationPresentationOptions(
-      alert: true,
-      sound: true,
-      badge: true,
-    );
-
-    await messaging.requestPermission(
-      alert: true,
-      badge: true,
-      sound: true,
-      provisional: true,
-    );
-  }
-
-  static Future<void> _generateFcmToken() async {
-    try {
-      String? token;
-      if (Platform.isAndroid) {
-        token = await messaging.getToken();
-      } else if (Platform.isIOS) {
-        token = await messaging.getAPNSToken();
-      }
-      AppLogger.w("FCM Token : $token");
-    } catch (error) {
-      AppLogger.e(error);
+  Future<void> disable({bool force = false}) async {
+    final shouldUnregister = _attempted || hasRegistration || force;
+    _requested = false;
+    _installationId = null;
+    await _messaging.setAutoInitEnabled(false);
+    if (shouldUnregister) {
+      await _messaging.unregister().timeout(const Duration(seconds: 8));
+      _attempted = false;
     }
   }
 
-  // static _sendFcmTokenToServer() {
-  //   getIt<AppServices>().appBox.get(BoxKey.firebaseToken);
-  // }
-
-  @pragma('vm:entry-point')
-  static Future<void> _fcmBackgroundHandler(RemoteMessage message) async {
-    _handleNotification(message);
-  }
-
-  static Future<void> _fcmForegroundHandler(RemoteMessage message) async {
-    _handleNotification(message);
-  }
-
-  static void _handleNotification(RemoteMessage message) {
-    if (message.notification != null) {
-      NotificationsController.createNewNotification(
-        title: message.notification!.title!,
-        body: message.notification!.body!,
-        bigPicture: '',
-        payload: message.data.cast<String, String>(),
-      );
-    }
+  Future<void> dispose() async {
+    await _registered?.cancel();
+    await _unregistered?.cancel();
   }
 }

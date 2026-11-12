@@ -9,7 +9,7 @@ import '../data/datasources/{{name.snakeCase()}}/local_{{name.snakeCase()}}_data
 import '../data/repository/{{name.snakeCase()}}_repository_impl.dart';
 import '../domain/repository/{{name.snakeCase()}}_repository.dart';
 import '../domain/usecases/get_{{name.snakeCase()}}_use_case.dart';
-import '../presentation/{{name.snakeCase()}}/cubit/{{name.snakeCase()}}_cubit.dart';
+import '../presentation/cubit/{{name.snakeCase()}}/{{name.snakeCase()}}_cubit.dart';
 import 'package:hive_ce/hive.dart';
 
 void init{{name.pascalCase()}}DI() {

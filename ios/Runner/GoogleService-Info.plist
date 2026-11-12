@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CLIENT_ID</key>
+	<string>1038572250448-he59g00oa0ihj4iirevn0i4kn8jc04rt.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1038572250448-he59g00oa0ihj4iirevn0i4kn8jc04rt</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>1038572250448-q48dp2d9194m9efgn6fsdgvaqamgr0cv.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyDes1izMY7iwjvurrBrEGaNuCxZoSFQhi8</string>
 	<key>GCM_SENDER_ID</key>
@@ -9,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.flutterApp</string>
+	<string>com.keto.tracker.ai</string>
 	<key>PROJECT_ID</key>
 	<string>keto-ai-tracker</string>
 	<key>STORAGE_BUCKET</key>
@@ -25,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1038572250448:ios:96023c2a81a504cf30b855</string>
+	<string>1:1038572250448:ios:a6f5d3db5d098b0730b855</string>
 </dict>
 </plist>
